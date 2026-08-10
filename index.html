@@ -242,17 +242,23 @@
     width:18px;height:18px;stroke:var(--oro);fill:none;stroke-width:1.6;pointer-events:none}
 
   /* ===== menú móvil a pantalla completa ===== */
-  /* El menú tapa el encabezado (z-index 110 contra 60), así que la
-     hamburguesa queda inalcanzable: el menú lleva su propia barra de
-     cierre, siempre pegada arriba. */
-  .mnav{position:fixed;inset:0;top:0;z-index:110;background:var(--bg);overflow-y:auto;
-    padding:0 var(--gut) 2.5rem}
-  .mnav[hidden]{display:none}
+  /* Panel lateral, no pantalla completa: la página sigue visible detrás
+     del velo, así el usuario nunca pierde el sitio donde estaba.
+     Entra por la izquierda, que es donde vive la hamburguesa. */
+  .mnav{position:fixed;top:0;bottom:0;left:0;z-index:100;
+    width:min(340px,80%);background:var(--bg);border-right:1px solid var(--line);
+    box-shadow:0 0 46px rgba(0,0,0,.55);overflow-y:auto;
+    padding:0 1.25rem 2.5rem;
+    transform:translateX(-100%);visibility:hidden;
+    transition:transform .42s cubic-bezier(.3,.8,.3,1),visibility 0s .42s}
+  .mnav.on{transform:none;visibility:visible;
+    transition:transform .42s cubic-bezier(.3,.8,.3,1),visibility 0s}
   @media(min-width:1120px){.mnav{display:none!important}}
+  @media(prefers-reduced-motion:reduce){.mnav{transition:none}}
   .mnav-top{position:sticky;top:0;z-index:2;background:var(--bg);
     display:flex;align-items:center;justify-content:space-between;gap:1rem;
     height:calc(var(--head) + 28px);border-bottom:1px solid var(--line);
-    margin-inline:calc(var(--gut) * -1);padding-inline:var(--gut);margin-bottom:.4rem}
+    margin-inline:-1.25rem;padding-inline:1.25rem;margin-bottom:.4rem}
   .mnav-top b{font-family:var(--util);font-size:var(--xs);letter-spacing:.24em;
     text-transform:uppercase;color:var(--txt3);font-weight:400}
   .mnav-x{background:none;border:0;cursor:pointer;color:var(--txt);flex:none;
@@ -754,7 +760,9 @@
     font-size:var(--xs);letter-spacing:.08em;color:var(--txt3)}
 
   /* ===== carrito ===== */
-  .scrim{position:fixed;inset:0;background:rgba(6,5,3,.7);z-index:90;opacity:0;
+  /* Sobre un fondo ya oscuro, un velo al 70% lo apaga del todo. Al 55%
+     la página se sigue reconociendo detrás, que es el punto. */
+  .scrim{position:fixed;inset:0;background:rgba(6,5,3,.55);z-index:90;opacity:0;
     pointer-events:none;transition:opacity .35s}
   .scrim.on{opacity:1;pointer-events:auto}
   .drawer{position:fixed;top:0;right:0;bottom:0;width:min(410px,100%);background:var(--bg2);
@@ -856,8 +864,9 @@
   </div>
 </div>
 
-<!-- Menú móvil a pantalla completa -->
-<nav class="mnav" id="mnav" aria-label="Menú" hidden></nav>
+<!-- Menú móvil: panel lateral. Oculto por transform + visibility, no por
+     [hidden], porque tiene que poder deslizarse a la vista. -->
+<nav class="mnav" id="mnav" aria-label="Menú" aria-hidden="true"></nav>
 
 <!-- ============ HOME ============ -->
 <main class="view on" id="v-home">
@@ -1687,11 +1696,24 @@ document.addEventListener("click",function(e){
  mc.addEventListener("click",function(){cerrarMovil();go("pro");});mnav.appendChild(mc);
 })();
 
-function cerrarMovil(){
- document.getElementById("mnav").hidden=true;
- document.getElementById("burger").setAttribute("aria-expanded","false");
- document.body.style.overflow="";
+/* El velo lo comparten el menú lateral y el carrito: se enciende si
+   alguno está abierto y se apaga cuando no queda ninguno. */
+function sincronizarVelo(){
+ var v=document.getElementById("scrim"),
+     abierto=document.getElementById("mnav").classList.contains("on") ||
+             document.getElementById("drawer").classList.contains("on");
+ v.classList.toggle("on",abierto);
+ document.body.style.overflow=abierto?"hidden":"";
 }
+function abrirMovil(o){
+ var n=document.getElementById("mnav");
+ n.classList.toggle("on",o);
+ n.setAttribute("aria-hidden",String(!o));
+ document.getElementById("burger").setAttribute("aria-expanded",String(o));
+ sincronizarVelo();
+ if(o){var x=n.querySelector(".mnav-x");if(x)x.focus();}
+}
+function cerrarMovil(){abrirMovil(false);}
 
 document.querySelectorAll("[data-go]").forEach(function(n){
  n.addEventListener("click",function(e){e.preventDefault();go(n.dataset.go);});});
@@ -2044,8 +2066,10 @@ function renderCuaderno(){
  NOTAS.forEach(function(n){g.appendChild(notaCard(n));});}
 
 var cart=[],drawer=document.getElementById("drawer"),scrim=document.getElementById("scrim");
-function openCart(o){drawer.classList.toggle("on",o);scrim.classList.toggle("on",o);
+function openCart(o){drawer.classList.toggle("on",o);
+ if(o)cerrarMovil();
  drawer.setAttribute("aria-hidden",String(!o));
+ sincronizarVelo();
  if(o)document.getElementById("closeCart").focus();}
 function add(id,q){var l=cart.filter(function(x){return x.id===String(id);})[0];
  if(l)l.q+=q;else cart.push({id:String(id),q:q});renderCart();}
@@ -2071,14 +2095,11 @@ function renderCart(){
   it.appendChild(r);});}
 document.getElementById("cartBtn").addEventListener("click",function(){openCart(true);});
 document.getElementById("closeCart").addEventListener("click",function(){openCart(false);});
-scrim.addEventListener("click",function(){openCart(false);});
+scrim.addEventListener("click",function(){openCart(false);cerrarMovil();});
 document.addEventListener("keydown",function(e){
  if(e.key==="Escape"){openCart(false);abrirBuscador(false);cerrarMega();cerrarMovil();}});
 document.getElementById("burger").addEventListener("click",function(){
- var n=document.getElementById("mnav"),o=n.hidden;
- n.hidden=!o;
- this.setAttribute("aria-expanded",String(o));
- document.body.style.overflow = o?"hidden":"";});
+ abrirMovil(!document.getElementById("mnav").classList.contains("on"));});
 
 /* ---------- carruseles: barra de avance al deslizar ---------- */
 (function rails(){
