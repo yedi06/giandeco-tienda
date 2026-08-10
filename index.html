@@ -269,9 +269,7 @@
   .macc>button{display:flex;align-items:center;justify-content:space-between;width:100%;
     text-align:left;background:none;border:0;cursor:pointer;padding:1.05rem 0;
     font-family:var(--display);font-size:1.3rem;color:var(--txt)}
-  .macc>button .cn{font-family:var(--util);font-size:var(--xs);color:var(--txt3);
-    letter-spacing:.1em;margin-left:auto;margin-right:.8rem}
-  .macc>button .ar{width:9px;height:9px;border-right:1px solid var(--oro);
+  .macc>button .ar{margin-left:auto;width:9px;height:9px;border-right:1px solid var(--oro);
     border-bottom:1px solid var(--oro);transform:rotate(45deg);transition:transform .3s;flex:none}
   .macc[data-open="1"]>button .ar{transform:rotate(-135deg)}
   .msubs{display:none;grid-template-columns:repeat(3,1fr);gap:.9rem .6rem;padding:.3rem 0 1.2rem}
@@ -1672,9 +1670,8 @@ document.addEventListener("click",function(e){
 
  // Menú móvil: acordeón con las subcategorías ilustradas
  TAX.forEach(function(t){
-  var n=PRODUCTS.filter(function(p){return p.cat===t.slug&&!p.uni;}).length;
   var box=el("div","macc");box.dataset.open="0";
-  var head=el("button",null,'<span>'+t.name+'</span><span class="cn">'+n+'</span><span class="ar"></span>');
+  var head=el("button",null,'<span>'+t.name+'</span><span class="ar"></span>');
   head.type="button";
   var subs=el("div","msubs");
   t.subs.forEach(function(s){
