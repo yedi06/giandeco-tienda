@@ -38,6 +38,13 @@
   --h-nav:0px;
   --h-total:calc(var(--h-aviso) + var(--h-marca));
 
+  /* Velos sobre fotografía. NO dependen del tema: encima siempre va texto
+     claro, así que oscurecer menos en el tema claro sólo lo haría ilegible.
+     Sobre foto, el fondo lo pone la foto, no la página. */
+  --velo-1:rgba(12,10,7,.90);
+  --velo-2:rgba(12,10,7,.58);
+  --velo-3:rgba(12,10,7,.10);
+
   /* movimiento */
   --ease:cubic-bezier(.22,.68,.24,1);
   --lento:1.05s var(--ease);
@@ -70,9 +77,6 @@
   --sobre-oro:#12100B;
   --rojo:#A2564C;
 
-  --velo-1:rgba(14,12,9,.92);
-  --velo-2:rgba(14,12,9,.55);
-  --velo-3:rgba(14,12,9,.06);
   --sombra:0 26px 70px -34px rgba(0,0,0,.9);
   --logo-op:1;
   color-scheme:dark;
@@ -98,9 +102,6 @@
   --sobre-oro:#FFFFFF;
   --rojo:#8C3A32;
 
-  --velo-1:rgba(22,18,13,.72);
-  --velo-2:rgba(22,18,13,.34);
-  --velo-3:rgba(22,18,13,.02);
   --sombra:0 24px 60px -38px rgba(60,45,25,.45);
   --logo-op:1;
   color-scheme:light;
@@ -262,7 +263,7 @@ h1,h2,h3,h4{
   stroke-linecap:round;stroke-linejoin:round}
 .badge{
   position:absolute;top:1px;right:0;min-width:16px;height:16px;padding:0 3px;
-  background:var(--oro);color:var(--sobre-oro);border-radius:50%;
+  background:var(--oro);color:var(--sobre-oro);
   font-family:var(--sans);font-size:.56rem;font-weight:500;letter-spacing:0;
   display:grid;place-items:center;line-height:1;
 }
@@ -728,7 +729,9 @@ h1,h2,h3,h4{
 
 .pc .body{text-align:left;display:grid;gap:.22rem}
 .sw{display:flex;gap:.35rem;align-items:center;margin-bottom:.3rem}
-.sw i{width:11px;height:11px;border-radius:50%;display:block;border:1px solid var(--line)}
+/* Los acabados van en cuadrados, no en puntos redondos: el círculo
+   pequeño es lo que el cliente señaló como genérico. */
+.sw i{width:13px;height:13px;display:block;border:1px solid var(--line)}
 .sw i[data-active]{box-shadow:0 0 0 1px var(--bg),0 0 0 2px var(--oro)}
 .sw b{font-family:var(--sans);font-size:.58rem;color:var(--txt3);font-weight:300;margin-left:.2rem}
 .pc .vname{font-family:var(--sans);font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--txt3)}
@@ -860,7 +863,7 @@ h1,h2,h3,h4{
 .vpick{display:grid;gap:.7rem}
 .vpick .lbl{font-family:var(--sans);font-size:var(--t-xs);letter-spacing:.2em;text-transform:uppercase;color:var(--txt3)}
 .vpick .opts{display:flex;gap:.6rem;flex-wrap:wrap}
-.vpick button{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);cursor:pointer;
+.vpick button{width:40px;height:40px;border:1px solid var(--line);cursor:pointer;
   transition:box-shadow var(--rapido)}
 .vpick button[aria-pressed="true"]{box-shadow:0 0 0 1px var(--bg),0 0 0 2px var(--oro)}
 .stock{font-family:var(--sans);font-size:var(--t-xs);letter-spacing:.18em;text-transform:uppercase;color:var(--txt3)}
