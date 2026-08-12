@@ -233,7 +233,12 @@ h1,h2,h3,h4{
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
 .aviso i{width:3px;height:3px;background:var(--oro);transform:rotate(45deg);flex:none;display:inline-block}
-@media(max-width:700px){.aviso p{font-size:.56rem;letter-spacing:.1em;gap:.5rem}}
+/* En móvil sólo cabe una frase. Antes entraban las tres y el recorte
+   centrado cortaba las palabras por los dos lados. */
+@media(max-width:760px){
+  .aviso p{font-size:.58rem;letter-spacing:.12em;gap:.5rem}
+  .ann-x{display:none}
+}
 
 /* fila de marca */
 .hrow{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:1rem;height:var(--h-marca)}
