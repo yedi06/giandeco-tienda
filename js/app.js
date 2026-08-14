@@ -24,20 +24,27 @@ function src(k){ return IMG + k + ".jpg"; }
 
 safe(function tema(){
   var raiz = document.documentElement;
+
   function aplicar(t){
     raiz.setAttribute("data-tema", t);
     var meta = $('meta[name="theme-color"]');
     if(meta) meta.setAttribute("content", t==="claro" ? "#FBFAF7" : "#0E0C09");
-    $$("[data-tema-set]").forEach(function(b){
-      b.setAttribute("aria-pressed", String(b.dataset.temaSet === t));
+    /* El botón enseña el acabado puesto; el rótulo dice a cuál se pasa,
+       que es lo único que el icono por sí solo no puede contar. */
+    var destino = (t==="claro") ? "oscuro" : "claro";
+    $$("[data-tema-toggle]").forEach(function(b){
+      b.setAttribute("aria-label", "Acabado "+t+". Cambiar a "+destino+".");
+      b.setAttribute("title", "Cambiar a acabado "+destino);
     });
   }
+
   document.addEventListener("click", function(e){
-    var b = e.target.closest("[data-tema-set]");
+    var b = e.target.closest("[data-tema-toggle]");
     if(!b) return;
-    aplicar(b.dataset.temaSet);
+    aplicar(raiz.getAttribute("data-tema")==="claro" ? "oscuro" : "claro");
   });
-  aplicar(raiz.getAttribute("data-tema") || "oscuro");
+
+  aplicar(raiz.getAttribute("data-tema") || "claro");
 }, "tema");
 
 /* ---------- 2. barra de progreso y aparición ----------------------------- */
@@ -423,23 +430,18 @@ safe(function menuMovil(){
     body.appendChild(b);
   });
 
-  var SOL  = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/>'+
+  var SOL  = '<svg class="i-sol" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/>'+
              '<path d="M12 2.4v2.6M12 19v2.6M21.6 12H19M5 12H2.4M18.8 5.2l-1.8 1.8'+
              'M7 17l-1.8 1.8M18.8 18.8 17 17M7 7 5.2 5.2"/></svg>';
-  var LUNA = '<svg viewBox="0 0 24 24" aria-hidden="true">'+
+  var LUNA = '<svg class="i-luna" viewBox="0 0 24 24" aria-hidden="true">'+
              '<path d="M20.5 14.6A8.6 8.6 0 0 1 9.4 3.5a8.6 8.6 0 1 0 11.1 11.1z"/></svg>';
 
-  var tema = el("div","tema");
-  tema.setAttribute("role","group"); tema.setAttribute("aria-label","Acabado del sitio");
-  tema.appendChild(el("span","tlbl","Acabado"));
-  var sw = el("span","tsw");
-  [["claro","Acabado claro",SOL],["oscuro","Acabado oscuro",LUNA]].forEach(function(x){
-    var b = el("button",null,x[2]); b.type="button"; b.dataset.temaSet = x[0];
-    b.setAttribute("aria-label", x[1]);
-    b.setAttribute("aria-pressed", String(document.documentElement.getAttribute("data-tema")===x[0]));
-    sw.appendChild(b);
-  });
-  tema.appendChild(sw);
+  var tema = el("button","tema-btn",
+    SOL + LUNA +
+    '<span class="tlbl"><span class="lbl-claro">Pasar a acabado oscuro</span>' +
+    '<span class="lbl-oscuro">Pasar a acabado claro</span></span>');
+  tema.type = "button";
+  tema.setAttribute("data-tema-toggle","");
   body.appendChild(tema);
 
   mnav.appendChild(body);

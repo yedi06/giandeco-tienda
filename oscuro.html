@@ -42,19 +42,15 @@
 
       <div class="hright">
         <button class="pro-btn" type="button" data-go="contacto">Espacio profesional</button>
-        <div class="tema" role="group" aria-label="Acabado del sitio">
-          <button type="button" data-tema-set="claro" aria-pressed="false" aria-label="Acabado claro" title="Claro">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <circle cx="12" cy="12" r="4.2"/>
-              <path d="M12 2.4v2.6M12 19v2.6M21.6 12H19M5 12H2.4M18.8 5.2l-1.8 1.8M7 17l-1.8 1.8M18.8 18.8 17 17M7 7 5.2 5.2"/>
-            </svg>
-          </button>
-          <button type="button" data-tema-set="oscuro" aria-pressed="true" aria-label="Acabado oscuro" title="Oscuro">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M20.5 14.6A8.6 8.6 0 0 1 9.4 3.5a8.6 8.6 0 1 0 11.1 11.1z"/>
-            </svg>
-          </button>
-        </div>
+        <button class="tema-btn" type="button" data-tema-toggle>
+          <svg class="i-sol" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="4.2"/>
+            <path d="M12 2.4v2.6M12 19v2.6M21.6 12H19M5 12H2.4M18.8 5.2l-1.8 1.8M7 17l-1.8 1.8M18.8 18.8 17 17M7 7 5.2 5.2"/>
+          </svg>
+          <svg class="i-luna" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M20.5 14.6A8.6 8.6 0 0 1 9.4 3.5a8.6 8.6 0 1 0 11.1 11.1z"/>
+          </svg>
+        </button>
         <button class="ib solo-m" type="button" id="sBtnM" aria-label="Buscar">
           <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5 21 21"/></svg>
         </button>

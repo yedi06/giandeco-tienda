@@ -344,19 +344,19 @@ h1,h2,h3,h4{
 }
 .badge[data-cero="1"]{display:none}
 
-/* Interruptor de acabado: sol y luna, sin cajas.
-   El activo se enciende en oro; el otro se queda apagado. */
-.tema{display:flex;align-items:center;gap:.15rem;margin-left:.3rem;flex:none}
-.tema button{
-  cursor:pointer;padding:.45rem;line-height:0;color:var(--head-txt2);
-  opacity:.55;
-  transition:color var(--rapido),opacity var(--rapido),transform var(--rapido);
+/* Interruptor de acabado: un solo botón.
+   Se ve el icono del acabado puesto, no los dos a la vez. Con el sol
+   encendido sólo está el sol; al pasar a oscuro sólo queda la luna. */
+.tema-btn{
+  cursor:pointer;padding:.5rem;line-height:0;color:var(--oro-lt);flex:none;margin-left:.2rem;
+  transition:color var(--rapido),transform var(--rapido);
 }
-.tema button svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.4;
+.tema-btn svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.4;
   stroke-linecap:round;stroke-linejoin:round}
-.tema button:hover{opacity:1;color:var(--head-txt);transform:translateY(-1px)}
-.tema button[aria-pressed="true"]{opacity:1;color:var(--oro-lt)}
-@media(max-width:900px){.head .tema{display:none}}
+.tema-btn:hover{color:var(--head-txt);transform:rotate(-14deg)}
+[data-tema="claro"] .tema-btn .i-luna{display:none}
+[data-tema="oscuro"] .tema-btn .i-sol{display:none}
+@media(max-width:900px){.head .tema-btn{display:none}}
 
 /* --- 3. fila contextual --- */
 .nrow{display:none;align-items:center;justify-content:space-between;gap:2rem;
@@ -471,16 +471,20 @@ h1,h2,h3,h4{
   border-bottom:1px solid var(--line2);
   font-family:var(--display);font-size:1.32rem;font-weight:var(--peso-display);color:var(--txt);
 }
-.mnav .tema{display:flex;align-items:center;margin:2rem 0 0;padding-top:1.6rem;
-  border-top:1px solid var(--line2);width:100%;justify-content:space-between}
-.mnav .tema .tlbl{
-  display:inline;font-family:var(--sans);font-size:var(--t-xs);font-weight:var(--peso-ui);
-  letter-spacing:.24em;text-transform:uppercase;color:var(--txt3);
+/* en el menú móvil el mismo botón, con su rótulo al lado */
+.mnav .tema-btn{
+  display:flex;align-items:center;gap:.9rem;width:100%;
+  margin:2rem 0 0;padding:1.6rem 0 0;border-top:1px solid var(--line2);
+  color:var(--oro);
 }
-.mnav .tema .tsw{display:flex;gap:.5rem}
-.mnav .tema button{color:var(--txt3);padding:.4rem}
-.mnav .tema button svg{width:20px;height:20px}
-.mnav .tema button[aria-pressed="true"]{color:var(--oro);opacity:1}
+.mnav .tema-btn:hover{transform:none;color:var(--oro-dk)}
+.mnav .tema-btn svg{width:22px;height:22px;flex:none}
+.mnav .tema-btn .tlbl{
+  font-family:var(--sans);font-size:var(--t-xs);font-weight:var(--peso-ui);
+  letter-spacing:.22em;text-transform:uppercase;color:var(--txt2);
+}
+[data-tema="claro"] .mnav .tema-btn .lbl-oscuro{display:none}
+[data-tema="oscuro"] .mnav .tema-btn .lbl-claro{display:none}
 
 .scrim{
   position:fixed;inset:0;background:rgba(6,5,3,.62);z-index:110;
