@@ -518,6 +518,10 @@ safe(function portada(){
     hl.appendChild(tile(l.img, l.t, l.n, "servicios"));
   });
 
+  /* compre el look: la alcoba de la campaña, con sus piezas marcadas */
+  mapaConPie($("#homeMapa"), "port-alcoba",
+             "Dormitorio montado por el estudio, con sus piezas señaladas");
+
   /* blog */
   var hj = $("#homeJournal");
   if(hj) NOTAS.slice(0,3).forEach(function(n){ hj.appendChild(notaCard(n)); });
@@ -969,6 +973,106 @@ safe(function universo(){
   });
 }, "universo");
 
+/* ---------- 13 ter. mapa de piezas sobre la foto -------------------------
+   Monta una imagen con los puntos de sus piezas. Devuelve true si llegó a
+   poner puntos, para que quien la llame sepa si añadir el pie explicativo.
+
+   La imagen se deja a su proporción natural (nada de object-fit: cover):
+   los puntos van en porcentaje y cualquier recorte los movería de sitio.
+   ------------------------------------------------------------------------ */
+
+function montarMapa(cont, clave, alt){
+  if(!cont) return false;
+  cont.classList.add("mapa");
+  cont.innerHTML = '<img src="'+src(clave)+'" alt="'+(alt||"")+'" />';
+
+  var pts = (typeof PUNTOS !== "undefined" && PUNTOS[clave]) || [];
+  pts = pts.filter(function(pt){ return byId[pt.id]; });
+  if(!pts.length) return false;
+
+  var tarjeta = el("div","pin-card");
+  tarjeta.hidden = true;
+  var abierto = -1, botones = [];
+
+  function cerrar(){
+    abierto = -1;
+    tarjeta.hidden = true;
+    cont.classList.remove("hay-abierto");
+    botones.forEach(function(b){ b.setAttribute("aria-expanded","false"); });
+  }
+
+  /* Coloca la tarjeta junto a su punto sin que se salga de la foto:
+     si no cabe a la derecha se va a la izquierda, y si no cabe abajo
+     sube. En pantalla estrecha se ancla al pie y ocupa el ancho. */
+  function colocar(b){
+    var W = cont.clientWidth, H = cont.clientHeight;
+    if(W < 560){ cont.classList.add("card-abajo"); return; }
+    cont.classList.remove("card-abajo");
+    var cw = tarjeta.offsetWidth, ch = tarjeta.offsetHeight;
+    var px = b.offsetLeft, py = b.offsetTop, sep = 24, margen = 14;
+
+    var x = px + sep;
+    if(x + cw > W - margen) x = px - cw - sep;
+    if(x < margen) x = Math.max(margen, Math.min((W - cw) / 2, W - cw - margen));
+
+    var y = py + sep;
+    if(y + ch > H - margen) y = py - ch - sep;
+    if(y < margen) y = margen;
+
+    tarjeta.style.left = x + "px";
+    tarjeta.style.top  = y + "px";
+  }
+
+  function abrir(i, b, p){
+    if(abierto === i){ cerrar(); return; }
+    cerrar();
+    abierto = i;
+    tarjeta.innerHTML =
+      '<img src="'+src(p.img)+'" alt="" loading="lazy" />'+
+      '<span><span class="k">'+(p.uni ? "Pieza única" : p.mat)+'</span>'+
+      '<b>'+p.name+'</b><small>'+p.tag+'</small>'+
+      '<span class="pr">'+(p.colors.length>1 ? "Desde " : "")+money(p.price)+'</span></span>';
+    tarjeta.hidden = false;
+    cont.classList.add("hay-abierto");
+    b.setAttribute("aria-expanded","true");
+    colocar(b);
+    tarjeta.onclick = function(ev){
+      ev.stopPropagation();
+      go(p.uni ? ("uni:"+p.id) : ("pdp:"+p.id));
+    };
+  }
+
+  pts.forEach(function(pt,i){
+    var p = byId[pt.id];
+    var b = el("button","pin"); b.type = "button";
+    b.style.left = pt.x + "%";
+    b.style.top  = pt.y + "%";
+    b.setAttribute("aria-label", "Ver "+p.name+" — "+p.tag+", "+money(p.price));
+    b.setAttribute("aria-expanded","false");
+    b.addEventListener("click", function(e){ e.stopPropagation(); abrir(i,b,p); });
+    botones.push(b);
+    cont.appendChild(b);
+  });
+
+  cont.appendChild(tarjeta);
+  cont.addEventListener("click", function(){ cerrar(); });
+  document.addEventListener("keydown", function(e){ if(e.key==="Escape") cerrar(); });
+  window.addEventListener("resize", function(){
+    if(abierto >= 0 && botones[abierto]) colocar(botones[abierto]);
+  });
+
+  return true;
+}
+
+/* Envuelve el mapa y le añade el pie que explica para qué son los puntos. */
+function mapaConPie(cont, clave, alt){
+  var hay = montarMapa(cont, clave, alt);
+  if(!hay) return false;
+  var pie = el("p","mapa-pie",'<i></i><span>Toque los puntos para ver cada pieza</span>');
+  if(cont.parentNode) cont.parentNode.insertBefore(pie, cont.nextSibling);
+  return true;
+}
+
 /* ---------- 14. compra el espacio ---------------------------------------- */
 
 function espCard(e){
@@ -992,8 +1096,13 @@ safe(function espacios(){
 function openEsp(slug){
   var e = ESPACIOS.filter(function(x){ return x.slug===slug; })[0];
   if(!e) return;
-  var im = $("#espImg");
-  if(im){ im.src = src(e.img); im.alt = e.name; }
+  var caja = $("#espMapa");
+  if(caja){
+    /* se vuelve a montar en cada entrada: cada espacio trae sus puntos */
+    var pieViejo = caja.parentNode && caja.parentNode.querySelector(".mapa-pie");
+    if(pieViejo) pieViejo.remove();
+    mapaConPie(caja, e.img, e.name);
+  }
   var n = $("#espName"); if(n) n.textContent = e.name;
   var t = $("#espText"); if(t) t.textContent = e.text;
   crumb($("#espdCrumb"), [{t:"Inicio",go:"home"},{t:"Compra el espacio",go:"espacios"},{t:e.name}]);

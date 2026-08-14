@@ -520,6 +520,65 @@ var ESPACIOS = [
   text:"El montaje navideño de una sala de ventas real. Es lo que el estudio hace para tiendas, disponible también para su casa."}
 ];
 
+/* ---------- puntos sobre la fotografía -----------------------------------
+   Cada ambiente lleva marcadas las piezas que se pueden comprar. Las
+   coordenadas van en porcentaje del ancho y del alto de la propia foto,
+   así que el contenedor tiene que respetar la proporción de la imagen:
+   si se recorta, los puntos dejan de caer donde deben.
+   ------------------------------------------------------------------------ */
+
+var PUNTOS = {
+ "esp-sala":[
+   {x:50, y:82, id:3},   /* sillón curvo en primer plano */
+   {x:63, y:57, id:1},   /* sofá modular del fondo */
+   {x:26, y:65, id:9},   /* mesa de centro */
+   {x:15, y:55, id:23},  /* cojín del sofá izquierdo */
+   {x:42, y:46, id:20},  /* jarrón de la repisa */
+   {x:92, y:82, id:10}], /* mesa lateral acanalada */
+
+ "esp-comedor":[
+   {x:52, y:15, id:18},  /* colgante */
+   {x:19, y:40, id:21},  /* espejo orgánico */
+   {x:40, y:63, id:11},  /* mesa de comedor */
+   {x:20, y:74, id:7},   /* silla tapizada */
+   {x:33, y:60, id:37},  /* mesa puesta */
+   {x:66, y:52, id:20}], /* jarrón con follaje */
+
+ "esp-terraza":[
+   {x:20, y:72, id:4},   /* banca de exterior */
+   {x:17, y:63, id:23},  /* cojín */
+   {x:40, y:62, id:6},   /* butaca de fibra */
+   {x:53, y:66, id:10},  /* mesa lateral */
+   {x:78, y:62, id:3}],  /* butaca del fondo */
+
+ "esp-dormitorio":[
+   {x:50, y:82, id:6},   /* puf de pie de cama */
+   {x:22, y:43, id:16},  /* lámpara de mesa */
+   {x:35, y:47, id:23},  /* cojín estampado */
+   {x:14, y:57, id:14},  /* mesa de noche */
+   {x:80, y:43, id:16}], /* lámpara de mesa gemela */
+
+ "port-alcoba":[
+   {x:48, y:28, id:34},  /* panel de chinoiserie */
+   {x:9,  y:63, id:16},  /* lámpara de mesa */
+   {x:38, y:73, id:23},  /* cojín */
+   {x:84, y:62, id:16},  /* lámpara de mesa gemela */
+   {x:78, y:77, id:19}], /* objeto de la mesa de noche */
+
+ "port-coleccion":[
+   {x:15, y:58, id:16},  /* lámpara de mesa */
+   {x:50, y:88, id:12},  /* consola */
+   {x:50, y:38, id:26},  /* marco restaurado */
+   {x:33, y:70, id:19},  /* hurricane */
+   {x:85, y:58, id:16}], /* lámpara de mesa gemela */
+
+ "pr-navidad-1":[
+   {x:50, y:45, id:27},  /* árbol */
+   {x:62, y:30, id:32},  /* ornamentos */
+   {x:35, y:56, id:33},  /* luces */
+   {x:70, y:70, id:29}]  /* corona */
+};
+
 /* ---------- blog --------------------------------------------------------- */
 
 var NOTAS = [

@@ -135,16 +135,21 @@
    claro, porque :root y [data-tema] pesan igual y gana el último. */
 :root,
 [data-tema="oscuro"]{
-  --head-bg:#171209;
+  --head-bg:#211A11;
   --head-txt:#EFE5D3;
-  --head-txt2:#A2937A;
-  --head-line:rgba(239,229,211,.13);
+  --head-txt2:#A89578;
+  --head-line:rgba(239,229,211,.15);
+  --head-oro:#D9B074;
 }
+/* Taupe cálido en vez de casi negro: contra el papel crema, una banda
+   negra se lee como una barra pegada encima. Un tono medio de la misma
+   familia se integra y sigue sosteniendo el logo dorado. */
 [data-tema="claro"]{
-  --head-bg:#241C13;
-  --head-txt:#F2E9DA;
-  --head-txt2:#B9AB93;
-  --head-line:rgba(242,233,218,.16);
+  --head-bg:#5A4E3F;
+  --head-txt:#F6EFE3;
+  --head-txt2:#CFC2AB;
+  --head-line:rgba(246,239,227,.22);
+  --head-oro:#E4C48C;
 }
 
 /* ---------- 2. base ------------------------------------------------------ */
@@ -290,7 +295,7 @@ h1,h2,h3,h4{
   text-transform:uppercase;color:var(--head-txt2);
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
-.aviso i{width:3px;height:3px;background:var(--oro-lt);transform:rotate(45deg);flex:none;display:inline-block}
+.aviso i{width:3px;height:3px;background:var(--head-oro);transform:rotate(45deg);flex:none;display:inline-block}
 @media(max-width:760px){
   .aviso p{font-size:.6rem;letter-spacing:.12em;gap:.5rem}
   .ann-x{display:none}
@@ -326,19 +331,19 @@ h1,h2,h3,h4{
   font-family:var(--sans);font-size:.7rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
   transition:border-color var(--rapido),color var(--rapido);
 }
-.pro-btn:hover{border-color:var(--oro-lt);color:var(--oro-lt)}
+.pro-btn:hover{border-color:var(--head-oro);color:var(--head-oro)}
 @media(max-width:1319px){.pro-btn{display:none}}
 
 .ib{
   cursor:pointer;padding:.5rem;color:var(--head-txt2);position:relative;line-height:0;
   transition:color var(--rapido);
 }
-.ib:hover{color:var(--oro-lt)}
+.ib:hover{color:var(--head-oro)}
 .ib svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.2;
   stroke-linecap:round;stroke-linejoin:round}
 .badge{
   position:absolute;top:0;right:-1px;min-width:16px;height:16px;padding:0 3px;
-  background:var(--oro-lt);color:#171209;
+  background:var(--head-oro);color:#171209;
   font-family:var(--sans);font-size:.6rem;font-weight:600;letter-spacing:0;
   display:grid;place-items:center;line-height:1;
 }
@@ -348,7 +353,7 @@ h1,h2,h3,h4{
    Se ve el icono del acabado puesto, no los dos a la vez. Con el sol
    encendido sólo está el sol; al pasar a oscuro sólo queda la luna. */
 .tema-btn{
-  cursor:pointer;padding:.5rem;line-height:0;color:var(--oro-lt);flex:none;margin-left:.2rem;
+  cursor:pointer;padding:.5rem;line-height:0;color:var(--head-oro);flex:none;margin-left:.2rem;
   transition:color var(--rapido),transform var(--rapido);
 }
 .tema-btn svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.4;
@@ -370,7 +375,7 @@ h1,h2,h3,h4{
   padding:.65rem 0;white-space:nowrap;position:relative;transition:color var(--rapido);
 }
 .cats button::after{
-  content:"";position:absolute;left:50%;right:50%;bottom:.3rem;height:1px;background:var(--head-txt);
+  content:"";position:absolute;left:50%;right:50%;bottom:.42rem;height:1px;background:var(--head-txt);
   transition:left var(--medio),right var(--medio);
 }
 .cats button:hover,.cats button.active,.cats button[aria-expanded="true"]{color:var(--head-txt)}
@@ -386,7 +391,7 @@ h1,h2,h3,h4{
   font-family:var(--sans);font-size:.78rem;font-weight:400;letter-spacing:.01em;
   transition:border-color var(--rapido),color var(--rapido),background-color var(--rapido);
 }
-.hsearch:hover{border-color:var(--oro-lt);color:var(--head-txt);background:rgba(255,255,255,.09)}
+.hsearch:hover{border-color:var(--head-oro);color:var(--head-txt);background:rgba(255,255,255,.09)}
 .hsearch svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.4;flex:none}
 
 .burger{display:grid;gap:5px;cursor:pointer;padding:.4rem;flex:none}
@@ -1145,7 +1150,7 @@ h1,h2,h3,h4{
 .esp-head{display:grid;grid-template-columns:1fr;gap:2rem;align-items:center;margin-bottom:1rem}
 @media(min-width:900px){.esp-head{grid-template-columns:1.2fr .8fr;gap:clamp(2.5rem,5vw,5rem)}}
 .esp-head figure{margin:0;overflow:hidden;aspect-ratio:4/3;background:var(--bg3)}
-.esp-head img{width:100%;height:100%;object-fit:cover}
+.esp-head figure img{width:100%;height:100%;object-fit:cover}
 .esp-head h1{font-size:var(--t-xl);margin-bottom:1rem}
 .esp-head p{color:var(--txt2);margin:0;max-width:48ch}
 
@@ -1160,6 +1165,97 @@ h1,h2,h3,h4{
 .jc:hover h3{color:var(--oro)}
 .jc p{margin:0;color:var(--txt3);font-size:var(--t-sm)}
 .jc .r{font-family:var(--sans);font-size:var(--t-xs);letter-spacing:.18em;text-transform:uppercase;color:var(--txt3)}
+
+/* ---------- 18 bis. mapa de piezas sobre la foto -------------------------
+   Marca las piezas comprables dentro de un ambiente. El contenedor NO
+   recorta: la imagen manda su propia proporción, porque los puntos van en
+   porcentaje y cualquier recorte los desplazaría de su sitio.
+   ------------------------------------------------------------------------ */
+
+.mapa{position:relative;display:block;background:var(--bg3);line-height:0}
+.mapa>img{width:100%;height:auto;display:block}
+
+.pin{
+  position:absolute;transform:translate(-50%,-50%);
+  width:30px;height:30px;border-radius:50%;cursor:pointer;padding:0;
+  display:grid;place-items:center;
+  background:#FFF;
+  /* Un aro oscuro además de la sombra: sin él, el punto desaparece sobre
+     un techo blanco o una pantalla de lámpara encendida. */
+  box-shadow:0 0 0 1.5px rgba(24,18,11,.34), 0 3px 14px rgba(0,0,0,.5);
+  transition:transform var(--medio),background-color var(--rapido);
+  z-index:3;
+}
+.pin::before{
+  content:"";width:9px;height:9px;border-radius:50%;background:#8A6027;
+  transition:background-color var(--rapido),transform var(--medio);
+}
+/* halo que late: sin él, en una foto cargada los puntos no se ven */
+.pin::after{
+  content:"";position:absolute;inset:0;border-radius:50%;
+  border:1.5px solid rgba(255,255,255,.9);
+  box-shadow:0 0 0 1px rgba(24,18,11,.28);
+  animation:latido 2.6s var(--ease) infinite;
+  pointer-events:none;
+}
+@keyframes latido{
+  0%{transform:scale(1);opacity:.85}
+  70%{transform:scale(1.85);opacity:0}
+  100%{transform:scale(1.85);opacity:0}
+}
+.pin:hover,.pin:focus-visible{transform:translate(-50%,-50%) scale(1.14)}
+.pin[aria-expanded="true"]{background:#8A6027}
+.pin[aria-expanded="true"]::before{background:#FFF;transform:scale(.8)}
+.pin[aria-expanded="true"]::after{animation:none;border-color:rgba(255,255,255,.5)}
+/* con una tarjeta abierta, los demás puntos se apagan para no competir */
+.mapa.hay-abierto .pin:not([aria-expanded="true"]){opacity:.6}
+.mapa.hay-abierto .pin::after{animation:none}
+@media(prefers-reduced-motion:reduce){ .pin::after{animation:none} }
+
+.pin-card{
+  position:absolute;z-index:5;width:290px;max-width:calc(100% - 24px);
+  background:var(--bg3);border:1px solid var(--line);box-shadow:var(--sombra);
+  display:grid;grid-template-columns:88px 1fr;gap:1rem;padding:.85rem;
+  cursor:pointer;text-align:left;line-height:1.6;
+  animation:asomar .28s var(--ease);
+}
+@keyframes asomar{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.pin-card[hidden]{display:none}
+.pin-card img{width:88px;height:110px;object-fit:cover;background:var(--lienzo)}
+.pin-card .k{
+  font-family:var(--sans);font-size:.62rem;font-weight:var(--peso-ui);letter-spacing:.22em;
+  text-transform:uppercase;color:var(--txt3);display:block;margin-bottom:.3rem;
+}
+.pin-card b{
+  font-family:var(--display);font-size:1.12rem;font-weight:var(--peso-display);
+  color:var(--txt);display:block;line-height:1.2;
+}
+.pin-card small{display:block;color:var(--txt3);font-size:.76rem;margin-bottom:.4rem}
+.pin-card .pr{
+  font-family:var(--sans);font-size:.84rem;font-weight:var(--peso-ui);color:var(--oro);
+  font-variant-numeric:tabular-nums;
+}
+.pin-card:hover{border-color:var(--oro-dk)}
+
+/* en pantalla estrecha la tarjeta se ancla abajo y ocupa el ancho */
+.mapa.card-abajo .pin-card{
+  left:12px!important;right:12px;top:auto!important;bottom:12px;width:auto;
+}
+
+.mapa-pie{
+  display:flex;align-items:center;gap:.6rem;justify-content:center;
+  padding-top:1rem;line-height:1.6;
+  font-family:var(--sans);font-size:var(--t-xs);letter-spacing:.18em;
+  text-transform:uppercase;color:var(--txt3);
+}
+.mapa-pie i{
+  width:11px;height:11px;border-radius:50%;background:rgba(0,0,0,.06);flex:none;
+  box-shadow:0 0 0 1px var(--line);display:inline-grid;place-items:center;
+}
+.mapa-pie i::before{content:"";width:4px;height:4px;border-radius:50%;background:var(--oro)}
+
+/* la foto del «compre el look» no se lleva toda la pantalla de ancho */
+.look-wrap{max-width:1180px;margin-inline:auto}
 
 /* ---------- 19. cita de cierre ------------------------------------------- */
 
