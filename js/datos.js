@@ -425,6 +425,86 @@ var PROYECTOS = [
        "El servicio incluye el desmontaje de la primera semana de enero y el guardado del material rotulado, que es lo que evita comprar todo de nuevo cada diciembre."]}
 ];
 
+/* ---------- relato ampliado de cada proyecto -----------------------------
+   La ficha de proyecto necesita contar tres cosas antes de enseñar fotos:
+   qué pedía el cliente, de dónde salió la idea y qué se hizo. Va aparte
+   para no engordar el array de arriba, y se funde con él al cargar.
+   ------------------------------------------------------------------------ */
+
+var RELATOS = {
+ "walon-tiendas":{
+  reto:"Una cadena deportiva con locales en Lima y provincias necesitaba que todas sus tiendas se leyeran igual desde la vereda, sin que el estudio tuviera que estar presente en cada apertura.",
+  inspira:"La referencia no fue una tienda: fue la cartelería luminosa de los estadios. Fondo oscuro, tipografía ancha y una sola cosa iluminada por vez. En un centro comercial saturado, apagar es lo que hace ver.",
+  cita:"Una cadena no se resuelve tienda por tienda. Se resuelve una vez y se replica.",
+  mats:["Acero pintado al horno","Perfil de aluminio","LED 4000 K","Vinilo de corte","Melamina hidrófuga"]},
+
+ "nova-campana":{
+  reto:"Un lanzamiento de calzado con dos semanas de vida en sala. Todo tenía que montarse rápido, verse caro y desmontarse sin dañar el local.",
+  inspira:"La vitrina de una joyería. El zapato se trató como se trata un anillo: fondo negro, foco dirigido y aire alrededor. El producto es lo único iluminado del módulo.",
+  cita:"Si todo brilla, no brilla nada. Se ilumina una cosa y se apaga el resto.",
+  mats:["MDF laminado negro","Cinta LED cálida","Acrílico esmerilado","Impresión sobre PVC"]},
+
+ "figuritas-isla":{
+  reto:"Doce metros cuadrados en el pasillo de una tienda ancla, compitiendo con todo lo que tenía alrededor y sin paredes donde apoyarse.",
+  inspira:"Los podios de premiación. Subir el producto, dejar el piso limpio y que la pieza se lea desde los cuatro lados del pasillo, como una escultura en una plaza.",
+  cita:"Sin paredes, la única defensa es la altura.",
+  mats:["Tarima de melamina","Césped sintético","Maniquí articulado","Gráfica retroiluminada"]},
+
+ "orion-lanzamiento":{
+  reto:"El frente de tienda es la pieza de mayor retorno de toda una sala y casi siempre la peor resuelta: llena de producto, de precios y de mensajes que compiten.",
+  inspira:"Se trabajó como se trabaja la portada de una revista. Una imagen, un mensaje y nada más peleando por la atención.",
+  cita:"Se vació el primer metro de vitrina. Ahí empezó a funcionar.",
+  mats:["Estructura modular de aluminio","Panel arquitectónico curvo","Iluminación de acento","Pintura mate"]},
+
+ "mobiliario-serie":{
+  reto:"Definir un mobiliario de exhibición que entrara en locales de metrajes distintos sin rediseñarlo cada vez, y que el equipo de tienda pudiera armar sin el estudio.",
+  inspira:"La carpintería de barco: piezas que encajan por diseño, no por ajuste en obra. Si el módulo depende de un maestro con lija, no se puede replicar.",
+  cita:"Antes del mueble está el plano, y antes del plano está cuánto producto entra en cuántos metros lineales.",
+  mats:["Melamina de 18 mm","Canto macizo de roble","Herrajes con freno","Perfil LED empotrado"]},
+
+ "sala-arenales":{
+  reto:"Una sala de muebles de 320 m² dispuesta en pasillos, donde el cliente veía producto en fila y no lograba imaginárselo en su casa.",
+  inspira:"Las casas piloto de una inmobiliaria. Se dejó de exhibir mobiliario y se empezó a exhibir ambientes, cada uno con su alfombra, su luz y su mesa puesta.",
+  cita:"Nadie compra un sofá en una fila de sofás.",
+  mats:["Alfombra de lana","Iluminación cálida dirigida","Tabiquería ligera","Textil de lino"]},
+
+ "depa-san-isidro":{
+  reto:"El encargo llegó con los muebles ya comprados, que es la manera más común y más cara de empezar un proyecto.",
+  inspira:"La luz de la terraza a las cinco de la tarde. Toda la paleta se eligió para que funcionara con esa luz, y no con la del catálogo.",
+  cita:"La primera reunión sirvió para explicar por qué convenía devolver dos de ellos.",
+  mats:["Roble al aceite","Travertino sellado","Latón envejecido","Lino lavado","Bouclé"]},
+
+ "banos-autor":{
+  reto:"Cuatro baños con pocos metros, mucha instalación y ningún margen para improvisar en obra.",
+  inspira:"Los baños de hotel bien resueltos: nicho a la altura del hombro, junta continua y ni un solo cable a la vista. El lujo ahí es que nada estorbe.",
+  cita:"El cliente aprueba el render y lo que se construye es exactamente eso.",
+  mats:["Porcelánico rectificado","Melamina hidrófuga","Grifería negra mate","Espejo con luz perimetral"]},
+
+ "lodge-valle":{
+  reto:"Un lodge en la sierra, con frío, altura y un comedor que sirve tres turnos al día. El material tenía que aguantar el uso, no solo la foto.",
+  inspira:"La casa de hacienda andina: piedra del lugar, madera vista y textil de la zona. Nada traído de la costa, para que todo se pueda reponer sin flete.",
+  cita:"Lo que se ve bien en Lima no siempre aguanta a cuatro mil metros.",
+  mats:["Piedra del lugar","Madera vista","Textil andino","Cerámica de taller"]},
+
+ "resto-piedra":{
+  reto:"Un salón con una vista que valía todo el proyecto y una distribución que la desperdiciaba.",
+  inspira:"El comedor de una casa de campo: mesas largas, altura baja de todo lo que estorba y la ventana como único cuadro de la pared.",
+  cita:"Lo primero fue girar las mesas.",
+  mats:["Cristal templado","Madera tratada","Gres esmaltado","Textil de la zona"]},
+
+ "navidad-montada":{
+  reto:"Montar la Navidad completa de una sala de ventas y de casas particulares, con calendario, inventario y alguien que se lleve las cajas en enero.",
+  inspira:"Los nacimientos de barro de las casas antiguas. Se decidió construirlo a mano, pieza por pieza, en vez de comprarlo hecho: es la parte que la gente recuerda al año siguiente.",
+  cita:"Lo que no se compra hecho es lo que se recuerda.",
+  mats:["Barro modelado","Madera envejecida","Follaje de fibra","Luz cálida 2700 K","Textil de terciopelo"]}
+};
+
+PROYECTOS.forEach(function(p){
+  var r = RELATOS[p.slug];
+  if(!r) return;
+  for(var k in r){ if(Object.prototype.hasOwnProperty.call(r,k)) p[k] = r[k]; }
+});
+
 /* ---------- compra el espacio ------------------------------------------- */
 
 var ESPACIOS = [

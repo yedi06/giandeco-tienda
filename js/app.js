@@ -78,13 +78,20 @@ function observar(n){ if(observador && n){ n.setAttribute("data-rev",""); observ
 var VIEWS = ["home","cat","pdp","uni","proyectos","proyecto","servicios","universo",
              "espacios","esp","cuaderno","contacto"];
 
-function show(v){
+function show(v, arg){
   VIEWS.forEach(function(x){
     var n = document.getElementById("v-"+x);
     if(n) n.classList.toggle("on", x===v);
   });
   window.scrollTo({top:0, behavior:"auto"});
-  $$(".hl").forEach(function(b){ b.classList.toggle("on", b.dataset.go===v); });
+  /* La segunda fila del encabezado sigue al mundo en el que se entra.
+     En la portada se queda la del catálogo, que es la que más se usa. */
+  var m = mundoDeVista(v);
+  pintarFila(m || "catalogo");
+  $$("#mundosNav button").forEach(function(b){
+    b.classList.toggle("on", !!m && b.dataset.mundo===m);
+  });
+  marcarFila(v, arg);
 }
 
 function crumb(node, partes){
@@ -110,12 +117,12 @@ function go(ruta){
   if(v==="esp"){ openEsp(arg); return; }
   if(v==="proyecto"){ openProyecto(arg); return; }
   if(v==="unicos"){ openCat("unicos"); return; }
-  if(v==="proyectos"){ crumb($("#proyCrumb"),[{t:"Inicio",go:"home"},{t:"Proyectos"}]); show("proyectos"); return; }
-  if(v==="servicios"){ crumb($("#serCrumb"),[{t:"Inicio",go:"home"},{t:"Servicios"}]); show("servicios"); return; }
-  if(v==="universo"){ crumb($("#uvCrumb"),[{t:"Inicio",go:"home"},{t:"El estudio"}]); show("universo"); return; }
-  if(v==="contacto"){ crumb($("#contCrumb"),[{t:"Inicio",go:"home"},{t:"Contacto"}]); show("contacto"); return; }
-  if(v==="espacios"){ crumb($("#espCrumb"),[{t:"Inicio",go:"home"},{t:"Compra el espacio"}]); show("espacios"); return; }
-  if(v==="cuaderno"){ crumb($("#cuaCrumb"),[{t:"Inicio",go:"home"},{t:"Blog"}]); show("cuaderno"); return; }
+  if(v==="proyectos"){ crumb($("#proyCrumb"),[{t:"Inicio",go:"home"},{t:"Proyectos"}]); show("proyectos","proyectos"); return; }
+  if(v==="servicios"){ crumb($("#serCrumb"),[{t:"Inicio",go:"home"},{t:"Servicios"}]); show("servicios","servicios"); return; }
+  if(v==="universo"){ crumb($("#uvCrumb"),[{t:"Inicio",go:"home"},{t:"El estudio"}]); show("universo","universo"); return; }
+  if(v==="contacto"){ crumb($("#contCrumb"),[{t:"Inicio",go:"home"},{t:"Contacto"}]); show("contacto","contacto"); return; }
+  if(v==="espacios"){ crumb($("#espCrumb"),[{t:"Inicio",go:"home"},{t:"Compra el espacio"}]); show("espacios","espacios"); return; }
+  if(v==="cuaderno"){ crumb($("#cuaCrumb"),[{t:"Inicio",go:"home"},{t:"Blog"}]); show("cuaderno","cuaderno"); return; }
   show(v);
 }
 
@@ -246,41 +253,114 @@ function abrirMega(t, boton){
   mega.hidden = false;
 }
 
-safe(function navCatalogo(){
-  var cats = $("#cats");
+/* ---------- 7 bis. los tres mundos ---------------------------------------
+   La cabecera se organiza como la casa: arriba los tres mundos y debajo
+   una fila que cambia según en cuál se esté. Estando en la tienda salen
+   las categorías; estando en diseño de interiores, el estudio y los
+   proyectos. Nada de barras separadoras: separa el aire.
+   ------------------------------------------------------------------------ */
+
+var MUNDOS = [
+  {id:"catalogo",  nombre:"Catálogo",             ir:"cat:asientos",
+   vistas:["cat","pdp","uni","esp","espacios"]},
+  {id:"interiores",nombre:"Diseño de interiores", ir:"servicios",
+   vistas:["servicios","proyectos","proyecto"]},
+  {id:"universo",  nombre:"Nuestro universo",     ir:"universo",
+   vistas:["universo","cuaderno","contacto"]}
+];
+
+var mundoActual = null;
+
+function mundoDeVista(v){
+  var m = MUNDOS.filter(function(x){ return x.vistas.indexOf(v)>=0; })[0];
+  return m ? m.id : null;
+}
+
+safe(function navMundos(){
+  var nav = $("#mundosNav");
+  if(!nav) return;
+  MUNDOS.forEach(function(m){
+    var b = el("button",null,m.nombre); b.type="button";
+    b.dataset.mundo = m.id;
+    b.addEventListener("click", function(){ cerrarMega(); go(m.ir); });
+    nav.appendChild(b);
+  });
+}, "navMundos");
+
+/* Segunda fila: se vuelve a dibujar cada vez que se cambia de mundo. */
+function pintarFila(idMundo){
+  var cats = $("#cats"), buscar = $("#sBtn");
   if(!cats) return;
-  /* En escritorio el panel se abre al pasar el puntero y el clic lleva
-     directo a la categoría: en una tienda, el clic tiene que avanzar.
-     Donde no hay puntero fino, el primer toque abre el panel. */
+  if(mundoActual === idMundo) return;
+  mundoActual = idMundo;
+  cats.innerHTML = "";
+
+  $$("#mundosNav button").forEach(function(b){
+    b.classList.toggle("on", b.dataset.mundo === idMundo);
+  });
+
   var finoMQ = window.matchMedia ? window.matchMedia("(hover:hover) and (pointer:fine)") : null;
   var punteroFino = function(){ return finoMQ ? finoMQ.matches : true; };
 
-  TAX.forEach(function(t){
-    var b = el("button",null,t.name); b.type="button";
-    b.dataset.cat = t.slug; b.setAttribute("aria-expanded","false");
-    b.addEventListener("mouseenter", function(){ if(punteroFino()) abrirMega(t,b); });
-    b.addEventListener("focus", function(){ if(punteroFino()) abrirMega(t,b); });
-    b.addEventListener("click", function(e){
-      e.stopPropagation();
-      if(punteroFino()){ cerrarMega(); openCat(t.slug); return; }
-      if(megaAbierto===t.slug){ cerrarMega(); openCat(t.slug); } else { abrirMega(t,b); }
+  function simple(texto, ruta){
+    var b = el("button",null,texto); b.type="button";
+    b.dataset.ruta = ruta;
+    b.addEventListener("click", function(){ cerrarMega(); go(ruta); });
+    return b;
+  }
+
+  if(idMundo === "interiores"){
+    cats.appendChild(simple("El estudio","servicios"));
+    cats.appendChild(simple("Proyectos","proyectos"));
+    if(buscar) buscar.style.visibility = "hidden";
+  } else if(idMundo === "universo"){
+    cats.appendChild(simple("Nuestro universo","universo"));
+    cats.appendChild(simple("Blog","cuaderno"));
+    cats.appendChild(simple("Contacto","contacto"));
+    if(buscar) buscar.style.visibility = "hidden";
+  } else {
+    TAX.forEach(function(t){
+      var b = el("button",null,t.name); b.type="button";
+      b.dataset.cat = t.slug; b.setAttribute("aria-expanded","false");
+      /* En escritorio el panel se abre al pasar el puntero y el clic lleva
+         directo a la categoría: en una tienda, el clic tiene que avanzar. */
+      b.addEventListener("mouseenter", function(){ if(punteroFino()) abrirMega(t,b); });
+      b.addEventListener("focus", function(){ if(punteroFino()) abrirMega(t,b); });
+      b.addEventListener("click", function(e){
+        e.stopPropagation();
+        if(punteroFino()){ cerrarMega(); openCat(t.slug); return; }
+        if(megaAbierto===t.slug){ cerrarMega(); openCat(t.slug); } else { abrirMega(t,b); }
+      });
+      cats.appendChild(b);
     });
-    cats.appendChild(b);
+    cats.appendChild(el("span","hueco"));
+    cats.appendChild(simple("Piezas únicas","unicos"));
+    cats.appendChild(simple("Compra el espacio","espacios"));
+    if(buscar) buscar.style.visibility = "";
+  }
+}
+
+/* marca la entrada activa de la segunda fila sin volver a dibujarla */
+function marcarFila(v, arg){
+  $$("#cats button").forEach(function(b){
+    var activo = (b.dataset.cat && b.dataset.cat===arg) ||
+                 (b.dataset.ruta && b.dataset.ruta===v);
+    b.classList.toggle("active", !!activo);
   });
-  /* el panel se cierra al salir de la zona cabecera + panel */
+}
+
+safe(function cierres(){
   var zona = $(".head");
-  if(zona) zona.addEventListener("mouseleave", function(){ if(punteroFino()) cerrarMega(); });
-  cats.appendChild(el("span","div"));
-  [["unicos","Piezas únicas"],["espacios","Compra el espacio"]].forEach(function(x){
-    var b = el("button",null,x[1]); b.type="button";
-    b.addEventListener("click", function(){ cerrarMega(); go(x[0]); });
-    cats.appendChild(b);
+  var finoMQ = window.matchMedia ? window.matchMedia("(hover:hover) and (pointer:fine)") : null;
+  if(zona) zona.addEventListener("mouseleave", function(){
+    if(!finoMQ || finoMQ.matches) cerrarMega();
   });
   document.addEventListener("click", function(e){
     if(mega && !mega.hidden && !e.target.closest(".mega") && !e.target.closest("#cats")) cerrarMega();
   });
   document.addEventListener("keydown", function(e){ if(e.key==="Escape") cerrarMega(); });
-}, "navCatalogo");
+  pintarFila("catalogo");
+}, "cierres");
 
 var mnav = $("#mnav"), scrim = $("#scrim");
 
@@ -343,12 +423,18 @@ safe(function menuMovil(){
     body.appendChild(b);
   });
 
+  var SOL  = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/>'+
+             '<path d="M12 2.4v2.6M12 19v2.6M21.6 12H19M5 12H2.4M18.8 5.2l-1.8 1.8'+
+             'M7 17l-1.8 1.8M18.8 18.8 17 17M7 7 5.2 5.2"/></svg>';
+  var LUNA = '<svg viewBox="0 0 24 24" aria-hidden="true">'+
+             '<path d="M20.5 14.6A8.6 8.6 0 0 1 9.4 3.5a8.6 8.6 0 1 0 11.1 11.1z"/></svg>';
+
   var tema = el("div","tema");
   tema.setAttribute("role","group"); tema.setAttribute("aria-label","Acabado del sitio");
   tema.appendChild(el("span","tlbl","Acabado"));
   var sw = el("span","tsw");
-  [["claro","Acabado claro"],["oscuro","Acabado oscuro"]].forEach(function(x){
-    var b = el("button"); b.type="button"; b.dataset.temaSet = x[0];
+  [["claro","Acabado claro",SOL],["oscuro","Acabado oscuro",LUNA]].forEach(function(x){
+    var b = el("button",null,x[2]); b.type="button"; b.dataset.temaSet = x[0];
     b.setAttribute("aria-label", x[1]);
     b.setAttribute("aria-pressed", String(document.documentElement.getAttribute("data-tema")===x[0]));
     sw.appendChild(b);
@@ -592,10 +678,9 @@ function openCat(slug){
   var titulo = $("#catTitle");
   if(titulo) titulo.innerHTML = nombre + '<span class="dash"></span>';
   crumb($("#catCrumb"), [{t:"Inicio",go:"home"},{t:"Tienda",go:"home"},{t:nombre}]);
-  $$("#cats button[data-cat]").forEach(function(b){ b.classList.toggle("active", b.dataset.cat===slug); });
   var promo = $("#catPromo");
   if(promo) promo.hidden = (slug!=="navidad");
-  renderSubs(); buildFacets(); applyCat(); show("cat");
+  renderSubs(); buildFacets(); applyCat(); show("cat", slug);
 }
 
 safe(function controlesCatalogo(){
@@ -796,13 +881,30 @@ function openProyecto(slug){
   set("#prBg", pr.t, "alt");
   set("#prLinea", pr.linea);
   set("#prTitle", pr.t);
-  set("#prSub", pr.sub);
+  set("#prSub", pr.sub + " · " + pr.lugar + " · " + pr.anio);
   crumb($("#prCrumb"), [{t:"Inicio",go:"home"},{t:"Proyectos",go:"proyectos"},{t:pr.t}]);
+
+  set("#prReto", pr.reto || "");
+  set("#prInspira", pr.inspira || "");
+  set("#prCita", pr.cita || "");
+  var cita = $(".pr-cita");
+  if(cita) cita.hidden = !pr.cita;
 
   var txt = $("#prTexto");
   if(txt){
     txt.innerHTML = "";
     pr.txt.forEach(function(p){ txt.appendChild(el("p",null,p)); });
+  }
+
+  var mats = $("#prMats");
+  if(mats){
+    mats.innerHTML = "";
+    if(pr.mats && pr.mats.length){
+      mats.appendChild(el("span","mats-t","Materiales y acabados"));
+      var ul = el("ul");
+      pr.mats.forEach(function(m){ ul.appendChild(el("li",null,m)); });
+      mats.appendChild(ul);
+    }
   }
 
   var dat = $("#prDatos");

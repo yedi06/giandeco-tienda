@@ -12,14 +12,17 @@
 
 :root{
   /* tipografía */
+  /* Inter en vez de Jost para el cuerpo: Jost es geométrica y preciosa en
+     titular, pero en párrafo pequeño sobre blanco adelgaza y el texto se
+     pierde. Inter está hecha para leerse a 15 px. */
   --display:'Cormorant Garamond','Didot','Bodoni MT',Georgia,'Times New Roman',serif;
-  --sans:'Jost','Futura','Century Gothic','Segoe UI',system-ui,-apple-system,sans-serif;
+  --sans:'Inter','Segoe UI',system-ui,-apple-system,'Helvetica Neue',sans-serif;
 
   /* escala — apretada abajo, generosa arriba: el salto es lo que da porte */
-  --t-xs:.66rem;
-  --t-sm:.76rem;
-  --t-base:.94rem;
-  --t-md:1.08rem;
+  --t-xs:.7rem;
+  --t-sm:.82rem;
+  --t-base:1rem;
+  --t-md:1.11rem;
   --t-lg:clamp(1.3rem,1.6vw,1.6rem);
   --t-xl:clamp(1.7rem,2.9vw,2.6rem);
   --t-2xl:clamp(2.3rem,5vw,4.2rem);
@@ -115,13 +118,33 @@
   --sombra:0 24px 60px -38px rgba(60,45,25,.45);
   --logo-op:1;
 
-  /* El contrapeso del fondo blanco: medio punto de grosor en todo. */
+  /* El contrapeso del fondo blanco. Sobre claro el trazo se come luz y
+     todo parece medio tono más flojo, así que se compensa aquí. */
   --peso-cuerpo:400;
-  --peso-display:400;
-  --peso-ui:500;
-  --peso-fuerte:500;
+  --peso-display:500;
+  --peso-ui:600;
+  --peso-fuerte:600;
 
   color-scheme:light;
+}
+
+/* --- la banda de cabecera tiene color propio en los dos temas ---
+   Es lo que hace que el sitio se lea como una casa y no como una plantilla:
+   la marca vive sobre su propio material, no sobre el fondo de la página.
+   El orden importa: primero el valor por defecto, después el del tema
+   claro, porque :root y [data-tema] pesan igual y gana el último. */
+:root,
+[data-tema="oscuro"]{
+  --head-bg:#171209;
+  --head-txt:#EFE5D3;
+  --head-txt2:#A2937A;
+  --head-line:rgba(239,229,211,.13);
+}
+[data-tema="claro"]{
+  --head-bg:#241C13;
+  --head-txt:#F2E9DA;
+  --head-txt2:#B9AB93;
+  --head-line:rgba(242,233,218,.16);
 }
 
 /* ---------- 2. base ------------------------------------------------------ */
@@ -239,129 +262,140 @@ h1,h2,h3,h4{
 }
 .link:hover::after,.link:focus-visible::after{transform:scaleX(1);transform-origin:left}
 
-/* ---------- 4. cabecera -------------------------------------------------- */
+/* ---------- 4. cabecera --------------------------------------------------
+   Tres pisos, y el del medio manda:
+     1. cinta de aviso
+     2. fila de marca      · los tres mundos a la izquierda, la marca al
+                             centro, acabado y carrito a la derecha
+     3. fila contextual    · cambia según el mundo: en Catálogo salen las
+                             categorías; en Diseño de interiores, el estudio
+                             y los proyectos. Nada de barras separadoras.
+   Toda la banda va sobre su propio color, no sobre el fondo de la página.
+   ------------------------------------------------------------------------ */
 
 .head{
   position:sticky;top:0;z-index:60;
-  background:var(--bg);
-  border-bottom:1px solid var(--line2);
-  transition:background-color .5s var(--ease),border-color .5s var(--ease);
+  background:var(--head-bg);
+  color:var(--head-txt);
+  transition:background-color .5s var(--ease);
 }
 .hwrap{max-width:var(--maxw);margin-inline:auto;padding-inline:var(--gut)}
 
-/* cinta de aviso */
-.aviso{background:var(--bg2);border-bottom:1px solid var(--line2)}
+/* --- 1. cinta de aviso --- */
+.aviso{background:rgba(0,0,0,.3);border-bottom:1px solid var(--head-line)}
 .aviso p{
   margin:0;height:var(--h-aviso);display:flex;align-items:center;justify-content:center;gap:.9rem;
   padding-inline:var(--gut);
-  font-family:var(--sans);font-size:var(--t-xs);font-weight:var(--peso-cuerpo);letter-spacing:.16em;
-  text-transform:uppercase;color:var(--txt3);
+  font-family:var(--sans);font-size:.68rem;font-weight:400;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--head-txt2);
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
-.aviso i{width:3px;height:3px;background:var(--oro);transform:rotate(45deg);flex:none;display:inline-block}
-/* En móvil sólo cabe una frase. Antes entraban las tres y el recorte
-   centrado cortaba las palabras por los dos lados. */
+.aviso i{width:3px;height:3px;background:var(--oro-lt);transform:rotate(45deg);flex:none;display:inline-block}
 @media(max-width:760px){
-  .aviso p{font-size:.58rem;letter-spacing:.12em;gap:.5rem}
+  .aviso p{font-size:.6rem;letter-spacing:.12em;gap:.5rem}
   .ann-x{display:none}
 }
 
-/* fila de marca */
+/* --- 2. fila de marca --- */
 .hrow{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:1rem;height:var(--h-marca)}
 .hleft{display:flex;align-items:center;gap:clamp(1rem,2.2vw,2.4rem);min-width:0}
-.hright{display:flex;align-items:center;justify-content:flex-end;gap:clamp(.35rem,1.2vw,1.2rem)}
+.hright{display:flex;align-items:center;justify-content:flex-end;gap:clamp(.4rem,1.1vw,1rem)}
 
-.hl{
-  cursor:pointer;font-family:var(--sans);font-size:var(--t-xs);font-weight:var(--peso-ui);
-  letter-spacing:.2em;text-transform:uppercase;color:var(--txt2);white-space:nowrap;
-  padding:.4rem 0;border-bottom:1px solid transparent;
+/* los tres mundos */
+.mundos-nav{display:flex;align-items:center;gap:clamp(1.1rem,2.2vw,2.3rem)}
+@media(max-width:1179px){.mundos-nav{display:none}}
+.mundos-nav button{
+  cursor:pointer;font-family:var(--sans);font-size:.82rem;font-weight:500;
+  letter-spacing:.02em;color:var(--head-txt2);white-space:nowrap;
+  padding:.35rem 0;border-bottom:1px solid transparent;
   transition:color var(--rapido),border-color var(--rapido);
 }
-.hl:hover,.hl.on{color:var(--txt);border-bottom-color:var(--oro)}
-@media(max-width:1179px){.hl{display:none}}
+.mundos-nav button:hover{color:var(--head-txt)}
+.mundos-nav button.on{color:var(--head-txt);border-bottom-color:var(--head-txt)}
 
 .brand{display:block;line-height:0;justify-self:center}
-.brand img{height:calc(var(--h-marca) - 22px);width:auto;max-width:100%;opacity:var(--logo-op)}
-[data-tema="claro"] .brand .logo-oscuro{display:none}
-[data-tema="oscuro"] .brand .logo-claro{display:none}
+.brand img{height:calc(var(--h-marca) - 24px);width:auto;max-width:100%}
+/* Sobre la banda oscura va siempre el logo dorado sobre negro recortado:
+   la variante bronce es para fondos claros y aquí desaparecería. */
+.brand .logo-claro{display:none}
+.brand .logo-oscuro{display:block}
+
+.pro-btn{
+  cursor:pointer;border:1px solid var(--head-line);color:var(--head-txt2);
+  padding:.5rem .95rem;white-space:nowrap;
+  font-family:var(--sans);font-size:.7rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+  transition:border-color var(--rapido),color var(--rapido);
+}
+.pro-btn:hover{border-color:var(--oro-lt);color:var(--oro-lt)}
+@media(max-width:1319px){.pro-btn{display:none}}
 
 .ib{
-  cursor:pointer;padding:.55rem;color:var(--txt2);position:relative;line-height:0;
+  cursor:pointer;padding:.5rem;color:var(--head-txt2);position:relative;line-height:0;
   transition:color var(--rapido);
 }
-.ib:hover{color:var(--oro)}
-.ib svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.15;
+.ib:hover{color:var(--oro-lt)}
+.ib svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.2;
   stroke-linecap:round;stroke-linejoin:round}
 .badge{
-  position:absolute;top:1px;right:0;min-width:16px;height:16px;padding:0 3px;
-  background:var(--oro);color:var(--sobre-oro);
-  font-family:var(--sans);font-size:.56rem;font-weight:500;letter-spacing:0;
+  position:absolute;top:0;right:-1px;min-width:16px;height:16px;padding:0 3px;
+  background:var(--oro-lt);color:#171209;
+  font-family:var(--sans);font-size:.6rem;font-weight:600;letter-spacing:0;
   display:grid;place-items:center;line-height:1;
 }
 .badge[data-cero="1"]{display:none}
 
-/* Interruptor de tema.
-   No es un control de desarrollador con dos pestañas: son dos muestras del
-   material de la página, como se elige un acabado. Cuadradas, porque en
-   este sitio no hay una sola forma redonda. */
-.tema{display:flex;align-items:center;gap:.55rem;margin-left:.7rem;flex:none}
-.tema .tlbl{
-  font-family:var(--sans);font-size:.56rem;letter-spacing:.24em;text-transform:uppercase;
-  color:var(--txt3);white-space:nowrap;
-}
-@media(max-width:1320px){.tema .tlbl{display:none}}
-.tema .tsw{display:flex;gap:.35rem}
+/* Interruptor de acabado: sol y luna, sin cajas.
+   El activo se enciende en oro; el otro se queda apagado. */
+.tema{display:flex;align-items:center;gap:.15rem;margin-left:.3rem;flex:none}
 .tema button{
-  width:19px;height:19px;cursor:pointer;flex:none;position:relative;
-  border:1px solid var(--line);
-  transition:border-color var(--rapido),transform var(--rapido);
+  cursor:pointer;padding:.45rem;line-height:0;color:var(--head-txt2);
+  opacity:.55;
+  transition:color var(--rapido),opacity var(--rapido),transform var(--rapido);
 }
-.tema button[data-tema-set="claro"]{background:#FBFAF7}
-.tema button[data-tema-set="oscuro"]{background:#0E0C09}
-.tema button:hover{border-color:var(--oro);transform:translateY(-1px)}
-/* la muestra activa se marca con un filete exterior, no con relleno:
-   así el cuadrado sigue enseñando su color de verdad */
-.tema button[aria-pressed="true"]{
-  border-color:var(--oro);
-  box-shadow:0 0 0 1px var(--bg),0 0 0 2px var(--oro);
-}
+.tema button svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.4;
+  stroke-linecap:round;stroke-linejoin:round}
+.tema button:hover{opacity:1;color:var(--head-txt);transform:translateY(-1px)}
+.tema button[aria-pressed="true"]{opacity:1;color:var(--oro-lt)}
 @media(max-width:900px){.head .tema{display:none}}
 
-/* fila de catálogo */
+/* --- 3. fila contextual --- */
 .nrow{display:none;align-items:center;justify-content:space-between;gap:2rem;
-  height:var(--h-nav);border-top:1px solid var(--line2)}
+  height:var(--h-nav);border-top:1px solid var(--head-line)}
 @media(min-width:1180px){.nrow{display:flex}}
 
-.cats{display:flex;align-items:center;gap:clamp(1rem,2.1vw,2.6rem);flex-wrap:nowrap;min-width:0}
+.cats{display:flex;align-items:center;gap:clamp(1.1rem,2.1vw,2.4rem);flex-wrap:nowrap;min-width:0}
 .cats button{
-  cursor:pointer;font-family:var(--sans);font-size:var(--t-xs);font-weight:var(--peso-ui);
-  letter-spacing:.24em;text-transform:uppercase;color:var(--txt2);
-  padding:.7rem 0;white-space:nowrap;position:relative;transition:color var(--rapido);
+  cursor:pointer;font-family:var(--sans);font-size:.72rem;font-weight:600;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--head-txt2);
+  padding:.65rem 0;white-space:nowrap;position:relative;transition:color var(--rapido);
 }
 .cats button::after{
-  content:"";position:absolute;left:50%;right:50%;bottom:.35rem;height:1px;background:var(--oro);
+  content:"";position:absolute;left:50%;right:50%;bottom:.3rem;height:1px;background:var(--head-txt);
   transition:left var(--medio),right var(--medio);
 }
-.cats button:hover,.cats button.active,.cats button[aria-expanded="true"]{color:var(--txt)}
+.cats button:hover,.cats button.active,.cats button[aria-expanded="true"]{color:var(--head-txt)}
 .cats button:hover::after,.cats button.active::after,.cats button[aria-expanded="true"]::after{left:0;right:0}
-.cats .div{flex:none;width:1px;height:13px;background:var(--line);margin-inline:.3rem}
+/* sin barras separadoras: el grupo secundario se separa con aire */
+.cats .hueco{flex:none;width:clamp(1rem,2.4vw,2.6rem)}
 
 .hsearch{
   display:flex;align-items:center;gap:.7rem;cursor:pointer;
-  border:1px solid var(--line);color:var(--txt3);background:transparent;
-  padding:.6rem 1.1rem;min-width:230px;
-  font-family:var(--sans);font-size:var(--t-xs);font-weight:var(--peso-cuerpo);letter-spacing:.1em;
-  transition:border-color var(--rapido),color var(--rapido);
+  border:1px solid var(--head-line);color:var(--head-txt2);
+  background:rgba(255,255,255,.05);
+  padding:.55rem 1.1rem;min-width:240px;
+  font-family:var(--sans);font-size:.78rem;font-weight:400;letter-spacing:.01em;
+  transition:border-color var(--rapido),color var(--rapido),background-color var(--rapido);
 }
-.hsearch:hover{border-color:var(--oro-dk);color:var(--txt2)}
-.hsearch svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.2;flex:none}
+.hsearch:hover{border-color:var(--oro-lt);color:var(--head-txt);background:rgba(255,255,255,.09)}
+.hsearch svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.4;flex:none}
 
 .burger{display:grid;gap:5px;cursor:pointer;padding:.4rem;flex:none}
 @media(min-width:1180px){.burger{display:none}}
-.burger .bl{display:block;width:20px;height:1px;background:var(--txt);transition:transform var(--medio),opacity var(--medio)}
-.burger[aria-expanded="true"] .bl:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.burger .bl{display:block;width:21px;height:1.4px;background:var(--head-txt);
+  transition:transform var(--medio),opacity var(--medio)}
+.burger[aria-expanded="true"] .bl:nth-child(1){transform:translateY(6.4px) rotate(45deg)}
 .burger[aria-expanded="true"] .bl:nth-child(2){opacity:0}
-.burger[aria-expanded="true"] .bl:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+.burger[aria-expanded="true"] .bl:nth-child(3){transform:translateY(-6.4px) rotate(-45deg)}
 
 .solo-m{display:inline-flex}
 @media(min-width:1180px){.solo-m{display:none}}
@@ -437,10 +471,16 @@ h1,h2,h3,h4{
   border-bottom:1px solid var(--line2);
   font-family:var(--display);font-size:1.32rem;font-weight:var(--peso-display);color:var(--txt);
 }
-.mnav .tema{display:flex;margin:2rem 0 0;padding-top:1.6rem;border-top:1px solid var(--line2);
-  width:100%;justify-content:space-between}
-.mnav .tema .tlbl{display:inline}
-.mnav .tema button{width:26px;height:26px}
+.mnav .tema{display:flex;align-items:center;margin:2rem 0 0;padding-top:1.6rem;
+  border-top:1px solid var(--line2);width:100%;justify-content:space-between}
+.mnav .tema .tlbl{
+  display:inline;font-family:var(--sans);font-size:var(--t-xs);font-weight:var(--peso-ui);
+  letter-spacing:.24em;text-transform:uppercase;color:var(--txt3);
+}
+.mnav .tema .tsw{display:flex;gap:.5rem}
+.mnav .tema button{color:var(--txt3);padding:.4rem}
+.mnav .tema button svg{width:20px;height:20px}
+.mnav .tema button[aria-pressed="true"]{color:var(--oro);opacity:1}
 
 .scrim{
   position:fixed;inset:0;background:rgba(6,5,3,.62);z-index:110;
@@ -672,12 +712,41 @@ h1,h2,h3,h4{
 .pr-hero h1{font-size:var(--t-2xl);max-width:18ch}
 .pr-hero .eyebrow{color:var(--oro-lt)}
 
+/* el encargo y la inspiración, a dos columnas antes de las fotos */
+.pr-brief{display:grid;grid-template-columns:1fr;gap:clamp(2rem,4vw,4.5rem);
+  padding-block:clamp(2.5rem,5vw,4.5rem)}
+@media(min-width:820px){.pr-brief{grid-template-columns:1fr 1fr;gap:clamp(3rem,7vw,8rem)}}
+.pr-brief article{display:grid;gap:1.1rem;align-content:start}
+.pr-brief p{margin:0;color:var(--txt2);font-size:var(--t-md);line-height:1.85;max-width:46ch}
+
+/* la frase que resume el proyecto */
+.pr-cita{
+  margin:0;padding-block:clamp(2.5rem,6vw,6rem);
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  text-align:center;
+}
+.pr-cita[hidden]{display:none}
+.pr-cita blockquote{
+  margin:0 auto;max-width:26ch;
+  font-family:var(--display);font-weight:var(--peso-display);
+  font-size:clamp(1.6rem,3.4vw,2.8rem);line-height:1.16;color:var(--txt);
+}
+.pr-cita blockquote::before{content:"«";color:var(--oro);margin-right:.1em}
+.pr-cita blockquote::after{content:"»";color:var(--oro);margin-left:.1em}
+
 .pr-body{display:grid;grid-template-columns:1fr;gap:clamp(2rem,4vw,4rem)}
 @media(min-width:960px){.pr-body{grid-template-columns:1.55fr .85fr;gap:clamp(3rem,6vw,7rem)}}
 .pr-texto p{margin:0 0 1.4rem;max-width:62ch;font-size:var(--t-md);line-height:1.85;color:var(--txt2)}
-.pr-texto p:first-child::first-letter{
-  font-family:var(--display);font-size:3.6em;line-height:.82;float:left;
-  margin:.06em .12em 0 0;color:var(--oro);font-weight:var(--peso-display);
+
+.pr-mats{display:grid;gap:.9rem;margin-top:clamp(2rem,4vw,3rem)}
+.pr-mats .mats-t{
+  font-family:var(--sans);font-size:var(--t-xs);font-weight:var(--peso-ui);letter-spacing:.22em;
+  text-transform:uppercase;color:var(--txt3);
+}
+.pr-mats ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:.5rem}
+.pr-mats li{
+  border:1px solid var(--line);padding:.45rem .9rem;
+  font-family:var(--sans);font-size:.76rem;color:var(--txt2);
 }
 .pr-datos{display:grid;gap:0;align-content:start;border-top:1px solid var(--line)}
 .pr-datos div{display:grid;gap:.3rem;padding:1.1rem 0;border-bottom:1px solid var(--line2)}
