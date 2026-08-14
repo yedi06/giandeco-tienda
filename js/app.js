@@ -75,7 +75,8 @@ function observar(n){ if(observador && n){ n.setAttribute("data-rev",""); observ
 
 /* ---------- 3. navegación entre vistas ----------------------------------- */
 
-var VIEWS = ["home","cat","pdp","uni","proyectos","proyecto","servicios","espacios","esp","cuaderno","pro"];
+var VIEWS = ["home","cat","pdp","uni","proyectos","proyecto","servicios","universo",
+             "espacios","esp","cuaderno","contacto"];
 
 function show(v){
   VIEWS.forEach(function(x){
@@ -111,6 +112,8 @@ function go(ruta){
   if(v==="unicos"){ openCat("unicos"); return; }
   if(v==="proyectos"){ crumb($("#proyCrumb"),[{t:"Inicio",go:"home"},{t:"Proyectos"}]); show("proyectos"); return; }
   if(v==="servicios"){ crumb($("#serCrumb"),[{t:"Inicio",go:"home"},{t:"Servicios"}]); show("servicios"); return; }
+  if(v==="universo"){ crumb($("#uvCrumb"),[{t:"Inicio",go:"home"},{t:"El estudio"}]); show("universo"); return; }
+  if(v==="contacto"){ crumb($("#contCrumb"),[{t:"Inicio",go:"home"},{t:"Contacto"}]); show("contacto"); return; }
   if(v==="espacios"){ crumb($("#espCrumb"),[{t:"Inicio",go:"home"},{t:"Compra el espacio"}]); show("espacios"); return; }
   if(v==="cuaderno"){ crumb($("#cuaCrumb"),[{t:"Inicio",go:"home"},{t:"Blog"}]); show("cuaderno"); return; }
   show(v);
@@ -187,20 +190,21 @@ function tile(img, titulo, kicker, ruta){
 
 /* ---------- 6. tarjeta de proyecto --------------------------------------- */
 
-function proyCard(pr, i){
-  var b = el("article","proj");
-  b.setAttribute("role","button");
-  b.setAttribute("tabindex","0");
+/* La ficha va dentro de la foto: ubicación arriba en versalita, nombre
+   debajo en serif, todo centrado. El detalle del encargo sólo aparece al
+   pasar el puntero, para que la rejilla en reposo respire. */
+function proyCard(pr){
+  var b = el("button","proj");
+  b.type = "button";
   b.innerHTML =
-    '<figure><span class="num">'+String(i+1).padStart(2,"0")+'</span>'+
-      '<img src="'+src(pr.cover)+'" alt="'+pr.t+' — '+pr.sub+'" loading="lazy" /></figure>'+
-    '<div class="proj-meta"><span class="k">'+pr.linea+'</span>'+
-      '<h3>'+pr.t+'</h3><p class="d">'+pr.sub+' · '+pr.lugar+' · '+pr.anio+'</p></div>';
-  function abrir(){ go("proyecto:"+pr.slug); }
-  b.addEventListener("click", abrir);
-  b.addEventListener("keydown", function(e){
-    if(e.key==="Enter" || e.key===" "){ e.preventDefault(); abrir(); }
-  });
+    '<img src="'+src(pr.cover)+'" alt="'+pr.t+' — '+pr.sub+'" loading="lazy" />'+
+    '<span class="veil"></span>'+
+    '<span class="proj-meta">'+
+      '<span class="k">'+pr.lugar+'</span>'+
+      '<h3>'+pr.t+'</h3>'+
+      '<p class="d">'+pr.sub+'</p>'+
+    '</span>';
+  b.addEventListener("click", function(){ go("proyecto:"+pr.slug); });
   return b;
 }
 
@@ -332,19 +336,24 @@ safe(function menuMovil(){
   });
 
   [["unicos","Piezas únicas"],["espacios","Compra el espacio"],["proyectos","Proyectos"],
-   ["servicios","Servicios"],["cuaderno","Blog"],["pro","Espacio profesional"]].forEach(function(x){
+   ["servicios","Servicios"],["universo","El estudio"],["cuaderno","Blog"],
+   ["contacto","Contacto"]].forEach(function(x){
     var b = el("button","mlink",x[1]); b.type="button";
     b.addEventListener("click", function(){ cerrarMovil(); go(x[0]); });
     body.appendChild(b);
   });
 
   var tema = el("div","tema");
-  tema.setAttribute("role","group"); tema.setAttribute("aria-label","Tema del sitio");
-  [["oscuro","Oscuro"],["claro","Claro"]].forEach(function(x){
-    var b = el("button",null,x[1]); b.type="button"; b.dataset.temaSet = x[0];
+  tema.setAttribute("role","group"); tema.setAttribute("aria-label","Acabado del sitio");
+  tema.appendChild(el("span","tlbl","Acabado"));
+  var sw = el("span","tsw");
+  [["claro","Acabado claro"],["oscuro","Acabado oscuro"]].forEach(function(x){
+    var b = el("button"); b.type="button"; b.dataset.temaSet = x[0];
+    b.setAttribute("aria-label", x[1]);
     b.setAttribute("aria-pressed", String(document.documentElement.getAttribute("data-tema")===x[0]));
-    tema.appendChild(b);
+    sw.appendChild(b);
   });
+  tema.appendChild(sw);
   body.appendChild(tema);
 
   mnav.appendChild(body);
@@ -404,8 +413,8 @@ safe(function portada(){
 
   /* proyectos destacados */
   var hp = $("#homeProy");
-  if(hp) PROYECTOS.slice(0,4).forEach(function(pr,i){
-    var n = proyCard(pr,i); hp.appendChild(n); observar(n);
+  if(hp) PROYECTOS.slice(0,4).forEach(function(pr){
+    hp.appendChild(proyCard(pr));
   });
 
   /* novedades */
@@ -750,7 +759,7 @@ function renderProyectos(){
   var lista = (filtroProy==="todos")
     ? PROYECTOS
     : PROYECTOS.filter(function(p){ return p.linea===filtroProy; });
-  lista.forEach(function(pr,i){ g.appendChild(proyCard(pr,i)); });
+  lista.forEach(function(pr){ g.appendChild(proyCard(pr)); });
   if(!lista.length) g.appendChild(el("p","empty","No hay proyectos en esta línea todavía."));
 }
 
@@ -836,6 +845,25 @@ safe(function servicios(){
     observar(a);
   });
 }, "servicios");
+
+/* ---------- 13 bis. nuestro universo ------------------------------------- */
+
+safe(function universo(){
+  var box = $("#uvCaps");
+  if(!box) return;
+  UNIVERSO.forEach(function(c){
+    var a = el("article","cap-item");
+    a.innerHTML =
+      '<figure><img src="'+src(c.img)+'" alt="'+c.sobre+' '+c.titulo+'" loading="lazy" /></figure>'+
+      '<div class="cap-txt">'+
+        '<span class="cap-doble"><span class="sobre">'+c.sobre+'</span>'+
+        '<span class="grande">'+c.titulo+'</span></span>'+
+        c.txt.map(function(p){ return "<p>"+p+"</p>"; }).join("")+
+      '</div>';
+    box.appendChild(a);
+    observar(a);
+  });
+}, "universo");
 
 /* ---------- 14. compra el espacio ---------------------------------------- */
 
@@ -1027,11 +1055,22 @@ safe(function pie(){
 }, "pie");
 
 safe(function formulario(){
-  var f = $("#proForm");
+  var f = $("#contForm");
   if(!f) return;
   f.addEventListener("submit", function(e){
     e.preventDefault();
-    var ok = $("#proOk");
+    /* La maqueta no envía a ningún lado todavía: valida, confirma y limpia.
+       Al conectar el backend, sustituir esto por el envío real. */
+    var faltan = ["#cNombre","#cCorreo","#cMsg"].filter(function(sel){
+      var n = $(sel);
+      return !n || !n.value.trim();
+    });
+    if(faltan.length){
+      var primero = $(faltan[0]);
+      if(primero) primero.focus();
+      return;
+    }
+    var ok = $("#contOk");
     if(ok) ok.hidden = false;
     f.reset();
   });

@@ -303,6 +303,30 @@ var LINEAS = [
    li:["Diseño y plano de despiece","Fabricación en taller propio","Prototipo antes de la serie","Instalación y postventa"]}
 ];
 
+/* ---------- nuestro universo --------------------------------------------
+   Capítulos narrativos. El titular va en dos registros: una línea corta en
+   cursiva y una palabra grande en versalitas debajo. La imagen alterna de
+   lado para que la lectura tenga pulso.
+   ------------------------------------------------------------------------ */
+
+var UNIVERSO = [
+  {sobre:"Una casa", titulo:"De oficio", img:"blog-2",
+   txt:["Giandeco no empezó en un escritorio. Empezó en obra, midiendo paredes que no estaban a escuadra y resolviendo con lo que había. Esa manera de trabajar no se fue nunca: el estudio sigue entrando a los proyectos por donde se ensucian las manos.",
+        "De ahí viene lo que hoy lo distingue. Un plano se dibuja rápido; hacer que ese plano exista en un departamento de Lima, con sus plazos y sus proveedores, es otro oficio. El estudio hace los dos."]},
+
+  {sobre:"Una mirada", titulo:"Propia", img:"uni-mirada",
+   txt:["Neutros cálidos, madera que envejece bien, latón que toma pátina. La paleta del estudio no persigue la temporada: persigue que el espacio siga funcionando dentro de diez años, cuando la temporada ya pasó.",
+        "No se trata de que todo combine. Se trata de que nada grite. Un ambiente resuelto se reconoce porque no se nota el esfuerzo, y esa discreción es lo más difícil de conseguir."]},
+
+  {sobre:"Un taller", titulo:"Propio", img:"uni-taller",
+   txt:["El estudio fabrica. Tiene taller, plano de despiece y prototipo antes de la serie. Por eso un exhibidor de tienda y un mueble de casa salen igual de bien: los hace la misma gente, con el mismo control.",
+        "Tercerizar la fabricación significa esperar tres semanas por una corrección. Con taller propio se corrige en dos días, y por eso los plazos de campaña se cumplen."]},
+
+  {sobre:"Una manera", titulo:"De trabajar", img:"pr-plano-1",
+   txt:["Gian dirige cada proyecto. No hay un ejecutivo de cuenta traduciendo entre el cliente y quien decide: el que escucha en la primera reunión es el mismo que firma el plano y el que aparece en obra.",
+        "El estudio trabaja con alcance escrito. Antes de empezar, el cliente sabe qué se hace, qué no se hace y quién paga cada cosa. Eso evita casi todos los problemas que aparecen después."]}
+];
+
 /* ---------- proyectos ----------------------------------------------------
    Fotografías reales del estudio. Los nombres de cliente, años y alcances
    están puestos como ejemplo para la maqueta: Gian debe confirmarlos y
