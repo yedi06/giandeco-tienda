@@ -82,8 +82,13 @@ function observar(n){ if(observador && n){ n.setAttribute("data-rev",""); observ
 
 /* ---------- 3. navegación entre vistas ----------------------------------- */
 
-var VIEWS = ["home","cat","pdp","uni","proyectos","proyecto","servicios","universo",
-             "espacios","esp","cuaderno","contacto"];
+var VIEWS = ["home","cat","pronto","pdp","uni","proyectos","proyecto","servicio",
+             "nosotros","espacios","esp","cuaderno","contacto"];
+
+/* El mundo en el que está el visitante. Proyectos, blog y contacto son los
+   mismos componentes para Retail y para Hogar: lo que cambia es este valor,
+   y de él cuelgan el filtro del contenido y la fila del encabezado. */
+var mundoActivo = "catalogo";
 
 function show(v, arg){
   VIEWS.forEach(function(x){
@@ -94,9 +99,12 @@ function show(v, arg){
   /* La segunda fila del encabezado sigue al mundo en el que se entra.
      En la portada se queda la del catálogo, que es la que más se usa. */
   var m = mundoDeVista(v);
-  pintarFila(m || "catalogo");
+  pintarFila(m);
   $$("#mundosNav button").forEach(function(b){
-    b.classList.toggle("on", !!m && b.dataset.mundo===m);
+    b.classList.toggle("on", b.dataset.mundo===m);
+  });
+  $$("#paginasNav button").forEach(function(b){
+    b.classList.toggle("on", b.dataset.pagina===v);
   });
   marcarFila(v, arg);
 }
@@ -116,20 +124,48 @@ function crumb(node, partes){
   });
 }
 
+/* Nombre del mundo tal y como se enseña al visitante. */
+function nombreMundo(id){
+  var m = MUNDOS.filter(function(x){ return x.id===id; })[0];
+  return m ? m.nombre : "";
+}
+
+/* Migas comunes: Inicio / <mundo> / <donde esté>. Estando en Retail o en
+   Hogar, la miga del medio devuelve a esa portada de servicio. */
+function migas(nodo, hoja){
+  var partes = [{t:"Inicio", go:"home"}];
+  if(mundoActivo==="retail" || mundoActivo==="hogar"){
+    partes.push({t:nombreMundo(mundoActivo), go:mundoActivo});
+  }
+  partes.push({t:hoja});
+  crumb(nodo, partes);
+}
+
 function go(ruta){
   var a = String(ruta).split(":"), v = a[0], arg = a[1];
+
+  if(v==="retail" || v==="hogar"){ abrirServicio(v); return; }
+  if(v==="nosotros"){ renderNosotros(); crumb($("#nsCrumb"),[{t:"Inicio",go:"home"},{t:"Quiénes somos"}]); show("nosotros"); return; }
+
   if(v==="cat"){ openCat(arg); return; }
   if(v==="pdp"){ openPdp(arg); return; }
   if(v==="uni"){ openUni(arg); return; }
   if(v==="esp"){ openEsp(arg); return; }
   if(v==="proyecto"){ openProyecto(arg); return; }
   if(v==="unicos"){ openCat("unicos"); return; }
-  if(v==="proyectos"){ crumb($("#proyCrumb"),[{t:"Inicio",go:"home"},{t:"Proyectos"}]); show("proyectos","proyectos"); return; }
-  if(v==="servicios"){ crumb($("#serCrumb"),[{t:"Inicio",go:"home"},{t:"Servicios"}]); show("servicios","servicios"); return; }
-  if(v==="universo"){ crumb($("#uvCrumb"),[{t:"Inicio",go:"home"},{t:"El estudio"}]); show("universo","universo"); return; }
-  if(v==="contacto"){ crumb($("#contCrumb"),[{t:"Inicio",go:"home"},{t:"Contacto"}]); show("contacto","contacto"); return; }
+
+  if(v==="proyectos"){
+    renderProyectos();
+    migas($("#proyCrumb"), "Proyectos");
+    show("proyectos","proyectos"); return;
+  }
+  if(v==="cuaderno"){
+    renderBlog();
+    migas($("#cuaCrumb"), "Blog");
+    show("cuaderno","cuaderno"); return;
+  }
+  if(v==="contacto"){ migas($("#contCrumb"), "Contacto"); show("contacto","contacto"); return; }
   if(v==="espacios"){ crumb($("#espCrumb"),[{t:"Inicio",go:"home"},{t:"Compra el espacio"}]); show("espacios","espacios"); return; }
-  if(v==="cuaderno"){ crumb($("#cuaCrumb"),[{t:"Inicio",go:"home"},{t:"Blog"}]); show("cuaderno","cuaderno"); return; }
   show(v);
 }
 
@@ -158,7 +194,9 @@ function card(p){
            : (p.stock==="out" ? '<span class="flag">Bajo pedido</span>' : "");
   c.innerHTML =
     '<figure>'+flag+'<img src="'+src(p.img)+'" alt="'+p.name+' — '+p.tag+'" loading="lazy" />'+
-      '<button class="quick" type="button">'+(p.uni?"Ver la pieza":"Añadir al carrito")+'</button></figure>'+
+      '<button class="quick" type="button">'+
+        (p.uni ? "Ver la pieza" : (ECOMMERCE ? "Añadir al carrito" : "Ver la pieza"))+
+      '</button></figure>'+
     '<div class="body">'+swatches(p.colors)+'<span class="vname">'+p.colors[0]+'</span>'+
       '<h3>'+p.name+'</h3><p class="desc">'+p.tag+'</p>'+
       '<span class="pr">'+(p.colors.length>1?'<small>Desde </small>':'')+money(p.price)+'</span></div>';
@@ -169,6 +207,7 @@ function card(p){
   c.querySelector(".quick").addEventListener("click", function(e){
     e.stopPropagation();
     if(p.uni){ go("uni:"+p.id); return; }
+    if(!ECOMMERCE){ go("pdp:"+p.id); return; }
     add(p.id,1); openCart(true);
   });
   return c;
@@ -192,14 +231,52 @@ function subImg(slug,sub){
    y aguanta el tamaño que el cliente pidió.
    ------------------------------------------------------------------------ */
 
-function tile(img, titulo, kicker, ruta){
-  var b = el("button","tile"); b.type = "button";
+function tile(img, titulo, kicker, ruta, pronto){
+  var b = el("button", "tile" + (pronto ? " tile-pronto" : "")); b.type = "button";
   b.innerHTML =
     '<img src="'+src(img)+'" alt="" loading="lazy" />'+
     '<span class="veil"></span>'+
+    (pronto ? '<span class="sello">Próximamente</span>' : '')+
     '<span class="cap"><span>'+kicker+'</span><b>'+titulo+'</b></span>';
   b.addEventListener("click", function(){ go(ruta); });
   return b;
+}
+
+/* ---------- 5 bis. boceto y obra -----------------------------------------
+   Dos capas en el mismo marco: el dibujo debajo y la fotografía encima,
+   recortada por la posición del tirador. El control es un input de rango
+   estirado sobre el marco, así que funciona con ratón, con el dedo y con el
+   teclado sin escribir nada de eso a mano.
+
+   Ni una palabra sobre la imagen: el cliente lo pidió limpio.
+   ------------------------------------------------------------------------ */
+
+function bocetoObra(clave, pie){
+  if(!tieneBoceto(clave)) return null;
+
+  var caja = el("figure","bc");
+  caja.innerHTML =
+    '<div class="bc-marco">'+
+      '<img class="bc-sk" src="'+IMG+'sk-'+clave+'.jpg" alt="Boceto a lápiz del ambiente" loading="lazy" />'+
+      '<div class="bc-obra"><img src="'+src(clave)+'" alt="El mismo ambiente, ya construido" loading="lazy" /></div>'+
+      '<span class="bc-linea" aria-hidden="true"><i></i></span>'+
+      '<input class="bc-rango" type="range" min="0" max="100" value="50" step="0.1" '+
+             'aria-label="Deslice para pasar del boceto a la obra terminada" />'+
+    '</div>'+
+    '<figcaption class="bc-pie">'+
+      '<span>Boceto</span>'+
+      (pie ? '<em>'+pie+'</em>' : '')+
+      '<span>Obra</span>'+
+    '</figcaption>';
+
+  var marco = caja.querySelector(".bc-marco");
+  var rango = caja.querySelector(".bc-rango");
+
+  function mover(){ marco.style.setProperty("--x", rango.value + "%"); }
+  rango.addEventListener("input", mover);
+  mover();
+
+  return caja;
 }
 
 /* ---------- 6. tarjeta de proyecto --------------------------------------- */
@@ -260,77 +337,101 @@ function abrirMega(t, boton){
   mega.hidden = false;
 }
 
-/* ---------- 7 bis. los tres mundos ---------------------------------------
-   La cabecera se organiza como la casa: arriba los tres mundos y debajo
-   una fila que cambia según en cuál se esté. Estando en la tienda salen
-   las categorías; estando en diseño de interiores, el estudio y los
-   proyectos. Nada de barras separadoras: separa el aire.
+/* ---------- 7 bis. los tres mundos y las dos páginas ---------------------
+   El negocio tiene tres servicios —Retail, Hogar y el catálogo— y dos
+   páginas que no dependen de ninguno: Quiénes somos y Contacto. La cabecera
+   se organiza igual: los mundos a la izquierda, las páginas a la derecha.
+
+   Entrar a un mundo cambia la fila de abajo y filtra lo que se enseña.
+   Estando en Retail, Proyectos y Blog sólo traen retail.
    ------------------------------------------------------------------------ */
 
 var MUNDOS = [
-  {id:"catalogo",  nombre:"Catálogo",             ir:"cat:asientos",
-   vistas:["cat","pdp","uni","esp","espacios"]},
-  {id:"interiores",nombre:"Diseño de interiores", ir:"servicios",
-   vistas:["servicios","proyectos","proyecto"]},
-  {id:"universo",  nombre:"Nuestro universo",     ir:"universo",
-   vistas:["universo","cuaderno","contacto"]}
+  {id:"retail",   nombre:"Retail",   ir:"retail"},
+  {id:"hogar",    nombre:"Hogar",    ir:"hogar"},
+  {id:"catalogo", nombre:"Catálogo", ir:"cat:mueble",
+   vistas:["cat","pronto","pdp","uni","esp","espacios"]}
+];
+
+var PAGINAS = [
+  {id:"nosotros", nombre:"Quiénes somos", ir:"nosotros"},
+  {id:"contacto", nombre:"Contacto",      ir:"contacto"}
 ];
 
 var mundoActual = null;
 
+/* Las vistas del catálogo se identifican solas. Proyectos, blog y contacto
+   son compartidos, así que mandan el mundo en el que se entró. Las dos
+   páginas fijas no pertenecen a ninguno y dejan la fila vacía. */
 function mundoDeVista(v){
-  var m = MUNDOS.filter(function(x){ return x.vistas.indexOf(v)>=0; })[0];
-  return m ? m.id : null;
+  if(v==="nosotros") return null;
+  var m = MUNDOS.filter(function(x){ return x.vistas && x.vistas.indexOf(v)>=0; })[0];
+  if(m){ mundoActivo = m.id; return m.id; }
+  if(v==="contacto" && mundoActivo!=="retail") return null;
+  return mundoActivo;
 }
 
 safe(function navMundos(){
   var nav = $("#mundosNav");
-  if(!nav) return;
-  MUNDOS.forEach(function(m){
+  if(nav) MUNDOS.forEach(function(m){
     var b = el("button",null,m.nombre); b.type="button";
     b.dataset.mundo = m.id;
     b.addEventListener("click", function(){ cerrarMega(); go(m.ir); });
     nav.appendChild(b);
   });
+
+  var pag = $("#paginasNav");
+  if(pag) PAGINAS.forEach(function(x){
+    var b = el("button",null,x.nombre); b.type="button";
+    b.dataset.pagina = x.id;
+    b.addEventListener("click", function(){ cerrarMega(); go(x.ir); });
+    pag.appendChild(b);
+  });
 }, "navMundos");
 
 /* Segunda fila: se vuelve a dibujar cada vez que se cambia de mundo. */
 function pintarFila(idMundo){
-  var cats = $("#cats"), buscar = $("#sBtn");
+  var cats = $("#cats"), buscar = $("#sBtn"), fila = $(".nrow");
   if(!cats) return;
   if(mundoActual === idMundo) return;
   mundoActual = idMundo;
   cats.innerHTML = "";
 
-  $$("#mundosNav button").forEach(function(b){
-    b.classList.toggle("on", b.dataset.mundo === idMundo);
-  });
+  /* Quiénes somos y Contacto no cuelgan de ningún mundo: la fila desaparece
+     entera en lugar de quedarse vacía ocupando sitio. */
+  if(fila) fila.hidden = !idMundo;
+  if(!idMundo) return;
 
   var finoMQ = window.matchMedia ? window.matchMedia("(hover:hover) and (pointer:fine)") : null;
   var punteroFino = function(){ return finoMQ ? finoMQ.matches : true; };
 
-  function simple(texto, ruta){
-    var b = el("button",null,texto); b.type="button";
+  function simple(texto, ruta, clase){
+    var b = el("button",clase||null,texto); b.type="button";
     b.dataset.ruta = ruta;
     b.addEventListener("click", function(){ cerrarMega(); go(ruta); });
     return b;
   }
 
-  if(idMundo === "interiores"){
-    cats.appendChild(simple("El estudio","servicios"));
+  if(idMundo === "retail"){
+    cats.appendChild(simple("Diseño de tiendas","retail"));
     cats.appendChild(simple("Proyectos","proyectos"));
-    if(buscar) buscar.style.visibility = "hidden";
-  } else if(idMundo === "universo"){
-    cats.appendChild(simple("Nuestro universo","universo"));
     cats.appendChild(simple("Blog","cuaderno"));
     cats.appendChild(simple("Contacto","contacto"));
     if(buscar) buscar.style.visibility = "hidden";
+
+  } else if(idMundo === "hogar"){
+    cats.appendChild(simple("Diseño de interiores","hogar"));
+    cats.appendChild(simple("Espacios","espacios"));
+    cats.appendChild(simple("Proyectos","proyectos"));
+    cats.appendChild(simple("Blog","cuaderno"));
+    if(buscar) buscar.style.visibility = "hidden";
+
   } else {
-    TAX.forEach(function(t){
+    /* Primero lo que ya se puede recorrer; después lo que todavía no abre,
+       atenuado pero clicable: cada línea tiene su propia página. */
+    catsActivas().forEach(function(t){
       var b = el("button",null,t.name); b.type="button";
       b.dataset.cat = t.slug; b.setAttribute("aria-expanded","false");
-      /* En escritorio el panel se abre al pasar el puntero y el clic lleva
-         directo a la categoría: en una tienda, el clic tiene que avanzar. */
       b.addEventListener("mouseenter", function(){ if(punteroFino()) abrirMega(t,b); });
       b.addEventListener("focus", function(){ if(punteroFino()) abrirMega(t,b); });
       b.addEventListener("click", function(e){
@@ -340,9 +441,12 @@ function pintarFila(idMundo){
       });
       cats.appendChild(b);
     });
-    cats.appendChild(el("span","hueco"));
     cats.appendChild(simple("Piezas únicas","unicos"));
     cats.appendChild(simple("Compra el espacio","espacios"));
+    cats.appendChild(el("span","hueco"));
+    catsPronto().forEach(function(t){
+      cats.appendChild(simple(t.name, "cat:"+t.slug, "pronto"));
+    });
     if(buscar) buscar.style.visibility = "";
   }
 }
@@ -351,7 +455,8 @@ function pintarFila(idMundo){
 function marcarFila(v, arg){
   $$("#cats button").forEach(function(b){
     var activo = (b.dataset.cat && b.dataset.cat===arg) ||
-                 (b.dataset.ruta && b.dataset.ruta===v);
+                 (b.dataset.ruta && b.dataset.ruta===v) ||
+                 (b.dataset.ruta==="cat:"+arg);
     b.classList.toggle("active", !!activo);
   });
 }
@@ -398,20 +503,17 @@ safe(function menuMovil(){
 
   var body = el("div","mnav-body");
 
-  TAX.forEach(function(t){
+  /* El móvil repite el árbol tal cual: tres servicios desplegables y las dos
+     páginas sueltas al final. Nada de duplicar el catálogo entero arriba. */
+  function grupo(titulo, entradas){
     var acc = el("div","macc");
-    var cab = el("button",null,t.name+'<span class="ar"></span>');
+    var cab = el("button",null,titulo+'<span class="ar"></span>');
     cab.type="button"; cab.setAttribute("aria-expanded","false");
-    var panel = el("div","mpanel");
-    t.subs.forEach(function(s){
-      var muestra = PRODUCTS.filter(function(p){ return p.cat===t.slug && p.sub===s.s; })[0];
-      if(!muestra) return;
-      var b = el("button","msub"); b.type="button";
-      b.innerHTML = '<span class="ph"><img src="'+src(muestra.img)+'" alt="" loading="lazy" /></span>'+
-                    '<span>'+s.name+'</span>';
-      b.addEventListener("click", function(){
-        cerrarMovil(); openCat(t.slug); state.sub = s.s; renderSubs(); applyCat();
-      });
+    var panel = el("div","mpanel mpanel-txt");
+    entradas.forEach(function(e){
+      var b = el("button","msub-txt" + (e[2] ? " pronto" : ""), e[1]);
+      b.type="button";
+      b.addEventListener("click", function(){ cerrarMovil(); go(e[0]); });
       panel.appendChild(b);
     });
     cab.addEventListener("click", function(){
@@ -420,11 +522,27 @@ safe(function menuMovil(){
     });
     acc.appendChild(cab); acc.appendChild(panel);
     body.appendChild(acc);
-  });
+  }
 
-  [["unicos","Piezas únicas"],["espacios","Compra el espacio"],["proyectos","Proyectos"],
-   ["servicios","Servicios"],["universo","El estudio"],["cuaderno","Blog"],
-   ["contacto","Contacto"]].forEach(function(x){
+  grupo("Retail", [
+    ["retail","Diseño de tiendas"],
+    ["proyectos","Proyectos"],
+    ["cuaderno","Blog"],
+    ["contacto","Contacto"]
+  ]);
+
+  grupo("Hogar", [
+    ["hogar","Diseño de interiores"],
+    ["espacios","Espacios"],
+    ["proyectos","Proyectos"],
+    ["cuaderno","Blog"]
+  ]);
+
+  grupo("Catálogo", catsActivas().map(function(t){ return ["cat:"+t.slug, t.name]; })
+    .concat([["unicos","Piezas únicas"],["espacios","Compra el espacio"]])
+    .concat(catsPronto().map(function(t){ return ["cat:"+t.slug, t.name+" · pronto", true]; })));
+
+  [["nosotros","Quiénes somos"],["contacto","Contacto"]].forEach(function(x){
     var b = el("button","mlink",x[1]); b.type="button";
     b.addEventListener("click", function(){ cerrarMovil(); go(x[0]); });
     body.appendChild(b);
@@ -455,6 +573,18 @@ safe(function menuMovil(){
 }, "menuMovil");
 
 /* ---------- 8. portada --------------------------------------------------- */
+
+/* ---------- 8 bis. la tienda en línea todavía no abre --------------------
+   Mientras ECOMMERCE sea false se retiran el carrito y el bloque de compra.
+   No se borran del marcado: el día que abra, el interruptor los devuelve.
+   ------------------------------------------------------------------------ */
+
+safe(function sinTienda(){
+  if(ECOMMERCE) return;
+  document.documentElement.setAttribute("data-tienda","cerrada");
+  var carrito = $("#cartBtn");
+  if(carrito) carrito.hidden = true;
+}, "sinTienda");
 
 safe(function portada(){
   var media = $("#campMedia"), dots = $("#cDots");
@@ -496,27 +626,26 @@ safe(function portada(){
   /* azulejos de categoría — el reemplazo de los círculos */
   var hc = $("#homeCats");
   if(hc) TAX.forEach(function(t){
-    hc.appendChild(tile(t.img, t.name, "Colección", "cat:"+t.slug));
+    var abierta = (t.estado==="activo");
+    hc.appendChild(tile(t.img, t.name,
+      abierta ? "Disponible" : (t.temporada ? "Temporada" : "En camino"),
+      "cat:"+t.slug, !abierta));
   });
 
   /* proyectos destacados */
   var hp = $("#homeProy");
-  if(hp) PROYECTOS.slice(0,4).forEach(function(pr){
-    hp.appendChild(proyCard(pr));
+  if(hp) [PROYECTOS[0], PROYECTOS[11], PROYECTOS[5], PROYECTOS[12]].forEach(function(pr){
+    if(pr) hp.appendChild(proyCard(pr));
   });
 
-  /* novedades */
-  fill($("#homeGrid"), PRODUCTS.filter(function(p){ return !p.uni; }).slice(0,8));
+  /* mueblería: lo único que hoy tiene catálogo de verdad */
+  fill($("#homeGrid"), PRODUCTS.filter(function(p){
+    return p.cat==="mueble" && !p.uni;
+  }).slice(0,8));
 
   /* espacios */
   var he = $("#homeEsp");
   if(he) ESPACIOS.slice(0,3).forEach(function(e){ he.appendChild(espCard(e)); });
-
-  /* las cinco líneas */
-  var hl = $("#homeLineas");
-  if(hl) LINEAS.forEach(function(l){
-    hl.appendChild(tile(l.img, l.t, l.n, "servicios"));
-  });
 
   /* compre el look: la alcoba de la campaña, con sus piezas marcadas */
   mapaConPie($("#homeMapa"), "port-alcoba",
@@ -677,6 +806,9 @@ function applyCat(){
 }
 
 function openCat(slug){
+  var linea = taxDe(slug);
+  if(linea && linea.estado!=="activo"){ abrirPronto(linea); return; }
+  mundoActivo = "catalogo";
   state.cat = slug; state.sub = null;
   state.f = {mat:[],col:[],place:[],style:[],pri:[],avail:[]};
   var t = TAX.filter(function(x){ return x.slug===slug; })[0];
@@ -706,7 +838,59 @@ safe(function controlesCatalogo(){
   });
 }, "controlesCatalogo");
 
-/* ---------- 10. ficha de producto ---------------------------------------- */
+/* ---------- 10. ficha de producto ----------------------------------------
+   La descripción dejó de ser un acordeón de texto. Ahora es un relato con
+   fotografía a ancho completo, alternando lado, y una ficha técnica corta
+   junto al precio. Es lo que pidió el cliente: imágenes y aire.
+   ------------------------------------------------------------------------ */
+
+/* Ficha corta, la que se lee de pie antes de decidir. */
+function renderFicha(p){
+  var dl = $("#pdpFicha");
+  if(!dl) return;
+  var filas = [["Material", p.mat], ["Estilo", p.style], ["Ambiente", p.place],
+               ["Plazo", p.lead]];
+  dl.innerHTML = filas.filter(function(f){ return f[1]; }).map(function(f){
+    return '<div><dt>'+f[0]+'</dt><dd>'+f[1]+'</dd></div>';
+  }).join("");
+}
+
+/* El relato: cada bloque necesita su propia fotografía. Si a la pieza le
+   faltan imágenes, el bloque no se dibuja — mejor tres bloques buenos que
+   cinco con la misma foto repetida. */
+function renderRelato(p){
+  var box = $("#pdpRelato");
+  if(!box) return;
+  box.innerHTML = "";
+
+  var fotos = (p.gal || []).slice();
+  var bloques = [];
+  if(p.desc) bloques.push(["La pieza", p.desc]);
+  if(p.matx) bloques.push(["Materiales y acabado", p.matx]);
+  if(p.care) bloques.push(["Cómo se cuida", p.care]);
+
+  bloques.forEach(function(b, i){
+    var foto = fotos[i] || (i===0 ? p.img : null);
+    var a = el("article", "rel-bloque" + (i%2 ? " invertido" : ""));
+    a.innerHTML =
+      (foto ? '<figure><img src="'+src(foto)+'" alt="'+p.name+'" loading="lazy" /></figure>' : '')+
+      '<div class="rel-txt"><span class="n">'+("0"+(i+1))+'</span>'+
+      '<h3>'+b[0]+'</h3><p>'+b[1]+'</p></div>';
+    box.appendChild(a);
+    observar(a);
+  });
+
+  if(p.dims && p.dims.length){
+    var med = el("article","rel-medidas");
+    med.innerHTML = '<h3>Medidas</h3><table><tbody>'+
+      p.dims.map(function(d){ return '<tr><th>'+d[0]+'</th><td>'+d[1]+'</td></tr>'; }).join("")+
+      '</tbody></table>'+
+      '<p class="rel-nota">Las piezas a medida se fabrican con las dimensiones que necesite '+
+      'su espacio. Se confirman en la cotización.</p>';
+    box.appendChild(med);
+    observar(med);
+  }
+}
 
 var pq = 1, pcur = null;
 
@@ -748,10 +932,8 @@ function openPdp(id){
   set("#pdpName", p.name);
   set("#pdpTag", p.tag);
   set("#pdpPrice", money(p.price));
-  set("#acDesc", p.desc);
-  set("#acMat", p.matx);
-  set("#acCare", p.care);
-  set("#acLead", p.lead);
+  renderFicha(p);
+  renderRelato(p);
 
   var st = $("#pdpStock");
   if(st){
@@ -778,12 +960,6 @@ function openPdp(id){
       opts.appendChild(b);
     });
     vars.appendChild(opts);
-  }
-
-  var dim = $("#acDim");
-  if(dim){
-    dim.innerHTML = "";
-    p.dims.forEach(function(d){ dim.appendChild(el("tr",null,"<td>"+d[0]+"</td><td>"+d[1]+"</td>")); });
   }
 
   var rel = PRODUCTS.filter(function(x){
@@ -843,35 +1019,66 @@ safe(function controlesUni(){
 
 var filtroProy = "todos";
 
+/* Los proyectos del mundo en el que se está. Fuera de Retail y de Hogar
+   —entrando desde el pie, por ejemplo— se enseñan todos. */
+function proyectosDelMundo(){
+  if(mundoActivo==="retail" || mundoActivo==="hogar"){
+    return PROYECTOS.filter(function(p){ return p.mundo===mundoActivo; });
+  }
+  return PROYECTOS;
+}
+
+function notasDelMundo(){
+  if(mundoActivo==="retail" || mundoActivo==="hogar"){
+    return NOTAS.filter(function(n){ return n.mundo===mundoActivo; });
+  }
+  return NOTAS;
+}
+
 function renderProyectos(){
   var g = $("#proyGrid");
   if(!g) return;
-  g.innerHTML = "";
-  var lista = (filtroProy==="todos")
-    ? PROYECTOS
-    : PROYECTOS.filter(function(p){ return p.linea===filtroProy; });
-  lista.forEach(function(pr){ g.appendChild(proyCard(pr)); });
-  if(!lista.length) g.appendChild(el("p","empty","No hay proyectos en esta línea todavía."));
-}
 
-safe(function proyectos(){
+  var base = proyectosDelMundo();
+
+  /* Los filtros se recalculan con las líneas que de verdad existen en este
+     mundo: en Hogar no tiene sentido ofrecer "Visual merchandising". */
   var f = $("#proyFiltros");
   if(f){
-    ["todos"].concat(LINEAS_PR).forEach(function(l){
+    var lineas = [];
+    base.forEach(function(pr){ if(lineas.indexOf(pr.linea)<0) lineas.push(pr.linea); });
+    if(lineas.indexOf(filtroProy)<0) filtroProy = "todos";
+    f.innerHTML = "";
+    if(lineas.length>1) ["todos"].concat(lineas).forEach(function(l){
       var b = el("button",null, l==="todos" ? "Todos" : l);
       b.type = "button";
       b.setAttribute("aria-pressed", String(l===filtroProy));
-      b.addEventListener("click", function(){
-        filtroProy = l;
-        $$("button",f).forEach(function(x){ x.setAttribute("aria-pressed","false"); });
-        b.setAttribute("aria-pressed","true");
-        renderProyectos();
-      });
+      b.addEventListener("click", function(){ filtroProy = l; renderProyectos(); });
       f.appendChild(b);
     });
   }
-  renderProyectos();
-}, "proyectos");
+
+  var lista = (filtroProy==="todos") ? base
+            : base.filter(function(pr){ return pr.linea===filtroProy; });
+
+  g.innerHTML = "";
+  lista.forEach(function(pr){ g.appendChild(proyCard(pr)); });
+  if(!lista.length) g.appendChild(el("p","empty","No hay proyectos en esta línea todavía."));
+
+  var enc = $("#proyEncabezado");
+  if(enc) enc.textContent = mundoActivo==="retail" ? "Proyectos de retail"
+                          : mundoActivo==="hogar"  ? "Proyectos de hogar"
+                          : "Todos los proyectos";
+}
+
+function renderBlog(){
+  var g = $("#cuaGrid");
+  if(!g) return;
+  g.innerHTML = "";
+  notasDelMundo().forEach(function(n){ g.appendChild(notaCard(n)); });
+}
+
+safe(function proyectos(){ renderProyectos(); }, "proyectos");
 
 function openProyecto(slug){
   var i = -1;
@@ -940,38 +1147,191 @@ function openProyecto(slug){
 
 /* ---------- 13. servicios ------------------------------------------------ */
 
-safe(function servicios(){
-  var box = $("#serLineas");
-  if(!box) return;
-  LINEAS.forEach(function(l){
-    var a = el("article","linea");
-    a.innerHTML =
-      '<figure><img src="'+src(l.img)+'" alt="'+l.t+'" loading="lazy" /></figure>'+
-      '<div class="linea-txt"><span class="n">'+l.n+'</span><h3>'+l.t+'</h3>'+
-        '<p>'+l.p+'</p><ul>'+l.li.map(function(x){ return "<li>"+x+"</li>"; }).join("")+'</ul></div>';
-    box.appendChild(a);
-    observar(a);
+/* ---------- 13. la página de servicio (Retail y Hogar) -------------------
+   Una sola plantilla para los dos. Lo que cambia está en SERVICIOS: la
+   promesa, los entregables, el proceso y la llamada a la acción. Así los dos
+   servicios se leen como el mismo estudio y no como dos landings sueltas.
+   ------------------------------------------------------------------------ */
+
+function abrirServicio(id){
+  var sv = SERVICIOS[id];
+  if(!sv) return;
+  mundoActivo = id;
+  filtroProy = "todos";
+
+  var set = function(sel,val){ var n=$(sel); if(n) n.textContent = val; };
+  var bg = $("#svBg");
+  if(bg){ bg.src = src(sv.hero); bg.alt = sv.titulo; }
+  set("#svEye", sv.eyebrow);
+  set("#svTitulo", sv.titulo);
+  set("#svPromesa", sv.promesa);
+  set("#svIntro", sv.intro);
+  set("#svMarcaSobre", "El método");
+  set("#svMarca", sv.marca);
+  set("#svEntTit", id==="retail" ? "De la vereda a la caja" : "De la medición a la mudanza");
+  set("#svProyTit", id==="retail" ? "Tiendas que hemos hecho" : "Casas que hemos hecho");
+  set("#svBlogTit", id==="retail" ? "Sobre retail" : "Sobre la casa");
+  set("#svCtaT", sv.cta.t.replace(/^Hablemos de |^Cuéntenos de /,""));
+  set("#svCtaP", sv.cta.p);
+
+  var b1 = $("#svCta1"), b2 = $("#svCtaB");
+  if(b1){ b1.textContent = sv.cta.b; b1.onclick = function(){ go("contacto"); }; }
+  if(b2){ b2.textContent = sv.cta.b; b2.onclick = function(){ go("contacto"); }; }
+
+  var pl = $("#svProyLink"), bl = $("#svBlogLink");
+  if(pl) pl.onclick = function(){ go("proyectos"); };
+  if(bl) bl.onclick = function(){ go("cuaderno"); };
+
+  /* boceto y obra, justo debajo del banner */
+  var bo = $("#svBoceto");
+  if(bo){
+    bo.innerHTML = "";
+    var par = sv.boceto && bocetoObra(sv.boceto.foto, sv.boceto.pie);
+    if(par){ bo.appendChild(par); bo.hidden = false; } else { bo.hidden = true; }
+  }
+
+  var cif = $("#svCifras");
+  if(cif){
+    cif.innerHTML = "";
+    sv.cifras.forEach(function(c){
+      cif.appendChild(el("div","cifra",'<b>'+c[0]+'</b><span>'+c[1]+'</span>'));
+    });
+  }
+
+  var ent = $("#svEntregables");
+  if(ent){
+    ent.innerHTML = "";
+    sv.entregables.forEach(function(e){
+      var a = el("article","ent");
+      a.innerHTML = '<figure><img src="'+src(e.img)+'" alt="'+e.t+'" loading="lazy" /></figure>'+
+                    '<span class="n">'+e.n+'</span><h3>'+e.t+'</h3><p>'+e.p+'</p>';
+      ent.appendChild(a); observar(a);
+    });
+  }
+
+  var pro = $("#svProceso");
+  if(pro){
+    pro.innerHTML = "";
+    sv.proceso.forEach(function(x){
+      var a = el("article","paso");
+      a.innerHTML = '<figure><img src="'+src(x.img)+'" alt="'+x.t+'" loading="lazy" /></figure>'+
+                    '<div class="paso-txt"><span class="num">'+x.n+'</span><h3>'+x.t+'</h3><p>'+x.p+'</p></div>';
+      pro.appendChild(a); observar(a);
+    });
+  }
+
+  var gp = $("#svProyectos");
+  if(gp){
+    gp.innerHTML = "";
+    PROYECTOS.filter(function(pr){ return pr.mundo===id; }).slice(0,4)
+             .forEach(function(pr){ gp.appendChild(proyCard(pr)); });
+  }
+
+  var gb = $("#svBlog");
+  if(gb){
+    gb.innerHTML = "";
+    NOTAS.filter(function(n){ return n.mundo===id; }).slice(0,3)
+         .forEach(function(n){ gb.appendChild(notaCard(n)); });
+  }
+
+  /* Espacios y catálogo sólo cuelgan de Hogar: es donde el visitante compra
+     una pieza suelta. En Retail estorbarían. */
+  var esp = $("#svEspacios"), cat = $("#svCatalogo");
+  if(esp){
+    esp.hidden = (id!=="hogar");
+    var le = $("#svEspList");
+    if(le && id==="hogar"){
+      le.innerHTML = "";
+      ESPACIOS.slice(0,3).forEach(function(e){ le.appendChild(espCard(e)); });
+    }
+  }
+  if(cat){
+    cat.hidden = (id!=="hogar");
+    if(id==="hogar") fill($("#svCatGrid"), PRODUCTS.filter(function(x){
+      return x.cat==="mueble" && !x.uni;
+    }).slice(0,6));
+  }
+
+  crumb($("#svCrumb"), [{t:"Inicio",go:"home"},{t:sv.titulo}]);
+  show("servicio", id);
+}
+
+
+/* ---------- 13 bis. quiénes somos ---------------------------------------
+   La página es sobre Gian. El equipo todavía no tiene fotografía propia, así
+   que se enseña con monograma: se ve intencional, no roto, y el día que
+   lleguen los retratos basta con rellenar `img` en EQUIPO.
+   ------------------------------------------------------------------------ */
+
+var nosotrosListo = false;
+
+function fichaPersona(x){
+  var a = el("article","pers" + (x.destacado ? " pers-1" : ""));
+  var retrato = x.img
+    ? '<img src="'+src(x.img)+'" alt="'+x.n+'" loading="lazy" />'
+    : '<span class="mono" aria-hidden="true">'+x.ini+'</span>';
+  a.innerHTML = '<figure class="pers-foto">'+retrato+'</figure>'+
+                '<div class="pers-txt"><h3>'+x.n+'</h3>'+
+                '<span class="rol">'+x.rol+'</span><p>'+x.p+'</p></div>';
+  return a;
+}
+
+function renderNosotros(){
+  mundoActivo = null;
+  if(nosotrosListo) return;
+  nosotrosListo = true;
+
+  var foto = $("#nsFoto");
+  if(foto) foto.innerHTML = '<span class="mono grande" aria-hidden="true">G</span>'+
+                            '<span class="pend">Retrato pendiente</span>';
+
+  var cif = $("#nsCifras");
+  if(cif) CIFRAS_ESTUDIO.forEach(function(c){
+    cif.appendChild(el("div","cifra",'<b>'+c[0]+'</b><span>'+c[1]+'</span>'));
   });
-}, "servicios");
 
-/* ---------- 13 bis. nuestro universo ------------------------------------- */
-
-safe(function universo(){
-  var box = $("#uvCaps");
-  if(!box) return;
-  UNIVERSO.forEach(function(c){
+  var his = $("#nsHistoria");
+  if(his) HISTORIA.forEach(function(h){
     var a = el("article","cap-item");
-    a.innerHTML =
-      '<figure><img src="'+src(c.img)+'" alt="'+c.sobre+' '+c.titulo+'" loading="lazy" /></figure>'+
-      '<div class="cap-txt">'+
-        '<span class="cap-doble"><span class="sobre">'+c.sobre+'</span>'+
-        '<span class="grande">'+c.titulo+'</span></span>'+
-        c.txt.map(function(p){ return "<p>"+p+"</p>"; }).join("")+
-      '</div>';
-    box.appendChild(a);
-    observar(a);
+    a.innerHTML = '<figure><img src="'+src(h.img)+'" alt="'+h.t+'" loading="lazy" /></figure>'+
+      '<div class="cap-txt"><span class="cap-doble"><span class="sobre">'+h.a+'</span>'+
+      '<span class="grande">'+h.t+'</span></span><p>'+h.p+'</p></div>';
+    his.appendChild(a); observar(a);
   });
-}, "universo");
+
+  var eq = $("#nsEquipo");
+  if(eq) EQUIPO.forEach(function(x){ eq.appendChild(fichaPersona(x)); });
+
+  var pr = $("#nsProy");
+  if(pr) [PROYECTOS[0], PROYECTOS[6], PROYECTOS[9], PROYECTOS[11]].forEach(function(x){
+    if(x) pr.appendChild(proyCard(x));
+  });
+}
+
+
+/* ---------- 13 quater. una línea que todavía no abre ---------------------
+   Un enlace muerto en un menú resta más que una línea de menos. Cada línea
+   por abrir tiene su propia página: dice qué va a haber, cuándo, y ofrece la
+   única vía que hoy sí existe, que es el encargo directo.
+   ------------------------------------------------------------------------ */
+
+function abrirPronto(t){
+  mundoActivo = "catalogo";
+  var set = function(sel,val){ var n=$(sel); if(n) n.textContent = val; };
+  var im = $("#prontoImg");
+  if(im){ im.src = src(t.img); im.alt = t.name; }
+  set("#prontoCuando", t.temporada ? "Campaña de temporada · "+t.cuando : "Disponible en "+t.cuando);
+  set("#prontoTitulo", t.name);
+  set("#prontoLede", t.lede);
+
+  var ul = $("#prontoSubs");
+  if(ul){
+    ul.innerHTML = "";
+    t.subs.forEach(function(x){ ul.appendChild(el("li",null,x.name)); });
+  }
+  crumb($("#prCrumb"), [{t:"Inicio",go:"home"},{t:"Catálogo",go:"cat:mueble"},{t:t.name}]);
+  show("pronto", t.slug);
+}
 
 /* ---------- 13 ter. mapa de piezas sobre la foto -------------------------
    Monta una imagen con los puntos de sus piezas. Devuelve true si llegó a
@@ -1123,10 +1483,7 @@ function notaCard(n){
   return c;
 }
 
-safe(function blog(){
-  var g = $("#cuaGrid");
-  if(g) NOTAS.forEach(function(n){ g.appendChild(notaCard(n)); });
-}, "blog");
+safe(function blog(){ renderBlog(); }, "blog");
 
 /* ---------- 16. buscador ------------------------------------------------- */
 
@@ -1249,7 +1606,10 @@ safe(function pie(){
   if(fc){
     TAX.forEach(function(t){
       var li = document.createElement("li");
-      var b = el("button",null,t.name); b.type="button";
+      var abierta = (t.estado==="activo");
+      var b = el("button", abierta ? null : "pronto",
+                 t.name + (abierta ? "" : ' <i>pronto</i>'));
+      b.type="button";
       b.addEventListener("click", function(){ go("cat:"+t.slug); });
       li.appendChild(b); fc.appendChild(li);
     });

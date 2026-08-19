@@ -16,26 +16,55 @@ var COLOR = {
   oro:"#C08F4A", madera:"#7A5B3C", negro:"#2B2724", ambar:"#B5762A"
 };
 
-/* ---------- taxonomía del catálogo -------------------------------------- */
+/* ---------- taxonomía del catálogo --------------------------------------
+   Fase 1 del negocio: la tienda todavía no vende en línea. Mueblería es la
+   única línea con catálogo propio; Piezas únicas y Compra el espacio también
+   se pueden recorrer. El resto se anuncia con su propia página de próxima
+   apertura, nunca con un enlace muerto.
+
+   Para abrir una línea basta con cambiar su `estado` a "activo": el menú, la
+   portada y el catálogo se reordenan solos.
+   ------------------------------------------------------------------------ */
+
+/* Interruptor de la tienda en línea. En false el sitio funciona como catálogo
+   con cotización: no hay carrito ni pago, y cada pieza lleva a una consulta.
+   Ponerlo en true el día que se abra el ecommerce. */
+var ECOMMERCE = false;
 
 var TAX = [
-  {slug:"asientos", name:"Asientos", img:"cat-asientos", subs:[
-    {s:"sofas", name:"Sofás"}, {s:"sillones", name:"Sillones"}, {s:"tumbonas", name:"Tumbonas"},
-    {s:"bancos", name:"Bancos y pufs"}, {s:"sillas", name:"Sillas"}, {s:"barra", name:"Sillas de bar"}]},
-  {slug:"muebles", name:"Muebles", img:"cat-muebles", subs:[
-    {s:"centro", name:"Mesas de centro"}, {s:"comedor", name:"Mesas de comedor"}, {s:"consolas", name:"Consolas"},
-    {s:"comodas", name:"Cómodas"}, {s:"noche", name:"Mesas de noche"}, {s:"libreros", name:"Libreros"}]},
-  {slug:"iluminacion", name:"Iluminación", img:"cat-iluminacion", subs:[
-    {s:"mesa", name:"De mesa"}, {s:"pie", name:"De pie"}, {s:"colgante", name:"Colgantes"}]},
-  {slug:"decoracion", name:"Decoración", img:"cat-decoracion", subs:[
-    {s:"espejos", name:"Espejos"}, {s:"objetos", name:"Objetos"}, {s:"jarrones", name:"Jarrones"},
-    {s:"textiles", name:"Textiles"}]},
-  {slug:"papel", name:"Papel mural", img:"cat-papel", subs:[
-    {s:"panoramico", name:"Panorámicos"}, {s:"repetido", name:"De repetición"}]},
-  {slug:"navidad", name:"Navidad", img:"cat-navidad", subs:[
-    {s:"arboles", name:"Árboles"}, {s:"coronas", name:"Coronas y guirnaldas"}, {s:"mesa", name:"Mesa navideña"},
-    {s:"ornamentos", name:"Ornamentos"}, {s:"luces", name:"Luces"}]}
+  {slug:"mueble", name:"Mueblería", img:"cat-muebles", estado:"activo",
+   lede:"Taller propio. Del plano de despiece a la pieza instalada, sin tercerizar el control.",
+   subs:[
+    {s:"asientos", name:"Asientos"},
+    {s:"mesas", name:"Mesas"},
+    {s:"guardado", name:"Guardado"}]},
+
+  {slug:"iluminacion", name:"Iluminación", img:"cat-iluminacion", estado:"pronto",
+   cuando:"Primer trimestre de 2027",
+   lede:"Colgantes, lámparas de pie y de mesa, seleccionadas con el mismo criterio que usamos en obra.",
+   subs:[{s:"mesa", name:"De mesa"}, {s:"pie", name:"De pie"}, {s:"colgante", name:"Colgantes"}]},
+
+  {slug:"decoracion", name:"Decoración", img:"cat-decoracion", estado:"pronto",
+   cuando:"Primer trimestre de 2027",
+   lede:"Espejos, objetos, jarrones y textiles. La capa que termina un ambiente.",
+   subs:[{s:"espejos", name:"Espejos"}, {s:"objetos", name:"Objetos"},
+         {s:"jarrones", name:"Jarrones"}, {s:"textiles", name:"Textiles"}]},
+
+  {slug:"papel", name:"Papel mural", img:"cat-papel", estado:"pronto",
+   cuando:"Primer trimestre de 2027",
+   lede:"Panorámicos y diseños de repetición, medidos e instalados por el estudio.",
+   subs:[{s:"panoramico", name:"Panorámicos"}, {s:"repetido", name:"De repetición"}]},
+
+  {slug:"navidad", name:"Navidad", img:"cat-navidad", estado:"pronto", temporada:true,
+   cuando:"Noviembre de 2026",
+   lede:"La campaña de temporada del estudio: árbol, vitrina, mesa y luces, montadas y desmontadas por el mismo equipo que hace las tiendas.",
+   subs:[{s:"arboles", name:"Árboles"}, {s:"coronas", name:"Coronas y guirnaldas"},
+         {s:"mesa", name:"Mesa navideña"}, {s:"ornamentos", name:"Ornamentos"}, {s:"luces", name:"Luces"}]}
 ];
+
+function taxDe(slug){ return TAX.filter(function(t){ return t.slug===slug; })[0]; }
+function catsActivas(){ return TAX.filter(function(t){ return t.estado==="activo"; }); }
+function catsPronto(){ return TAX.filter(function(t){ return t.estado!=="activo"; }); }
 
 /* ---------- productos ---------------------------------------------------- */
 
@@ -280,6 +309,24 @@ var PRODUCTS = [
    care:"No tocar el dorado con las manos: el sudor lo levanta. Solo plumero suave."})
 ];
 
+/* Asientos y muebles eran dos categorías separadas. El negocio los trabaja
+   como una sola línea —la del taller— así que se unifican al cargar y no hay
+   que tocar las 60 fichas de producto. */
+var FAMILIA = {
+  sofas:"asientos", sillones:"asientos", sillas:"asientos",
+  bancos:"asientos", barra:"asientos", tumbonas:"asientos",
+  centro:"mesas", comedor:"mesas",
+  consolas:"guardado", comodas:"guardado", noche:"guardado", libreros:"guardado"
+};
+
+PRODUCTS.forEach(function(p){
+  if(p.cat==="asientos" || p.cat==="muebles"){
+    p.cat  = "mueble";
+    p.tipo = p.sub;                       /* el tipo exacto, por si vuelve a hacer falta */
+    p.sub  = FAMILIA[p.sub] || p.sub;     /* tres familias: se navega mejor con pocas */
+  }
+});
+
 var byId = {};
 PRODUCTS.forEach(function(p){ byId[p.id] = p; });
 
@@ -336,7 +383,7 @@ var UNIVERSO = [
 var LINEAS_PR = ["Visual merchandising","Retail","Residencial","Hotelería","Temporada"];
 
 var PROYECTOS = [
- {slug:"walon-tiendas", t:"Walon", sub:"Fachadas y vitrinas de cadena", linea:"Visual merchandising",
+ {slug:"walon-tiendas", mundo:"retail", t:"Walon", sub:"Fachadas y vitrinas de cadena", linea:"Visual merchandising",
   anio:"2024", lugar:"Lima y provincias", cover:"pr-walon-1",
   gal:["pr-walon-1","pr-walon-2","pr-walon-3","pr-walon-4"],
   datos:[["Cliente","Walon"],["Línea","Visual merchandising"],["Alcance","Fachada, vitrina y mobiliario de exhibición"],["Locales","Cadena nacional"],["Año","2024"]],
@@ -344,7 +391,7 @@ var PROYECTOS = [
        "El trabajo empezó por la fachada iluminada y el frente de vitrina, que es lo único que el comprador ve antes de decidir si entra. Adentro se ordenó la pared de producto por altura de alcance y se reservó el nivel del ojo para la campaña vigente.",
        "El resultado se entregó como manual de implantación: medidas, materiales, alturas y secuencia de montaje. Cada local nuevo se arma con el manual y una visita de acompañamiento."]},
 
- {slug:"nova-campana", t:"Nova", sub:"Campaña de lanzamiento en punto de venta", linea:"Visual merchandising",
+ {slug:"nova-campana", mundo:"retail", t:"Nova", sub:"Campaña de lanzamiento en punto de venta", linea:"Visual merchandising",
   anio:"2024", lugar:"Lima", cover:"pr-nova-1",
   gal:["pr-nova-1","pr-nova-2","pr-nova-3"],
   datos:[["Cliente","Nova"],["Línea","Visual merchandising"],["Alcance","Exhibidor de marca y gráfica de campaña"],["Plazo","14 días"],["Año","2024"]],
@@ -352,7 +399,7 @@ var PROYECTOS = [
        "Se diseñó un exhibidor retroiluminado que aísla el producto del ruido de la tienda: fondo oscuro, luz dirigida y una sola línea de mensaje. El zapato es lo único iluminado del módulo, y eso basta.",
        "La gráfica se produjo en formato modular para poder reusar la estructura en la campaña siguiente cambiando solo la lámina impresa."]},
 
- {slug:"figuritas-isla", t:"Figuritas", sub:"Isla de marca en tienda ancla", linea:"Retail",
+ {slug:"figuritas-isla", mundo:"retail", t:"Figuritas", sub:"Isla de marca en tienda ancla", linea:"Retail",
   anio:"2023", lugar:"Lima", cover:"pr-figuritas-1",
   gal:["pr-figuritas-1","pr-figuritas-2"],
   datos:[["Cliente","Figuritas"],["Línea","Retail"],["Alcance","Isla de marca y maniquí de exhibición"],["Superficie","12 m²"],["Año","2023"]],
@@ -360,7 +407,7 @@ var PROYECTOS = [
        "Se montó una plataforma elevada con maniquí central y perímetro de producto complementario, de modo que la pieza se lee desde los cuatro lados del pasillo.",
        "El módulo se fabricó en el taller del estudio y se instaló en una madrugada, entre el cierre y la apertura de la tienda."]},
 
- {slug:"orion-lanzamiento", t:"Orión", sub:"Frente de tienda y campaña de temporada", linea:"Visual merchandising",
+ {slug:"orion-lanzamiento", mundo:"retail", t:"Orión", sub:"Frente de tienda y campaña de temporada", linea:"Visual merchandising",
   anio:"2025", lugar:"Lima", cover:"pr-orion-1",
   gal:["pr-orion-1","pr-orion-2"],
   datos:[["Cliente","Orión"],["Línea","Visual merchandising"],["Alcance","Frente de tienda, vitrina y gráfica"],["Plazo","Campaña de temporada"],["Año","2025"]],
@@ -368,7 +415,7 @@ var PROYECTOS = [
        "Se retiró todo el producto del primer metro de vitrina, se iluminó desde arriba y adelante, y se dejó el fondo en oscuro para que la gráfica de campaña respire.",
        "El montaje se documentó paso a paso para que el equipo de tienda pueda repetirlo en la campaña siguiente."]},
 
- {slug:"mobiliario-serie", t:"Mobiliario de exhibición", sub:"Del plano al módulo instalado", linea:"Retail",
+ {slug:"mobiliario-serie", mundo:"retail", t:"Mobiliario de exhibición", sub:"Del plano al módulo instalado", linea:"Retail",
   anio:"2024", lugar:"Taller del estudio", cover:"pr-plano-1",
   gal:["pr-plano-1","pr-plano-2","pr-plano-3"],
   datos:[["Línea","Mueblería y retail"],["Alcance","Diseño, plano de despiece y fabricación"],["Entregable","Manual de implantación"],["Año","2024"]],
@@ -376,7 +423,7 @@ var PROYECTOS = [
        "Cada módulo se modela en tres dimensiones, se valida en isometría con el cliente y recién entonces baja a plano de despiece para el taller. El prototipo se arma completo antes de autorizar la serie.",
        "Trabajar con taller propio permite corregir en dos días lo que tercerizado tomaría tres semanas, y es la razón por la que los plazos de campaña se cumplen."]},
 
- {slug:"sala-arenales", t:"Sala de ventas Arenales", sub:"Layout y recorrido de compra", linea:"Retail",
+ {slug:"sala-arenales", mundo:"retail", t:"Sala de ventas Arenales", sub:"Layout y recorrido de compra", linea:"Retail",
   anio:"2023", lugar:"Lince, Lima", cover:"pr-sala-1",
   gal:["pr-sala-1","pr-sala-2","pr-sala-3"],
   datos:[["Línea","Retail"],["Alcance","Layout, ambientación y recorrido"],["Superficie","320 m²"],["Año","2023"]],
@@ -384,7 +431,7 @@ var PROYECTOS = [
        "Se rompió la disposición en pasillos y se armaron ambientes completos, cada uno con su alfombra, su iluminación y su mesa puesta. El recorrido se diseñó para que se cruce por cinco ambientes antes de llegar a caja.",
        "Los ambientes se renuevan por temporada y son los mismos que después se ofrecen enteros en la tienda en línea."]},
 
- {slug:"depa-san-isidro", t:"Departamento en San Isidro", sub:"Diseño interior integral", linea:"Residencial",
+ {slug:"depa-san-isidro", mundo:"hogar", t:"Departamento en San Isidro", sub:"Diseño interior integral", linea:"Residencial",
   anio:"2024", lugar:"San Isidro, Lima", cover:"pr-sanisidro-1",
   gal:["pr-sanisidro-1","pr-sanisidro-2","pr-sanisidro-3"],
   datos:[["Línea","Diseño interior"],["Alcance","Distribución, mobiliario a medida e iluminación"],["Superficie","145 m²"],["Año","2024"]],
@@ -392,7 +439,7 @@ var PROYECTOS = [
        "Se rehízo la distribución del área social, se abrió el paso a la terraza y se resolvió el dormitorio principal con un mueble a medida que ordena vestidor y escritorio en el mismo frente.",
        "La paleta se mantuvo en neutros cálidos con acentos en madera y latón, para que el departamento envejezca bien y no dependa de una temporada."]},
 
- {slug:"banos-autor", t:"Baños de autor", sub:"Del render a la obra terminada", linea:"Residencial",
+ {slug:"banos-autor", mundo:"hogar", t:"Baños de autor", sub:"Del render a la obra terminada", linea:"Residencial",
   anio:"2025", lugar:"Lima", cover:"pr-bano-1",
   gal:["pr-bano-1","pr-bano-2","pr-bano-3","pr-bano-4"],
   datos:[["Línea","Diseño interior"],["Alcance","Proyecto, render y supervisión"],["Ambientes","Cuatro baños"],["Año","2025"]],
@@ -400,7 +447,7 @@ var PROYECTOS = [
        "Cada baño se modeló completo antes de picar la primera pared: enchapes, juntas, altura de nicho y punto de luz. El cliente aprueba el render y lo que se construye es exactamente eso.",
        "El mobiliario del lavatorio se fabricó en el taller del estudio, en melamina hidrófuga con canto macizo, y se instaló ya lijado y sellado."]},
 
- {slug:"lodge-valle", t:"Lodge en el valle", sub:"Hotelería rural", linea:"Hotelería",
+ {slug:"lodge-valle", mundo:"retail", t:"Lodge en el valle", sub:"Hotelería rural", linea:"Hotelería",
   anio:"2023", lugar:"Sierra del Perú", cover:"pr-lodge-1",
   gal:["pr-lodge-1","pr-lodge-2","pr-lodge-3","pr-lodge-4"],
   datos:[["Línea","Hotelería"],["Alcance","Comedor, recepción y habitaciones"],["Materiales","Piedra, madera y textil andino"],["Año","2023"]],
@@ -408,7 +455,7 @@ var PROYECTOS = [
        "Se trabajó con piedra del lugar, madera vista y textilería andina de la zona, encargada a talleres cercanos al proyecto. El resultado tiene identidad y además se puede reponer sin traer nada de la costa.",
        "La iluminación se resolvió con puntos cálidos bajos sobre cada mesa, que es lo que hace que un comedor grande se sienta acogedor cuando está a media capacidad."]},
 
- {slug:"resto-piedra", t:"Restaurante de piedra y madera", sub:"Salón, terraza y mesa puesta", linea:"Hotelería",
+ {slug:"resto-piedra", mundo:"retail", t:"Restaurante de piedra y madera", sub:"Salón, terraza y mesa puesta", linea:"Hotelería",
   anio:"2023", lugar:"Sierra del Perú", cover:"pr-resto-1",
   gal:["pr-resto-1","pr-resto-2","pr-resto-3"],
   datos:[["Línea","Hotelería"],["Alcance","Salón, terraza acristalada y montaje de mesa"],["Aforo","90 comensales"],["Año","2023"]],
@@ -416,13 +463,27 @@ var PROYECTOS = [
        "Se acristaló la terraza para ganar aforo en temporada de lluvias y se bajó la altura de todo lo que estorbaba la línea de horizonte: mamparas, separadores y hasta los respaldos de las sillas.",
        "El montaje de mesa se diseñó con textil de la zona y vajilla de gres, y se dejó documentado en una ficha para que el equipo de sala lo repita todos los días igual."]},
 
- {slug:"navidad-montada", t:"Navidad montada", sub:"Campaña completa, montaje y desmontaje", linea:"Temporada",
+ {slug:"navidad-montada", mundo:"retail", t:"Navidad montada", sub:"Campaña completa, montaje y desmontaje", linea:"Temporada",
   anio:"2025", lugar:"Lima", cover:"pr-navidad-1",
   gal:["pr-navidad-1","pr-navidad-2","pr-navidad-3","pr-navidad-4"],
   datos:[["Línea","Decoración de temporada"],["Alcance","Árbol, nacimiento, vitrina y mesa"],["Servicio","Montaje, desmontaje y guardado"],["Año","2025"]],
   txt:["La Navidad de una casa y la de una sala de ventas se montan igual: con calendario, con inventario y con alguien que se lleve las cajas en enero.",
        "El nacimiento se construye a mano en el taller, pieza por pieza, con acabado de barro y madera envejecida. Es la parte del encargo que no se compra hecha y la que se recuerda al año siguiente.",
-       "El servicio incluye el desmontaje de la primera semana de enero y el guardado del material rotulado, que es lo que evita comprar todo de nuevo cada diciembre."]}
+       "El servicio incluye el desmontaje de la primera semana de enero y el guardado del material rotulado, que es lo que evita comprar todo de nuevo cada diciembre."]},
+
+ {slug:"dormitorio-principal", mundo:"hogar", t:"Dormitorio principal", sub:"Descanso, guardado y luz", linea:"Residencial",
+  anio:"2025", lugar:"Lima", cover:"pr-casa-1",
+  gal:["pr-casa-1","pr-casa-3"],
+  datos:[["Línea","Residencial"],["Alcance","Diseño interior y mueblería a medida"],["Ambientes","Dormitorio y vestidor"],["Año","2025"]],
+  txt:["Un dormitorio se resuelve con dos decisiones: por dónde entra la luz y qué pared carga el peso visual. Aquí lo carga el cabecero, y el resto se mantiene en silencio.",
+       "El guardado se ganó cerrando un pasillo que no llevaba a ninguna parte. La misma superficie, mejor repartida."]},
+
+ {slug:"bano-visitas", mundo:"hogar", t:"Baño de visitas", sub:"Enchape, latón y luz indirecta", linea:"Residencial",
+  anio:"2025", lugar:"Lima", cover:"pr-casa-2",
+  gal:["pr-casa-2","pr-casa-8","pr-casa-6","pr-casa-7","pr-casa-4"],
+  datos:[["Línea","Residencial"],["Alcance","Diseño interior, enchape y mueblería"],["Ambientes","Baño de visitas"],["Año","2025"]],
+  txt:["Es el ambiente más pequeño de la casa y el único que todos los invitados usan. Por metro cuadrado es donde más rinde el presupuesto.",
+       "Enchape hasta media altura, espejos de latón y luz indirecta detrás del espejo. El mueble del lavatorio se fabricó en el taller a la medida del vano."]}
 ];
 
 /* ---------- relato ampliado de cada proyecto -----------------------------
@@ -582,30 +643,147 @@ var PUNTOS = {
 /* ---------- blog --------------------------------------------------------- */
 
 var NOTAS = [
- {k:"Visual merchandising", t:"Cómo se piensa una vitrina que sí vende", r:"6 min", img:"blog-4",
+ {k:"Visual merchandising", t:"Cómo se piensa una vitrina que sí vende", mundo:"retail", r:"6 min", img:"blog-4",
   d:"El recorrido del ojo, la jerarquía del producto y por qué la mayoría de vitrinas en Lima se arman al revés."},
- {k:"Proceso", t:"Qué preguntar antes de remodelar", r:"7 min", img:"blog-1",
+ {k:"Proceso", t:"Qué preguntar antes de remodelar", mundo:"hogar", r:"7 min", img:"blog-1",
   d:"Las ocho preguntas que hacemos en la primera visita, y lo que cada respuesta cambia en el presupuesto."},
- {k:"Obra", t:"Travertino en Lima: lo que nadie le cuenta", r:"5 min", img:"blog-2",
+ {k:"Obra", t:"Travertino en Lima: lo que nadie le cuenta", mundo:"hogar", r:"5 min", img:"blog-2",
   d:"Es poroso, la garúa lo marca y el sellado no es opcional. Aun así lo seguimos usando, y explicamos por qué."},
- {k:"Interiorismo", t:"El error de comprar los muebles primero", r:"5 min", img:"blog-6",
+ {k:"Interiorismo", t:"El error de comprar los muebles primero", mundo:"hogar", r:"5 min", img:"blog-6",
   d:"Casi todos empiezan por el sofá. Explicamos por qué conviene empezar por la luz y la circulación."},
- {k:"Retail", t:"Una campaña de temporada en catorce días", r:"8 min", img:"blog-5",
+ {k:"Retail", t:"Una campaña de temporada en catorce días", mundo:"retail", r:"8 min", img:"blog-5",
   d:"Cómo se planifica, produce y monta una campaña navideña completa para una sala de ventas."},
- {k:"Materiales", t:"Del render a la obra: por qué casi nunca coinciden", r:"6 min", img:"blog-3",
+ {k:"Materiales", t:"Del render a la obra: por qué casi nunca coinciden", mundo:"retail", r:"6 min", img:"blog-3",
   d:"Qué se puede prometer con una imagen y qué depende del enchape que llegue esa semana a la ferretería."}
 ];
 
-/* ---------- campañas de portada ------------------------------------------ */
+/* ---------- campañas de portada ------------------------------------------
+   Una por línea de negocio, en el orden en que el estudio quiere venderlas.
+   Titular corto: en portada, cada palabra de más resta.
+   ------------------------------------------------------------------------ */
 
 var CAMPS = [
- {img:"port-alcoba", eye:"Diseño interior", t:"Espacios que inspiran, experiencias que trascienden",
-  p:"Arquitectura, interiorismo y mueblería a medida. Gian dirige cada proyecto: no hay un ejecutivo de cuenta en el medio.",
-  cta:"Ver los servicios", go:"servicios"},
- {img:"port-coleccion", eye:"La colección", t:"Piezas que envejecen bien",
-  p:"Travertino, bouclé y latón envejecido. Mobiliario y decoración que se llevan con lo que ya tiene en casa.",
-  cta:"Entrar a la tienda", go:"cat:muebles"},
- {img:"port-vitrina", eye:"Visual merchandising", t:"El espacio es lo primero que vende",
-  p:"Vitrinas, islas de marca y campañas de temporada para cadenas de tienda. La línea con más recorrido del estudio.",
-  cta:"Ver los proyectos", go:"proyectos"}
+ {img:"port-vitrina", eye:"Retail", t:"El espacio es lo primero que vende",
+  p:"Vitrinas, islas de marca y campañas de temporada para cadenas de tienda.",
+  cta:"Ver Retail", go:"retail"},
+ {img:"port-alcoba", eye:"Hogar", t:"Su casa, resuelta de una vez",
+  p:"Diseño interior integral. Gian dirige cada encargo, de la medición a la entrega.",
+  cta:"Ver Hogar", go:"hogar"},
+ {img:"port-coleccion", eye:"Mueblería", t:"Hecho en taller propio",
+  p:"Del plano de despiece a la pieza instalada, sin tercerizar el control.",
+  cta:"Ver la mueblería", go:"cat:mueble"}
 ];
+
+
+/* ---------- los tres servicios ------------------------------------------
+   Retail y Hogar son las dos páginas de servicio. Comparten estructura para
+   que el sitio se lea como un sistema y no como dos landings sueltas:
+   promesa, entregables, proceso de tres pasos y llamada a la acción.
+   ------------------------------------------------------------------------ */
+
+var SERVICIOS = {
+
+ retail:{
+  mundo:"retail",
+  marca:"Marca en sala",
+  titulo:"Diseño de tiendas",
+  hero:"pr-walon-1",
+  eyebrow:"Retail y visual merchandising",
+  promesa:"Que su tienda se entienda desde la vereda y se recorra sin que nadie explique nada.",
+  intro:"Es la línea con más recorrido del estudio. Se ha trabajado a escala de cadena: un criterio que se define una vez y se replica en cada local.",
+  cifras:[["+40","locales intervenidos"],["8","marcas atendidas"],["14","días para montar una campaña"]],
+  entregables:[
+   {n:"01", t:"Diagnóstico de sala", p:"Recorrido de compra, puntos ciegos y qué se ve desde la puerta.", img:"pr-sala-1"},
+   {n:"02", t:"Vitrina y fachada", p:"Lo único que el comprador ve antes de decidir si entra.", img:"pr-orion-1"},
+   {n:"03", t:"Isla y exhibidor", p:"Mobiliario de exhibición fabricado en taller propio.", img:"pr-figuritas-1"},
+   {n:"04", t:"Campaña de temporada", p:"Producción, montaje, desmontaje y guardado del material.", img:"pr-navidad-2"},
+   {n:"05", t:"Manual de implantación", p:"Medidas, materiales y secuencia para replicar sin nosotros.", img:"pr-plano-1"}
+  ],
+  proceso:[
+   {n:"01", t:"Visita a la sala", p:"Se mide, se observa cómo camina la gente y qué producto se pierde.", img:"pr-sala-2"},
+   {n:"02", t:"Propuesta", p:"Planos, materiales y perspectivas. Usted aprueba antes de que se fabrique nada.", img:"pr-plano-2"},
+   {n:"03", t:"Montaje", p:"Fabricación en taller propio e instalación en sala, fuera del horario de atención.", img:"pr-walon-3"}
+  ],
+  boceto:{foto:"pr-walon-1", pie:"Fachada de tienda — del dibujo de implantación al local montado."},
+  cta:{t:"Hablemos de su sala", p:"La primera visita no cuesta y sirve para saber si el encargo tiene sentido para las dos partes.", b:"Agendar una visita"}
+ },
+
+ hogar:{
+  mundo:"hogar",
+  marca:"Casa resuelta",
+  titulo:"Diseño de interiores",
+  hero:"pr-casa-3",
+  eyebrow:"Hogar",
+  promesa:"Una casa que funciona todos los días, no solo el día de la foto.",
+  intro:"Sala, dormitorio, comedor o la vivienda completa. El estudio entra con el plano, decide la luz y la circulación, y se queda hasta la mudanza.",
+  cifras:[["96 m²","proyecto integral típico"],["2","rondas de ajuste antes de aprobar"],["1","interlocutor: Gian"]],
+  entregables:[
+   {n:"01", t:"Distribución y circulación", p:"Por dónde camina la gente y qué pared puede moverse.", img:"pr-casa-1"},
+   {n:"02", t:"Plano de iluminación", p:"La decisión que más cambia un ambiente y la que casi nadie toma a tiempo.", img:"pr-casa-6"},
+   {n:"03", t:"Paleta de materiales", p:"Neutros cálidos, madera que envejece bien, latón que toma pátina.", img:"pr-casa-4"},
+   {n:"04", t:"Mueblería a medida", p:"Lo que no existe en tienda se dibuja y se fabrica en el taller.", img:"uni-taller"},
+   {n:"05", t:"Montaje y entrega", p:"Se entrega instalado, con la casa lista para vivirse.", img:"pr-casa-8"}
+  ],
+  proceso:[
+   {n:"01", t:"Primera visita", p:"Medición, uso real y presupuesto. De ahí sale el pliego de necesidades.", img:"blog-1"},
+   {n:"02", t:"Proyecto", p:"Planos, materiales, iluminación y selección de mobiliario en un solo expediente.", img:"pr-plano-3"},
+   {n:"03", t:"Obra y entrega", p:"Dirección de obra, taller propio y coordinación de proveedores.", img:"pr-casa-3"}
+  ],
+  boceto:{foto:"pr-casa-3", pie:"Dormitorio principal — del dibujo a mano al ambiente entregado."},
+  cta:{t:"Cuéntenos de su espacio", p:"Metraje, distrito y en qué plazo lo necesita. Gian responde dentro de 24 horas hábiles.", b:"Agendar una asesoría"}
+ }
+};
+
+
+/* ---------- quiénes somos -----------------------------------------------
+   La página es sobre Gian: de dónde sale el estudio y quién lo ejecuta hoy.
+   Las fotos del equipo están pendientes; mientras tanto se usa una ficha
+   con monograma, que se ve intencional en lugar de rota.
+   ------------------------------------------------------------------------ */
+
+var HISTORIA = [
+ {a:"El origen", t:"Empezó en obra",
+  p:"Giandeco no nació en un escritorio. Nació midiendo paredes que no estaban a escuadra y resolviendo con lo que había.",
+  img:"uni-taller"},
+ {a:"La mirada", t:"Neutros que duran",
+  p:"La paleta del estudio no persigue la temporada. Persigue que el espacio siga funcionando dentro de diez años.",
+  img:"uni-mirada"},
+ {a:"El taller", t:"Fabricación propia",
+  p:"Plano de despiece, prototipo y serie. Por eso un exhibidor de tienda y un mueble de casa salen igual de bien.",
+  img:"pr-plano-1"}
+];
+
+var EQUIPO = [
+ {ini:"G", n:"Gian", rol:"Fundador y director de proyectos",
+  p:"Dirige cada encargo de principio a fin. El que escucha en la primera reunión es el mismo que firma el plano y el que aparece en obra.",
+  img:"", destacado:true},
+ {ini:"M", n:"Martha", rol:"Diseñadora de interiores",
+  p:"Concepto, paleta de materiales y selección de mobiliario. Traduce el pliego de necesidades en un ambiente que se sostiene.",
+  img:""},
+ {ini:"L", n:"Lucía", rol:"Arquitecta",
+  p:"Planos, distribución y coordinación de especialidades. Se encarga de que lo dibujado se pueda construir.",
+  img:""}
+];
+
+var CIFRAS_ESTUDIO = [
+ ["+40","locales intervenidos"],
+ ["+60","proyectos entregados"],
+ ["8","marcas atendidas"],
+ ["1","taller propio"]
+];
+
+
+/* ---------- pares boceto / obra ------------------------------------------
+   Fotografías que ya tienen su versión a lápiz en img/sk-<nombre>.jpg,
+   generada con hacer-bocetos.py. El componente solo se dibuja si el par
+   existe: nunca se enseña un marco a medias.
+
+   Estos dibujos salen de la propia foto y son material de trabajo. Cuando
+   lleguen los bocetos a mano del estudio, se reemplaza el archivo sk-* con
+   el mismo nombre y el sitio no se entera.
+   ------------------------------------------------------------------------ */
+
+var BOCETOS = ["pr-walon-1","pr-sala-1","pr-orion-1","pr-casa-3","pr-casa-1",
+               "pr-bano-1","cat-muebles","esp-sala","pr-navidad-2"];
+
+function tieneBoceto(k){ return BOCETOS.indexOf(k) >= 0; }

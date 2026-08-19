@@ -21,7 +21,7 @@
 <header class="head">
   <!-- 1. cinta de aviso -->
   <div class="aviso">
-    <p>Envío a todo Lima<span class="ann-x"> <i></i> Retiro sin costo en Av. Arenales, Lince</span><span class="ann-x"> <i></i> Asesoría con cita previa</span></p>
+    <p>Estudio de diseño en Lima<span class="ann-x"> <i></i> Av. Arenales, Lince</span><span class="ann-x"> <i></i> Asesoría con cita previa</span></p>
   </div>
 
   <div class="hwrap">
@@ -41,7 +41,8 @@
       </button>
 
       <div class="hright">
-        <button class="pro-btn" type="button" data-go="contacto">Espacio profesional</button>
+        <!-- las dos páginas fijas: no son mundos, no cambian la fila de abajo -->
+        <nav class="paginas-nav" id="paginasNav" aria-label="Páginas"></nav>
         <button class="tema-btn" type="button" data-tema-toggle>
           <svg class="i-sol" viewBox="0 0 24 24" aria-hidden="true">
             <circle cx="12" cy="12" r="4.2"/>
@@ -113,38 +114,48 @@
     <div class="camp-dots" id="cDots"></div>
   </section>
 
-  <!-- los dos mundos: el estudio y la tienda -->
-  <section class="mundos">
-    <button class="mundo" type="button" data-go="servicios">
-      <img src="img/ser-arquitectura.jpg" alt="" loading="lazy" />
+  <!-- los tres servicios: el sitio entero cuelga de aquí -->
+  <section class="mundos tres">
+    <button class="mundo" type="button" data-go="retail">
+      <img src="img/pr-walon-1.jpg" alt="" loading="lazy" />
       <span class="veil"></span>
       <span class="cap">
-        <span class="eyebrow">El estudio</span>
-        <h3>Proyectos y servicios</h3>
-        <p>Arquitectura, diseño interior, decoración, visual merchandising y mueblería a medida. Cinco líneas, un solo equipo.</p>
-        <span class="link">Ver los servicios</span>
+        <span class="eyebrow">Retail</span>
+        <h3>Diseño de tiendas</h3>
+        <p>Vitrinas, islas de marca y campañas. Trabajado a escala de cadena.</p>
+        <span class="link">Ver Retail</span>
       </span>
     </button>
-    <button class="mundo" type="button" data-go="cat:asientos">
-      <img src="img/esp-sala.jpg" alt="" loading="lazy" />
+    <button class="mundo" type="button" data-go="hogar">
+      <img src="img/pr-casa-2.jpg" alt="" loading="lazy" />
       <span class="veil"></span>
       <span class="cap">
-        <span class="eyebrow">La tienda</span>
-        <h3>Mobiliario y decoración</h3>
-        <p>La colección del estudio, disponible pieza por pieza o por ambientes completos, con entrega en Lima.</p>
-        <span class="link">Entrar a la tienda</span>
+        <span class="eyebrow">Hogar</span>
+        <h3>Diseño de interiores</h3>
+        <p>Sala, dormitorio o la casa completa. De la medición a la mudanza.</p>
+        <span class="link">Ver Hogar</span>
+      </span>
+    </button>
+    <button class="mundo" type="button" data-go="cat:mueble">
+      <img src="img/cat-muebles.jpg" alt="" loading="lazy" />
+      <span class="veil"></span>
+      <span class="cap">
+        <span class="eyebrow">Catálogo</span>
+        <h3>Mueblería</h3>
+        <p>Piezas de taller propio. Se cotizan por encargo.</p>
+        <span class="link">Ver el catálogo</span>
       </span>
     </button>
   </section>
 
-  <!-- catálogo: azulejos grandes, no círculos -->
+  <!-- catálogo: lo que ya está y lo que viene -->
   <section class="band"><div class="wrap">
     <div class="plate" data-rev>
       <div class="plate-in">
-        <span class="eyebrow">La colección</span>
-        <h2>Explore el catálogo</h2>
+        <span class="eyebrow">Catálogo</span>
+        <h2>La colección</h2>
       </div>
-      <button class="link" type="button" data-go="cat:asientos">Ver todo</button>
+      <button class="link" type="button" data-go="cat:mueble">Ver mueblería</button>
     </div>
     <div class="tiles destacada" id="homeCats" data-rev></div>
   </div></section>
@@ -153,8 +164,8 @@
   <section class="band band-alt"><div class="wrap">
     <div class="plate-c" data-rev>
       <span class="eyebrow">Proyectos</span>
-      <h2>Lo que hace el estudio</h2>
-      <p>Vitrinas de cadena, salas de venta, interiores residenciales y hotelería. Obra propia, fotografiada en sitio.</p>
+      <h2>Obra propia</h2>
+      <p>Tiendas, campañas, casas y hotelería. Fotografiado en sitio.</p>
     </div>
     <div class="proj-grid" id="homeProy"></div>
     <div style="display:grid;justify-items:center;margin-top:clamp(4rem,9vw,9rem)">
@@ -162,14 +173,14 @@
     </div>
   </div></section>
 
-  <!-- novedades -->
+  <!-- mueblería -->
   <section class="band"><div class="wrap">
     <div class="plate" data-rev>
       <div class="plate-in">
-        <span class="eyebrow">Tienda</span>
-        <h2>Novedades de temporada</h2>
+        <span class="eyebrow">Mueblería</span>
+        <h2>Hecho en taller propio</h2>
       </div>
-      <button class="link" type="button" data-go="cat:asientos">Ver el catálogo</button>
+      <button class="link" type="button" data-go="cat:mueble">Ver todo</button>
     </div>
     <div class="grid rail-m" id="homeGrid"></div>
   </div></section>
@@ -178,11 +189,10 @@
   <section class="band"><div class="wrap">
     <div class="plate-c" data-rev>
       <span class="cap-doble">
-        <span class="sobre">Compre</span>
-        <span class="grande">el look</span>
+        <span class="sobre">Del ambiente</span>
+        <span class="grande">a la pieza</span>
       </span>
-      <p>Un ambiente montado por el estudio, con cada pieza marcada. Toque un punto
-        para ver qué es y cuánto cuesta.</p>
+      <p>Toque un punto sobre la fotografía para ver qué pieza es y pedirla.</p>
     </div>
     <div class="look-wrap">
       <div id="homeMapa"></div>
@@ -201,21 +211,8 @@
     <div class="esp-cards rail-m" id="homeEsp"></div>
   </div></section>
 
-  <!-- las cinco líneas -->
-  <section class="band"><div class="wrap">
-    <div class="plate-c" data-rev>
-      <span class="eyebrow">Servicios</span>
-      <h2>Cinco líneas de trabajo</h2>
-      <p>Del anteproyecto a la pieza instalada. El estudio entra donde haga falta y se queda hasta la entrega.</p>
-    </div>
-    <div class="tiles" id="homeLineas"></div>
-    <div style="display:grid;justify-items:center;margin-top:clamp(2.5rem,5vw,4rem)">
-      <button class="btn btn-l" type="button" data-go="servicios">Conocer los servicios</button>
-    </div>
-  </div></section>
-
   <!-- cita -->
-  <section class="band band-alt"><div class="wrap">
+  <section class="band"><div class="wrap">
     <div class="cita" data-rev>
       <span class="eyebrow">Giandeco Studio Design</span>
       <blockquote>Diseñamos espacios que inspiran, experiencias que trascienden.</blockquote>
@@ -224,10 +221,10 @@
   </div></section>
 
   <!-- blog -->
-  <section class="band"><div class="wrap">
+  <section class="band band-alt"><div class="wrap">
     <div class="plate" data-rev>
       <div class="plate-in">
-        <span class="eyebrow">Blog del estudio</span>
+        <span class="eyebrow">Blog</span>
         <h2>Lo que aprendemos en obra</h2>
       </div>
       <button class="link" type="button" data-go="cuaderno">Todas las notas</button>
@@ -256,11 +253,10 @@
           <div>
             <span class="eyebrow">Navidad montada</span>
             <h3>¿Prefiere que se la montemos nosotros?</h3>
-            <p>El estudio monta la Navidad completa de casas y de salas de venta: árbol, vitrinas,
-               mesa y luces, con desmontaje y guardado en enero. Es el mismo equipo que hace las
-               campañas de tienda.</p>
+            <p>El estudio monta la Navidad completa de casas y de salas de venta: árbol, vitrina,
+               mesa y luces, con desmontaje y guardado en enero.</p>
           </div>
-          <button class="btn" type="button" data-go="servicios">Pedir una cotización</button>
+          <button class="btn" type="button" data-go="contacto">Pedir una cotización</button>
         </aside>
 
         <div class="sbar">
@@ -288,6 +284,30 @@
 </main>
 
 
+<!-- ============ CATEGORÍA QUE TODAVÍA NO ABRE ============ -->
+<main class="view" id="v-pronto">
+  <div class="wrap">
+    <nav class="crumb" id="prCrumb" aria-label="Ruta"></nav>
+    <div class="pronto">
+      <figure class="pronto-foto"><img id="prontoImg" src="" alt="" /><span class="veil"></span></figure>
+      <div class="pronto-txt">
+        <span class="eyebrow" id="prontoCuando"></span>
+        <h1 id="prontoTitulo"></h1>
+        <p class="lede" id="prontoLede"></p>
+        <ul class="pronto-subs" id="prontoSubs"></ul>
+        <p class="pronto-nota">Mientras tanto, el estudio ya trabaja esta línea por encargo:
+          se cotiza, se fabrica y se instala igual que siempre. Lo que falta es la tienda en línea.</p>
+        <div class="fu-acc">
+          <button class="btn" type="button" data-go="contacto">Cotizar por encargo</button>
+          <button class="link" type="button" data-go="cat:mueble">Ver la mueblería</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="height:clamp(3rem,7vw,7rem)"></div>
+</main>
+
+
 <!-- ====================== FICHA DE PRODUCTO ====================== -->
 <main class="view" id="v-pdp">
   <div class="wrap">
@@ -304,7 +324,7 @@
         <span class="price" id="pdpPrice"></span>
         <div class="vpick" id="pdpVars"></div>
         <span class="stock" id="pdpStock"></span>
-        <div class="buy">
+        <div class="buy" id="pdpBuy">
           <div class="qty">
             <button type="button" id="qMinus" aria-label="Quitar uno">&minus;</button>
             <span id="qVal">1</span>
@@ -312,22 +332,14 @@
           </div>
           <button class="btn" type="button" id="pdpAdd">Añadir al carrito</button>
         </div>
-        <button class="btn btn-l" type="button" data-go="contacto">Consultar por WhatsApp</button>
-        <div class="acc">
-          <details open><summary>Descripción</summary><div class="ab"><p id="acDesc"></p></div></details>
-          <details><summary>Materiales y acabados</summary><div class="ab"><p id="acMat"></p></div></details>
-          <details><summary>Dimensiones</summary><div class="ab"><table><tbody id="acDim"></tbody></table></div></details>
-          <details><summary>Envíos y devoluciones</summary><div class="ab"><ul>
-            <li><strong>Lima Metropolitana:</strong> <span id="acLead"></span> desde la confirmación del pedido.</li>
-            <li><strong>Provincias:</strong> coordinamos con la agencia de su elección; el flete se cotiza aparte.</li>
-            <li><strong>Retiro en showroom:</strong> sin costo en Av. Arenales, Lince, de lunes a sábado.</li>
-            <li><strong>Devoluciones:</strong> 7 días calendario desde la entrega, con embalaje original. Las piezas a medida y los papeles murales cortados no admiten devolución.</li>
-            <li><strong>Armado:</strong> incluido en Lima para mobiliario de más de S/ 2,000.</li>
-          </ul></div></details>
-          <details><summary>Cuidado de la pieza</summary><div class="ab"><p id="acCare"></p></div></details>
-        </div>
+        <button class="btn" type="button" id="pdpCotizar" data-go="contacto">Solicitar cotización</button>
+        <p class="pdp-nota" id="pdpNota">La tienda en línea abre pronto. Por ahora cada pieza se
+          cotiza por encargo: se confirma medida, acabado y plazo antes de fabricar.</p>
+        <dl class="ficha" id="pdpFicha"></dl>
       </div>
     </div>
+    <section class="band pdp-relato" id="pdpRelato"></section>
+
     <section class="band">
       <div class="plate"><div class="plate-in"><h2>Combina bien con</h2></div></div>
       <div class="grid" id="pdpRel"></div>
@@ -401,23 +413,68 @@
 </main>
 
 
-<!-- ====================== EL ESTUDIO / NUESTRO UNIVERSO ====================== -->
-<main class="view" id="v-universo">
-  <section class="pr-hero">
-    <img src="img/uni-hero.jpg" alt="Un ambiente montado por el estudio" />
+<!-- ====================== QUIÉNES SOMOS ====================== -->
+<main class="view" id="v-nosotros">
+  <section class="pr-hero ns-hero">
+    <img src="img/uni-hero.jpg" alt="" />
     <div class="veil"></div>
     <div class="inner">
-      <span class="eyebrow">El estudio</span>
-      <h1>Nuestro universo</h1>
-      <p>Arquitectura, interiorismo y taller propio, en Lima desde hace años.</p>
+      <span class="eyebrow">Quiénes somos</span>
+      <h1>Detrás de Giandeco<br />está Gian</h1>
+      <p>Estudio de arquitectura interior, diseño y mueblería en Lima.</p>
     </div>
   </section>
-  <div class="wrap">
-    <nav class="crumb" id="uvCrumb" aria-label="Ruta"></nav>
-    <section class="band cap" id="uvCaps"></section>
 
-    <section class="band band-sm">
-      <div class="cita">
+  <div class="wrap">
+    <nav class="crumb" id="nsCrumb" aria-label="Ruta"></nav>
+
+    <section class="band-sm">
+      <div class="fundador" data-rev>
+        <figure class="fu-foto" id="nsFoto"></figure>
+        <div class="fu-txt">
+          <span class="eyebrow">El fundador</span>
+          <h2>Gian</h2>
+          <p class="lede">Dirige cada encargo de principio a fin. El que escucha en la primera
+            reunión es el mismo que firma el plano y el que aparece en obra.</p>
+          <p>Empezó midiendo paredes que no estaban a escuadra y resolviendo con lo que había.
+            Esa manera de trabajar no se fue nunca.</p>
+          <div class="fu-acc">
+            <button class="btn" type="button" data-go="contacto">Agendar una asesoría</button>
+            <button class="link" type="button" data-go="proyectos">Ver los proyectos</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band-sm">
+      <div class="cifras grande" id="nsCifras" data-rev></div>
+    </section>
+
+    <section class="band">
+      <div class="plate-c" data-rev>
+        <span class="cap-doble"><span class="sobre">De dónde</span><span class="grande">venimos</span></span>
+      </div>
+      <div class="historia" id="nsHistoria"></div>
+    </section>
+
+    <section class="band band-alt">
+      <div class="plate-c" data-rev>
+        <span class="cap-doble"><span class="sobre">El equipo</span><span class="grande">que ejecuta</span></span>
+        <p>Tres personas y un taller. Nadie subcontrata la parte que da la cara.</p>
+      </div>
+      <div class="equipo" id="nsEquipo"></div>
+    </section>
+
+    <section class="band">
+      <div class="plate" data-rev>
+        <div class="plate-in"><span class="eyebrow">Participación</span><h2>Proyectos en los que estuvimos</h2></div>
+        <button class="link" type="button" data-go="proyectos">Ver todos</button>
+      </div>
+      <div class="proj-grid" id="nsProy"></div>
+    </section>
+
+    <section class="band band-alt">
+      <div class="cita" data-rev>
         <span class="eyebrow">Giandeco Studio Design</span>
         <blockquote>Diseñamos espacios que inspiran, experiencias que trascienden.</blockquote>
         <cite>Av. Arenales, Lince — Lima</cite>
@@ -425,14 +482,17 @@
     </section>
 
     <section class="band">
-      <div class="honor" style="border:0;padding:0;margin-top:0">
+      <div class="honor" style="border:0;padding:0">
         <span class="cap-doble" style="justify-items:center;text-align:center">
-          <span class="sobre">Hablemos de</span>
-          <span class="grande">su proyecto</span>
+          <span class="sobre">Trabajemos</span>
+          <span class="grande">juntos</span>
         </span>
-        <p>La primera reunión no cuesta nada y sirve para saber si el encargo tiene sentido
-          para las dos partes. Se hace en la oficina de Arenales o en su espacio.</p>
-        <button class="btn" type="button" data-go="contacto">Contactar al estudio</button>
+        <p>Cuéntenos qué espacio tiene entre manos. La primera reunión no cuesta nada.</p>
+        <div class="fu-acc" style="justify-content:center">
+          <button class="btn" type="button" data-go="contacto">Agendar una asesoría</button>
+          <button class="link" type="button" data-go="retail">Ver Retail</button>
+          <button class="link" type="button" data-go="hogar">Ver Hogar</button>
+        </div>
       </div>
     </section>
   </div>
@@ -496,123 +556,91 @@
 </main>
 
 
-<!-- ====================== SERVICIOS ====================== -->
-<main class="view" id="v-servicios">
-  <div class="wrap">
-    <nav class="crumb" id="serCrumb" aria-label="Ruta"></nav>
-    <div class="plate-c">
-      <span class="cap-doble">
-        <span class="sobre">Estudio de arquitectura interior</span>
-        <span class="grande">Creadores de atmósfera</span>
-      </span>
-      <p>El estudio acompaña a particulares y a empresas en el diseño de casas, oficinas,
-        tiendas, hoteles e interiores de excepción. Gian dirige cada encargo: no hay un
-        ejecutivo de cuenta en el medio.</p>
+<!-- ============ SERVICIO (Retail / Hogar: la misma plantilla) ============ -->
+<main class="view" id="v-servicio">
+  <section class="pr-hero" id="svHero">
+    <img id="svBg" src="" alt="" />
+    <div class="veil"></div>
+    <div class="inner">
+      <span class="eyebrow" id="svEye"></span>
+      <h1 id="svTitulo"></h1>
+      <p id="svPromesa"></p>
+      <button class="btn" type="button" id="svCta1"></button>
     </div>
+  </section>
 
-    <section id="serLineas"></section>
+  <!-- boceto y obra: lo primero después del banner, sin una sola palabra encima -->
+  <section class="band-sm"><div class="wrap" id="svBoceto"></div></section>
 
-    <section class="band">
+  <div class="wrap">
+    <nav class="crumb" id="svCrumb" aria-label="Ruta"></nav>
+
+    <section class="band-sm">
       <div class="plate-c" data-rev>
         <span class="cap-doble">
-          <span class="sobre">Un acompañamiento</span>
-          <span class="grande">a medida</span>
+          <span class="sobre" id="svMarcaSobre"></span>
+          <span class="grande" id="svMarca"></span>
         </span>
-        <p>Tres etapas, siempre las mismas, sea un departamento o una cadena de tiendas.</p>
+        <p id="svIntro"></p>
       </div>
+      <div class="cifras" id="svCifras" data-rev></div>
+    </section>
 
-      <div class="pasos">
-        <article class="paso">
-          <figure><img src="img/blog-1.jpg" alt="Primera visita al espacio" loading="lazy" /></figure>
-          <div class="paso-txt">
-            <span class="num">01</span>
-            <h3>Pliego de necesidades</h3>
-            <p>Primera reunión en la oficina de Arenales o en su espacio. Se levanta la medición,
-               el uso real y las restricciones. De ahí sale el pliego: qué tiene que resolver el
-               proyecto, en qué plazo y con qué límites.</p>
-          </div>
-        </article>
-        <article class="paso">
-          <figure><img src="img/pr-plano-1.jpg" alt="Planos e isometrías del proyecto" loading="lazy" /></figure>
-          <div class="paso-txt">
-            <span class="num">02</span>
-            <h3>Propuesta de proyecto</h3>
-            <p>Planos, paleta de materiales, perspectivas y selección de mobiliario en un solo
-               expediente. Usted sabe exactamente qué se hace y qué no antes de firmar nada.
-               Dos rondas de ajuste antes de aprobar.</p>
-          </div>
-        </article>
-        <article class="paso">
-          <figure><img src="img/uni-taller.jpg" alt="Ejecución en obra" loading="lazy" /></figure>
-          <div class="paso-txt">
-            <span class="num">03</span>
-            <h3>Ejecución y entrega</h3>
-            <p>El estudio dirige la obra, fabrica en taller propio lo que va a medida y coordina
-               a los proveedores. La ejecución la paga usted directo a quien la hace, sin
-               recargo del estudio.</p>
-          </div>
-        </article>
+    <section class="band">
+      <div class="plate" data-rev>
+        <div class="plate-in"><span class="eyebrow">Qué entregamos</span><h2 id="svEntTit"></h2></div>
       </div>
+      <div class="entregables" id="svEntregables"></div>
+    </section>
+
+    <section class="band band-alt" id="svEspacios" hidden>
+      <div class="plate" data-rev>
+        <div class="plate-in"><span class="eyebrow">Ambientes</span><h2>Del ambiente a la pieza</h2></div>
+        <button class="link" type="button" data-go="espacios">Ver todos</button>
+      </div>
+      <p class="sv-lede">Si algo de un ambiente le interesa, toque el punto: se abre la pieza y se puede pedir.</p>
+      <div class="esp-cards rail-m" id="svEspList"></div>
+    </section>
+
+    <section class="band" id="svCatalogo" hidden>
+      <div class="plate" data-rev>
+        <div class="plate-in"><span class="eyebrow">Catálogo</span><h2>Mueblería de taller propio</h2></div>
+        <button class="link" type="button" data-go="cat:mueble">Ver el catálogo</button>
+      </div>
+      <div class="grid rail-m" id="svCatGrid"></div>
     </section>
 
     <section class="band">
       <div class="plate-c" data-rev>
-        <span class="cap-doble">
-          <span class="sobre">Ámbitos</span>
-          <span class="grande">de encargo</span>
+        <span class="cap-doble"><span class="sobre">Cómo</span><span class="grande">trabajamos</span></span>
+      </div>
+      <div class="pasos" id="svProceso"></div>
+    </section>
+
+    <section class="band">
+      <div class="plate" data-rev>
+        <div class="plate-in"><span class="eyebrow">Proyectos</span><h2 id="svProyTit"></h2></div>
+        <button class="link" type="button" id="svProyLink">Ver todos</button>
+      </div>
+      <div class="proj-grid" id="svProyectos"></div>
+    </section>
+
+    <section class="band band-alt">
+      <div class="plate" data-rev>
+        <div class="plate-in"><span class="eyebrow">Blog</span><h2 id="svBlogTit"></h2></div>
+        <button class="link" type="button" id="svBlogLink">Todas las notas</button>
+      </div>
+      <div class="jgrid rail-m" id="svBlog"></div>
+    </section>
+
+    <section class="band">
+      <div class="honor" style="border:0;padding:0">
+        <span class="cap-doble" style="justify-items:center;text-align:center">
+          <span class="sobre">Hablemos</span>
+          <span class="grande" id="svCtaT"></span>
         </span>
-      </div>
-
-      <div class="plans">
-        <article class="plan">
-          <span class="eyebrow">Para su casa</span>
-          <h3>Residencial</h3>
-          <p class="lede">Departamentos y casas que necesitan una mirada completa, no un mueble
-            suelto. Es el encargo que el estudio más ha tomado, casi siempre por recomendación.</p>
-          <ul class="inc">
-            <li>Visita inicial, medición y pliego de necesidades</li>
-            <li>Planos, paleta de materiales e iluminación</li>
-            <li>Selección de mobiliario, con precio preferente en la tienda</li>
-            <li>Supervisión de obra hasta la entrega</li>
-          </ul>
-          <button class="link" type="button" data-go="contacto">Conversemos</button>
-        </article>
-
-        <article class="plan feat">
-          <span class="eyebrow">Para su negocio</span>
-          <h3>Retail y visual merchandising</h3>
-          <p class="lede">Vitrinas, islas de marca, layout de sala y campañas de temporada. La
-            línea con más recorrido del estudio: se ha trabajado a escala de cadena de tiendas.</p>
-          <ul class="inc">
-            <li>Diagnóstico de la sala y del recorrido de compra</li>
-            <li>Diseño de vitrinas, islas y exhibidores</li>
-            <li>Campañas de temporada, montaje y desmontaje</li>
-            <li>Manual de implantación para replicar en varios locales</li>
-          </ul>
-          <button class="link" type="button" data-go="contacto">Conversemos</button>
-        </article>
-
-        <article class="plan">
-          <span class="eyebrow">Para empresas</span>
-          <h3>Hotelería y espacios comerciales</h3>
-          <p class="lede">Oficinas, restaurantes, hoteles y showrooms. Arquitectura interior y
-            mueblería a medida, con supervisión hasta la entrega del espacio.</p>
-          <ul class="inc">
-            <li>Anteproyecto y planos de distribución</li>
-            <li>Mueblería a medida fabricada en taller propio</li>
-            <li>Coordinación de proveedores y contratistas</li>
-            <li>Entrega llave en mano</li>
-          </ul>
-          <button class="link" type="button" data-go="contacto">Conversemos</button>
-        </article>
-      </div>
-
-      <div class="honor">
-        <span class="eyebrow">Honorarios</span>
-        <p>Los honorarios de diseño se calculan según el metraje y el alcance del encargo, y se
-          presentan por escrito en la propuesta, después de la primera reunión. No trabajamos
-          con tarifario: cada espacio tiene su propio problema y su propio precio.</p>
-        <button class="btn" type="button" data-go="contacto">Contactar al estudio</button>
+        <p id="svCtaP"></p>
+        <button class="btn" type="button" id="svCtaB"></button>
       </div>
     </section>
   </div>
@@ -692,12 +720,12 @@
         <div class="campo">
           <label for="cTipo">Tipo de encargo</label>
           <select id="cTipo" name="tipo">
-            <option>Residencial — casa o departamento</option>
-            <option>Retail y visual merchandising</option>
+            <option>Hogar — casa o departamento</option>
+            <option>Retail — tienda, vitrina o campaña</option>
             <option>Hotelería, restaurante u oficina</option>
             <option>Mueblería a medida</option>
             <option>Decoración de temporada</option>
-            <option>Compra en la tienda</option>
+            <option>Consulta por una pieza del catálogo</option>
             <option>Otro</option>
           </select>
         </div>
@@ -751,11 +779,12 @@
         <h4>Estudio</h4>
         <button class="fh" type="button" aria-expanded="false">Estudio<span class="ar"></span></button>
         <div class="fp"><ul>
+          <li><button type="button" data-go="retail">Retail</button></li>
+          <li><button type="button" data-go="hogar">Hogar</button></li>
           <li><button type="button" data-go="proyectos">Proyectos</button></li>
-          <li><button type="button" data-go="servicios">Servicios</button></li>
           <li><button type="button" data-go="espacios">Compra el espacio</button></li>
           <li><button type="button" data-go="cuaderno">Blog</button></li>
-          <li><button type="button" data-go="universo">El estudio</button></li>
+          <li><button type="button" data-go="nosotros">Quiénes somos</button></li>
           <li><button type="button" data-go="contacto">Contacto</button></li>
         </ul></div>
       </div>
@@ -763,8 +792,8 @@
         <h4>Ayuda</h4>
         <button class="fh" type="button" aria-expanded="false">Ayuda<span class="ar"></span></button>
         <div class="fp"><ul>
-          <li><span>Envíos y entregas</span></li><li><span>Cambios y devoluciones</span></li>
-          <li><span>Formas de pago</span></li><li><span>Preguntas frecuentes</span></li>
+          <li><span>Cómo se cotiza un encargo</span></li><li><span>Plazos de fabricación</span></li>
+          <li><span>Entrega e instalación en Lima</span></li><li><span>Tienda en línea: próximamente</span></li>
         </ul></div>
       </div>
     </div>
