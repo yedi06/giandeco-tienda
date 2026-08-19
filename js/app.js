@@ -270,12 +270,8 @@ function piezaMosaico(clave, i){
 function parCorte(clave, corte, i){
   if(!tieneBoceto(clave)) return null;
   var f = el("figure","tb-par");
-  f.style.setProperty("--c", corte+"%");
   f.style.setProperty("--i", i);
-  f.innerHTML =
-    '<img class="tb-sk" src="'+IMG+'sk-'+clave+'.jpg" alt="Boceto del ambiente" loading="lazy" />'+
-    '<div class="tb-ob"><img src="'+src(clave)+'" alt="El mismo ambiente construido" loading="lazy" /></div>'+
-    '<span class="tb-linea" aria-hidden="true"></span>';
+  f.appendChild(marcoBoceto(clave, corte));
   return f;
 }
 
@@ -293,7 +289,7 @@ function tablaTrazo(sv){
   /* La pieza grande conserva sus rótulos Boceto / Obra, que son los que
      explican el mecanismo. La frase larga se saca fuera: dentro de la
      rejilla partía la composición por la mitad. */
-  var grande = bocetoObra(lista[0], null);
+  var grande = bocetoObra(lista[0], null, 50);
   if(grande){ caja.appendChild(grande); }
 
   var cortes = [58, 44, 62, 38], letras = "bcde";
@@ -306,36 +302,42 @@ function tablaTrazo(sv){
   if(sv.boceto && sv.boceto.pie){
     var pie = el("p","tabla-pie",
       '<span>'+sv.boceto.pie+'</span>'+
-      '<em>Arrastre la pieza mayor · pase el cursor sobre las demás</em>');
+      '<em>Arrastre cualquier pieza</em>');
     envoltura.appendChild(pie);
   }
   return envoltura;
 }
 
-function bocetoObra(clave, pie){
-  if(!tieneBoceto(clave)) return null;
+/* El marco: el dibujo debajo, la obra encima recortada por la posición del
+   tirador. El control es un input de rango estirado sobre el marco, así que
+   funciona con ratón, con el dedo y con el teclado sin escribir nada de eso
+   a mano. Lo comparten las cinco piezas de la tabla. */
+function marcoBoceto(clave, corte){
+  corte = (corte == null) ? 50 : corte;
+  var marco = el("div","bc-marco");
+  marco.innerHTML =
+    '<img class="bc-sk" src="'+IMG+'sk-'+clave+'.jpg" alt="Boceto a lápiz del ambiente" loading="lazy" />'+
+    '<div class="bc-obra"><img src="'+src(clave)+'" alt="El mismo ambiente, ya construido" loading="lazy" /></div>'+
+    '<span class="bc-linea" aria-hidden="true"><i></i></span>'+
+    '<input class="bc-rango" type="range" min="0" max="100" value="'+corte+'" step="0.1" '+
+           'aria-label="Deslice para pasar del boceto a la obra terminada" />';
 
-  var caja = el("figure","bc tb-a");
-  caja.innerHTML =
-    '<div class="bc-marco">'+
-      '<img class="bc-sk" src="'+IMG+'sk-'+clave+'.jpg" alt="Boceto a lápiz del ambiente" loading="lazy" />'+
-      '<div class="bc-obra"><img src="'+src(clave)+'" alt="El mismo ambiente, ya construido" loading="lazy" /></div>'+
-      '<span class="bc-linea" aria-hidden="true"><i></i></span>'+
-      '<input class="bc-rango" type="range" min="0" max="100" value="50" step="0.1" '+
-             'aria-label="Deslice para pasar del boceto a la obra terminada" />'+
-    '</div>'+
-    '<figcaption class="bc-pie">'+
-      '<span>Boceto</span>'+
-      (pie ? '<em>'+pie+'</em>' : '')+
-      '<span>Obra</span>'+
-    '</figcaption>';
-
-  var marco = caja.querySelector(".bc-marco");
-  var rango = caja.querySelector(".bc-rango");
-
+  var rango = marco.querySelector(".bc-rango");
   function mover(){ marco.style.setProperty("--x", rango.value + "%"); }
   rango.addEventListener("input", mover);
   mover();
+  return marco;
+}
+
+function bocetoObra(clave, pie, corte){
+  if(!tieneBoceto(clave)) return null;
+
+  var caja = el("figure","bc tb-a");
+  caja.appendChild(marcoBoceto(clave, corte));
+
+  var pieNodo = el("figcaption","bc-pie",
+    '<span>Boceto</span>'+ (pie ? '<em>'+pie+'</em>' : '') +'<span>Obra</span>');
+  caja.appendChild(pieNodo);
 
   return caja;
 }

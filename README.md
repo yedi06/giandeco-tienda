@@ -40,9 +40,10 @@ Proyectos y Blog sólo traen retail; estando en Hogar, sólo hogar.
 - **Boceto y obra**, en dos bloques distintos y sin una palabra sobre la
   imagen:
   - **Tabla de trazo**, justo debajo del banner. Cinco pares en composición
-    desigual: una pieza manda y cuatro la acompañan, con el corte a distinta
-    altura en cada una. La mayor lleva tirador; las otras se abren solas al
-    pasar el cursor.
+    desigual: una pieza manda y cuatro la acompañan. **Las cinco llevan
+    tirador** y arrancan con el corte a distinta altura —50, 58, 44, 62 y
+    38 por ciento— para que la composición no se lea como una tira de cajas
+    iguales.
   - **Mosaico «Del trazo a la obra»**, más abajo. Seis pares en retícula de
     doce celdas que cierra sin huecos. Cada pieza empieza dibujada y la
     fotografía la barre al pasar el cursor.
