@@ -61,14 +61,14 @@ var TAX = [
    delante en vez de reordenar el array a mano: así, cuando termine, basta
    con poner `temporada:false` y todo vuelve a su sitio. */
 TAX.unshift(
-  {slug:"navidad", name:"Navidad", img:"pr-navidad-1", estado:"activo", temporada:true,
+  {slug:"navidad", name:"Navidad", img:"navid-1", estado:"activo", temporada:true,
    lede:"Árbol, vitrina, mesa y luces. La misma campaña que montamos en salas de venta, para su casa.",
    campana:{
      eyebrow:"Campaña de temporada · 2026",
      titulo:"La Navidad, montada",
      texto:"El estudio arma la temporada completa: árbol, corona, mesa puesta y luces. Se monta en diciembre y se desmonta y guarda rotulado la primera semana de enero.",
-     foto:"pr-navidad-1",
-     apoyo:["pr-navidad-2","pr-navidad-3","pr-navidad-4"],
+     foto:"navid-1",
+     apoyo:["navid-2","navid-3","navid-4"],
      cta:"Pedir el montaje completo"
    },
    subs:[{s:"arboles", name:"Árboles"}, {s:"coronas", name:"Coronas y guirnaldas"},
@@ -91,44 +91,44 @@ function P(id,name,tag,cat,sub,price,colors,img,o){
 
 var PRODUCTS = [
  P(1,"Barranco","Sofá de 3 cuerpos","asientos","sofas",4650,["crudo","verde","burdeos"],"p-sofa-3",
-  {mat:"Bouclé",place:"Sala",style:"Contemporáneo",lead:"6 a 8 semanas",esp:["sala"],
+  {mat:"Bouclé",place:"Sala",style:"Contemporáneo",lead:"6 a 8 semanas",esp:["cg-sala"],
    gal:["p-sofa-1","p-sofa-2","p-sofa-4"],
    dims:[["Ancho","230 cm"],["Fondo","95 cm"],["Alto","78 cm"],["Alto de asiento","44 cm"],["Peso","62 kg"]],
    desc:"Tres cuerpos de líneas bajas y brazo ancho, pensado para sentarse de verdad y no solo para mirar. El asiento combina espuma de alta densidad con una envoltura de plumón: cede al sentarse y recupera la forma.",
    matx:"Tapiz bouclé de algodón y poliéster, desenfundable. Estructura de madera de tornillo secada al horno. Patas de roble macizo con acabado al aceite.",
    care:"Aspirar con boquilla suave cada dos semanas. Las manchas se levantan con paño húmedo y jabón neutro, del borde hacia el centro. No usar blanqueadores."}),
  P(2,"Miraflores","Sofá de 2 cuerpos","asientos","sofas",3890,["crudo","arena"],"p-sofa-2",
-  {mat:"Lino",place:"Sala",lead:"6 semanas",esp:["sala"],gal:["p-sofa-1","p-sofa-4"],
+  {mat:"Lino",place:"Sala",lead:"6 semanas",esp:["cg-sala"],gal:["p-sofa-1","p-sofa-4"],
    dims:[["Ancho","178 cm"],["Fondo","92 cm"],["Alto","76 cm"],["Peso","48 kg"]],
    desc:"La versión de dos cuerpos del Barranco, para departamentos donde el metraje manda. Mismo asiento, mismo brazo, 52 cm menos de ancho.",
    matx:"Lino lavado 100 % natural, desenfundable. Estructura de madera de tornillo.",
    care:"Lavado en seco de las fundas. El lino se arruga: es parte del material, no un defecto."}),
  P(3,"Chorrillos","Sillón de lectura","asientos","sillones",2180,["crudo","verde"],"p-sillon-1",
-  {mat:"Lino",place:"Dormitorio",lead:"6 semanas",esp:["sala","dormitorio"],gal:["p-sillon-2"],
+  {mat:"Lino",place:"Dormitorio",lead:"6 semanas",esp:["cg-sala","cg-hab"],gal:["p-sillon-2"],
    dims:[["Ancho","78 cm"],["Fondo","82 cm"],["Alto","74 cm"],["Alto de asiento","42 cm"]],
    desc:"Sillón de respaldo inclinado, pensado para leer una hora sin cambiar de postura. Incluye cojín lumbar del mismo tejido.",
    matx:"Lino crudo lavado sobre estructura de roble macizo.",
    care:"Aspirado suave. Rotar el cojín cada mes para que asiente parejo."}),
  P(4,"Paracas","Tumbona de exterior","asientos","tumbonas",1980,["arena","madera"],"esp-terraza",
-  {mat:"Teca",place:"Terraza",style:"Contemporáneo",lead:"4 semanas",esp:["terraza"],
+  {mat:"Teca",place:"Terraza",style:"Contemporáneo",lead:"4 semanas",esp:["bosque"],
    dims:[["Largo","195 cm"],["Ancho","68 cm"],["Alto","36 cm"]],
    desc:"Tumbona de teca con respaldo de cuatro posiciones y ruedas ocultas en las patas traseras. Resiste el verano limeño y la humedad de la garúa.",
    matx:"Teca de plantación certificada, sin tratar. Colchoneta de tejido acrílico solution-dyed.",
    care:"La teca sin tratar toma una pátina gris plata en unos seis meses. Si prefiere el tono miel original, aplicar aceite de teca dos veces al año."}),
  P(5,"Ancón","Banco tapizado","asientos","bancos",890,["crudo","burdeos"],"p-banco-1",
-  {mat:"Bouclé",place:"Dormitorio",lead:"3 semanas",esp:["dormitorio"],
+  {mat:"Bouclé",place:"Dormitorio",lead:"3 semanas",esp:["cg-hab"],
    dims:[["Ancho","120 cm"],["Fondo","40 cm"],["Alto","46 cm"]],
    desc:"Banco de pie de cama o de recibidor. Firme para sentarse a ponerse los zapatos, discreto para no estorbar.",
    matx:"Bouclé sobre estructura de madera. Patas de latón macizo.",
    care:"Aspirar. Evitar la exposición directa al sol para que el bouclé no amarillee."}),
  P(6,"Sillar","Puf redondo","asientos","bancos",620,["arena","verde"],"p-sillon-2",
-  {mat:"Lino",place:"Sala",lead:"Entrega inmediata",stock:"low",esp:["sala","terraza"],
+  {mat:"Lino",place:"Sala",lead:"Entrega inmediata",stock:"low",esp:["cg-sala","bosque"],
    dims:[["Diámetro","55 cm"],["Alto","42 cm"]],
    desc:"Puf de relleno firme que funciona como asiento extra o como mesa auxiliar con una bandeja encima.",
    matx:"Funda de lino con cierre invisible. Relleno de fibra de poliéster de alta densidad.",
    care:"Funda lavable en seco."}),
  P(7,"San Isidro","Silla de comedor","asientos","sillas",780,["crudo","negro"],"p-silla-1",
-  {mat:"Roble",place:"Comedor",lead:"4 semanas",esp:["comedor"],gal:["p-silla-2"],
+  {mat:"Roble",place:"Comedor",lead:"4 semanas",esp:["cg-comedor"],gal:["p-silla-2"],
    dims:[["Ancho","46 cm"],["Fondo","52 cm"],["Alto","86 cm"],["Alto de asiento","46 cm"]],
    desc:"Silla de comedor con respaldo curvo y asiento tapizado. Apilable de a tres para guardarla cuando no hay visitas.",
    matx:"Roble macizo con acabado al aceite. Asiento tapizado en lino.",
@@ -140,37 +140,37 @@ var PRODUCTS = [
    matx:"Estructura de acero con acabado latón envejecido. Asiento tapizado en cuerina.",
    care:"Limpiar el latón con paño seco. No usar limpiadores abrasivos: se llevan la pátina."}),
  P(9,"Travertino","Mesa de centro","muebles","centro",2890,["crudo"],"p-mesa-2",
-  {mat:"Travertino",place:"Sala",lead:"3 semanas",esp:["sala"],gal:["p-objeto-2"],
+  {mat:"Travertino",place:"Sala",lead:"3 semanas",esp:["cg-sala"],gal:["p-objeto-2"],
    dims:[["Largo","110 cm"],["Ancho","60 cm"],["Alto","38 cm"],["Peso","78 kg"]],
    desc:"Bloque de travertino romano con el canto irregular pulido a mano. Cada pieza tiene su propio veteado: no hay dos iguales, y por eso la que reciba no será idéntica a la de la foto.",
    matx:"Travertino natural sellado con producto de penetración mate. Base de acero oculta.",
    care:"El travertino es poroso: limpiar los derrames de inmediato, sobre todo vino y cítricos. Resellar cada dos años."}),
  P(10,"Lúcuma","Mesa lateral","muebles","centro",1680,["crudo"],"p-objeto-2",
-  {mat:"Travertino",place:"Sala",lead:"3 semanas",esp:["sala"],
+  {mat:"Travertino",place:"Sala",lead:"3 semanas",esp:["cg-sala"],
    dims:[["Diámetro","40 cm"],["Alto","52 cm"],["Peso","34 kg"]],
    desc:"Cilindro de travertino tallado de un solo bloque. Pesa 34 kg: se instala una vez y no se vuelve a mover.",
    matx:"Travertino natural sellado mate.",
    care:"Igual que la mesa de centro: sellado cada dos años y nada de ácidos."}),
  P(11,"Quinua","Mesa de comedor","muebles","comedor",5200,["madera"],"p-mesa-1",
-  {mat:"Roble",place:"Comedor",lead:"8 semanas",esp:["comedor"],gal:["p-mesa-2","p-mesapuesta-2"],
+  {mat:"Roble",place:"Comedor",lead:"8 semanas",esp:["cg-comedor"],gal:["p-mesa-2","p-mesapuesta-2"],
    dims:[["Largo","220 cm"],["Ancho","100 cm"],["Alto","76 cm"],["Comensales","8 a 10"]],
    desc:"Mesa de comedor de tablón macizo con junta viva al centro. Para ocho cómodos, diez apretados.",
    matx:"Roble macizo europeo, acabado al aceite duro.",
    care:"El aceite se retoca en casa: un paño, aceite duro y media hora. Evitar apoyar ollas calientes."}),
  P(12,"Chala","Consola","muebles","consolas",3240,["madera","crudo"],"p-consola-1",
-  {mat:"Roble",place:"Recibidor",lead:"5 semanas",esp:["sala"],gal:["p-consola-2"],
+  {mat:"Roble",place:"Recibidor",lead:"5 semanas",esp:["cg-sala"],gal:["p-consola-2"],
    dims:[["Largo","160 cm"],["Fondo","40 cm"],["Alto","80 cm"]],
    desc:"Consola de recibidor con dos cajones de cierre suave y repisa inferior. Cabe detrás de un sofá o contra una pared ciega.",
    matx:"Roble macizo y enchapado de roble sobre MDF hidrófugo. Tiradores de latón.",
    care:"Paño apenas húmedo. Retocar con aceite una vez al año."}),
  P(13,"Pacae","Cómoda de tres cajones","muebles","comodas",3980,["madera","negro"],"p-consola-2",
-  {mat:"Roble",place:"Dormitorio",lead:"6 semanas",esp:["dormitorio"],
+  {mat:"Roble",place:"Dormitorio",lead:"6 semanas",esp:["cg-hab"],
    dims:[["Ancho","120 cm"],["Fondo","48 cm"],["Alto","82 cm"]],
    desc:"Cómoda de tres cajones amplios con correderas de extracción total. Los cajones llegan hasta el fondo: se usa todo el volumen.",
    matx:"Estructura de roble, cajones con fondo de cedro. Correderas metálicas con freno.",
    care:"No cargar el cajón superior con más de 15 kg."}),
  P(14,"Molle","Mesa de noche","muebles","noche",1120,["madera","crudo"],"p-objeto-3",
-  {mat:"Roble",place:"Dormitorio",lead:"4 semanas",esp:["dormitorio"],
+  {mat:"Roble",place:"Dormitorio",lead:"4 semanas",esp:["cg-hab"],
    dims:[["Ancho","45 cm"],["Fondo","38 cm"],["Alto","55 cm"]],
    desc:"Mesa de noche de un cajón y repisa abierta, a la altura justa de un colchón estándar con base.",
    matx:"Roble macizo, tirador de latón.", care:"Paño seco."}),
@@ -181,55 +181,55 @@ var PRODUCTS = [
    matx:"Roble macizo y estantes de 25 mm. Incluye anclajes sísmicos.",
    care:"Repartir el peso: los libros pesados abajo."}),
  P(16,"Yeso","Lámpara de mesa","iluminacion","mesa",890,["crudo","oro"],"p-lampara-1",
-  {mat:"Cerámica",place:"Sala",lead:"2 semanas",esp:["dormitorio"],gal:["p-lampara-3"],
+  {mat:"Cerámica",place:"Sala",lead:"2 semanas",esp:["cg-hab"],gal:["p-lampara-3"],
    dims:[["Diámetro pantalla","32 cm"],["Alto total","58 cm"],["Casquillo","E27"]],
    desc:"Base torneada en cerámica esmaltada mate con pantalla de lino natural. Da luz cálida y difusa, no un foco al ojo.",
    matx:"Cerámica esmaltada mate. Pantalla de lino sobre estructura metálica. Cable textil trenzado de 2 m.",
    care:"Quitar el polvo de la pantalla con cepillo suave. Dimerizable con LED regulable."}),
  P(17,"Cañón","Lámpara de pie","iluminacion","pie",1340,["oro","negro"],"p-lampara-3",
-  {mat:"Latón",place:"Sala",lead:"3 semanas",esp:["sala","terraza"],
+  {mat:"Latón",place:"Sala",lead:"3 semanas",esp:["cg-sala","bosque"],
    dims:[["Diámetro base","30 cm"],["Alto","165 cm"],["Casquillo","E27"]],
    desc:"Lámpara de pie de tubo de latón con pantalla orientable. Para poner al lado del sillón de lectura.",
    matx:"Latón macizo con pátina envejecida. Base contrapesada de acero.",
    care:"Paño seco sobre el latón; la pátina se profundiza con el tiempo."}),
  P(18,"Totora","Colgante de fibra","iluminacion","colgante",1180,["arena"],"p-lampara-2",
-  {mat:"Fibra",place:"Comedor",style:"Artesanal",lead:"5 semanas",esp:["comedor"],
+  {mat:"Fibra",place:"Comedor",style:"Artesanal",lead:"5 semanas",esp:["cg-comedor"],
    dims:[["Diámetro","55 cm"],["Alto","40 cm"],["Cable","150 cm regulable"]],
    desc:"Pantalla tejida a mano en fibra natural por artesanas de Catacaos. La luz sale filtrada por el tejido y dibuja sombras en el techo.",
    matx:"Fibra vegetal trenzada sobre aro metálico. Rosetón y cable en latón.",
    care:"Aspirar con boquilla de cepillo. No mojar."}),
  P(19,"Lima","Hurricane de vidrio","decoracion","objetos",320,["oro","crudo"],"p-objeto-1",
-  {mat:"Vidrio",place:"Sala",lead:"Entrega inmediata",stock:"low",esp:["comedor","navidad"],
+  {mat:"Vidrio",place:"Sala",lead:"Entrega inmediata",stock:"low",esp:["cg-comedor","navidad"],
    dims:[["Diámetro","14 cm"],["Alto","30 cm"]],
    desc:"Hurricane de vidrio soplado con aro de latón envejecido. Admite vela de hasta 8 cm de diámetro y protege la llama del viento de terraza.",
    matx:"Vidrio soplado a boca. Aro de latón envejecido.",
    care:"Lavar a mano con agua tibia. El aro de latón no va al lavavajillas."}),
  P(20,"Ámbar","Jarrón de vidrio","decoracion","jarrones",240,["ambar"],"p-jarron-2",
-  {mat:"Vidrio",place:"Comedor",lead:"Entrega inmediata",esp:["comedor","navidad"],gal:["p-jarron-1"],
+  {mat:"Vidrio",place:"Comedor",lead:"Entrega inmediata",esp:["cg-comedor","navidad"],gal:["p-jarron-1"],
    dims:[["Diámetro","18 cm"],["Alto","26 cm"],["Boca","9 cm"]],
    desc:"Jarrón de vidrio ámbar soplado a boca. El tono cambia según la luz que reciba: más miel de mañana, más caramelo al atardecer.",
    matx:"Vidrio soplado artesanal. Cada pieza tiene burbujas y variaciones de espesor.",
    care:"Lavar a mano."}),
  P(21,"Barranco","Espejo de latón","decoracion","espejos",1450,["oro"],"p-espejo-1",
-  {mat:"Latón",place:"Recibidor",lead:"3 semanas",esp:["sala","navidad"],gal:["p-espejo-2"],
+  {mat:"Latón",place:"Recibidor",lead:"3 semanas",esp:["cg-sala","navidad"],gal:["p-espejo-2"],
    dims:[["Diámetro","90 cm"],["Profundidad","4 cm"],["Peso","11 kg"]],
    desc:"Espejo circular con marco de latón envejecido a mano, pieza por pieza. Se cuelga horizontal sobre una consola o vertical en un pasillo angosto.",
    matx:"Marco de latón macizo con pátina aplicada a mano. Luna de 5 mm con respaldo protegido.",
    care:"Limpiar la luna con paño de microfibra apenas húmedo, nunca el marco con líquidos."}),
  P(22,"Chorrillos","Bandeja de latón","decoracion","objetos",390,["oro"],"p-jarron-1",
-  {mat:"Latón",place:"Sala",lead:"Entrega inmediata",stock:"out",esp:["comedor"],
+  {mat:"Latón",place:"Sala",lead:"Entrega inmediata",stock:"out",esp:["cg-comedor"],
    dims:[["Largo","42 cm"],["Ancho","28 cm"],["Alto","4 cm"]],
    desc:"Bandeja rectangular de latón pulido con base de fieltro. Ordena la mesa de centro sin ocuparla del todo.",
    matx:"Latón pulido con laca protectora. Base de fieltro.",
    care:"Paño seco. La laca evita que oxide, pero no la meta al agua."}),
  P(23,"Arena","Cojín de lino","decoracion","textiles",145,["arena","crudo","verde"],"p-textil-1",
-  {mat:"Lino",place:"Sala",lead:"Entrega inmediata",esp:["sala","navidad"],
+  {mat:"Lino",place:"Sala",lead:"Entrega inmediata",esp:["cg-sala","navidad"],
    dims:[["Medida","50 × 50 cm"],["Relleno","Pluma incluida"]],
    desc:"Funda de lino lavado con cierre invisible, relleno de pluma incluido. El lino lavado ya viene suave: no hay periodo de adaptación.",
    matx:"Lino 100 % lavado en prenda. Relleno de pluma de pato con funda interior de algodón.",
    care:"Lavado a máquina en frío, ciclo suave. Secar a la sombra."}),
  P(24,"Amazonas","Papel mural panorámico","papel","panoramico",180,["verde"],"p-papel-1",
-  {mat:"Papel",place:"Dormitorio",style:"Botánico",lead:"2 semanas",esp:["dormitorio"],
+  {mat:"Papel",place:"Dormitorio",style:"Botánico",lead:"2 semanas",esp:["cg-hab"],
    gal:["p-papel-2","p-papel-3"],
    dims:[["Rollo","10 × 0.53 m"],["Rendimiento","5 m² aprox."],["Repetición","64 cm"]],
    desc:"Papel mural botánico impreso en no tejido, en verdes profundos sobre fondo cálido. Funciona muy bien en medio baño, donde una pared con carácter cambia todo el ambiente.",
@@ -254,7 +254,7 @@ var PRODUCTS = [
    matx:"Papel no tejido de 150 g, acabado mate.",
    care:"Esponja apenas húmeda."}),
  P(37,"Marfil","Vajilla de mesa, 12 piezas","decoracion","objetos",480,["crudo","verde"],"p-mesapuesta-2",
-  {mat:"Cerámica",place:"Comedor",lead:"Entrega inmediata",esp:["comedor"],gal:["p-mesapuesta-1"],
+  {mat:"Cerámica",place:"Comedor",lead:"Entrega inmediata",esp:["cg-comedor"],gal:["p-mesapuesta-1"],
    dims:[["Plato llano","27 cm"],["Plato hondo","22 cm"],["Servicio","4 puestos"]],
    desc:"Cuatro puestos completos de gres esmaltado en tono marfil con borde irregular. Va al horno, al microondas y al lavavajillas: es vajilla de usar, no de vitrina.",
    matx:"Gres esmaltado a alta temperatura. Cada pieza tiene variaciones de esmalte.",
@@ -285,7 +285,7 @@ var PRODUCTS = [
    matx:"Follaje de fibra sobre alma de alambre moldeable.",
    care:"Se enrolla para guardar; el alambre recupera la forma al año siguiente."}),
  P(31,"Diciembre","Juego de mesa navideña","navidad","mesa",890,["crudo","verde","burdeos"],"p-mesapuesta-1",
-  {mat:"Lino",place:"Comedor",style:"Navidad",lead:"Entrega en 48 horas",esp:["navidad","comedor"],
+  {mat:"Lino",place:"Comedor",style:"Navidad",lead:"Entrega en 48 horas",esp:["navidad","cg-comedor"],
    dims:[["Camino de mesa","180 × 40 cm"],["Individuales","6 unidades"],["Servilletas","6 unidades"]],
    desc:"Camino de mesa, seis individuales y seis servilletas de lino bordado, en la paleta verde y crudo que usamos en las mesas del showroom.",
    matx:"Lino con bordado a máquina. Servilleteros de latón vendidos aparte.",
@@ -338,6 +338,15 @@ PRODUCTS.forEach(function(p){
     p.tipo = p.sub;                       /* el tipo exacto, por si vuelve a hacer falta */
     p.sub  = FAMILIA[p.sub] || p.sub;     /* tres familias: se navega mejor con pocas */
   }
+});
+
+/* La mesa puesta no es una categoría: es un ambiente que se arma con la
+   vajilla, los jarrones, los objetos y el textil que ya están en catálogo.
+   Se ata aquí y no ficha por ficha, para que al entrar una pieza nueva de
+   esas familias caiga sola en el ambiente. */
+PRODUCTS.forEach(function(p){
+  if(["mesa","jarrones","objetos","textiles"].indexOf(p.sub) >= 0 &&
+     p.esp.indexOf("mesa") < 0){ p.esp.push("mesa"); }
 });
 
 var byId = {};
@@ -393,110 +402,59 @@ var UNIVERSO = [
    autorizar la mención de cada marca antes de publicar.
    ------------------------------------------------------------------------ */
 
-var LINEAS_PR = ["Visual merchandising","Retail","Residencial","Hotelería","Temporada"];
+var LINEAS_PR = ["Retail","Visual merchandising","Hotelería","Eventos","Residencial"];
 
 var PROYECTOS = [
- {slug:"walon-tiendas", mundo:"retail", t:"Walon", sub:"Fachadas y vitrinas de cadena", linea:"Visual merchandising",
-  anio:"2024", lugar:"Lima y provincias", cover:"pr-walon-1",
-  gal:["pr-walon-1","pr-walon-2","pr-walon-3","pr-walon-4"],
-  datos:[["Cliente","Walon"],["Línea","Visual merchandising"],["Alcance","Fachada, vitrina y mobiliario de exhibición"],["Locales","Cadena nacional"],["Año","2024"]],
-  txt:["Una cadena deportiva no se resuelve tienda por tienda: se resuelve una vez y se replica. El encargo fue definir cómo se ve una tienda Walon desde la vereda y cómo se ordena el producto adentro, con un criterio que pudiera bajar a cualquier local sin que el estudio estuviera presente.",
-       "El trabajo empezó por la fachada iluminada y el frente de vitrina, que es lo único que el comprador ve antes de decidir si entra. Adentro se ordenó la pared de producto por altura de alcance y se reservó el nivel del ojo para la campaña vigente.",
-       "El resultado se entregó como manual de implantación: medidas, materiales, alturas y secuencia de montaje. Cada local nuevo se arma con el manual y una visita de acompañamiento."]},
 
- {slug:"nova-campana", mundo:"retail", t:"Nova", sub:"Campaña de lanzamiento en punto de venta", linea:"Visual merchandising",
-  anio:"2024", lugar:"Lima", cover:"pr-nova-1",
-  gal:["pr-nova-1","pr-nova-2","pr-nova-3"],
-  datos:[["Cliente","Nova"],["Línea","Visual merchandising"],["Alcance","Exhibidor de marca y gráfica de campaña"],["Plazo","14 días"],["Año","2024"]],
-  txt:["Un lanzamiento de calzado tiene dos semanas para existir. Pasado ese plazo la campaña se retira y entra la siguiente, así que todo lo que se diseña tiene que poder montarse rápido, verse caro y desmontarse sin dañar la sala.",
-       "Se diseñó un exhibidor retroiluminado que aísla el producto del ruido de la tienda: fondo oscuro, luz dirigida y una sola línea de mensaje. El zapato es lo único iluminado del módulo, y eso basta.",
-       "La gráfica se produjo en formato modular para poder reusar la estructura en la campaña siguiente cambiando solo la lámina impresa."]},
+ {slug:"figuritas-barrio", mundo:"retail", t:"Figuritas del Barrio", sub:"Tienda deportiva de barrio",
+  linea:"Retail", anio:"2025", lugar:"Lima", cover:"fig-1",
+  gal:["fig-1","fig-2","fig-3","fig-4","fig-5"],
+  datos:[["Línea","Retail"],["Alcance","Layout de sala, exhibición y frente de tienda"],["Rubro","Deportivo"],["Año","2025"]],
+  txt:["Una tienda de barrio compite con la vereda, no con el centro comercial. El encargo fue que se entendiera qué se vende desde afuera y que adentro se pudiera recorrer sin preguntar.",
+       "Se subió el producto estrella a un podio con césped sintético en el centro de la sala y se ordenó la pared por altura de alcance. La camiseta va al nivel del ojo; lo que se compra por impulso, a la altura de la mano."]},
 
- {slug:"figuritas-isla", mundo:"retail", t:"Figuritas", sub:"Isla de marca en tienda ancla", linea:"Retail",
-  anio:"2023", lugar:"Lima", cover:"pr-figuritas-1",
-  gal:["pr-figuritas-1","pr-figuritas-2"],
-  datos:[["Cliente","Figuritas"],["Línea","Retail"],["Alcance","Isla de marca y maniquí de exhibición"],["Superficie","12 m²"],["Año","2023"]],
-  txt:["Una isla en pasillo de tienda ancla compite con todo lo que tiene alrededor. La única defensa es la altura y el orden: subir el producto a la línea del ojo y dejar el piso limpio.",
-       "Se montó una plataforma elevada con maniquí central y perímetro de producto complementario, de modo que la pieza se lee desde los cuatro lados del pasillo.",
-       "El módulo se fabricó en el taller del estudio y se instaló en una madrugada, entre el cierre y la apertura de la tienda."]},
+ {slug:"walon-35", mundo:"retail", t:"Walon 35 Años", sub:"Montaje del aniversario de la marca",
+  linea:"Eventos", anio:"2025", lugar:"Lima", cover:"w35-1",
+  gal:["w35-1","w35-2","w35-3","w35-4","w35-5"],
+  datos:[["Línea","Eventos"],["Alcance","Escenografía, mesas y iluminación"],["Cliente","Walon"],["Año","2025"]],
+  txt:["Treinta y cinco años de una marca se celebran una sola noche. El salón entró vacío por la mañana y tenía que estar montado, iluminado y probado antes de que llegara el primer invitado.",
+       "Se trabajó con drapeado de tela en toda la altura del muro, mesas vestidas en la paleta de la marca e iluminación de color que cambia entre el cóctel y la cena. Todo se desmontó esa misma madrugada."]},
 
- {slug:"orion-lanzamiento", mundo:"retail", t:"Orión", sub:"Frente de tienda y campaña de temporada", linea:"Visual merchandising",
-  anio:"2025", lugar:"Lima", cover:"pr-orion-1",
-  gal:["pr-orion-1","pr-orion-2"],
-  datos:[["Cliente","Orión"],["Línea","Visual merchandising"],["Alcance","Frente de tienda, vitrina y gráfica"],["Plazo","Campaña de temporada"],["Año","2025"]],
-  txt:["El frente de tienda es la pieza de mayor retorno de toda una sala de ventas y casi siempre la peor resuelta. Aquí se trabajó como se trabaja una portada: una imagen, un mensaje y nada más compitiendo.",
-       "Se retiró todo el producto del primer metro de vitrina, se iluminó desde arriba y adelante, y se dejó el fondo en oscuro para que la gráfica de campaña respire.",
-       "El montaje se documentó paso a paso para que el equipo de tienda pueda repetirlo en la campaña siguiente."]},
+ {slug:"raices-hogar", mundo:"retail", t:"Raíces y Hogar", sub:"Tienda de decoración y textil",
+  linea:"Visual merchandising", anio:"2025", lugar:"Lima", cover:"raices-1",
+  gal:["raices-1","raices-2","raices-3","raices-4","raices-5"],
+  datos:[["Línea","Visual merchandising"],["Alcance","Implantación de sala y vitrina"],["Rubro","Decoración y textil"],["Año","2025"]],
+  txt:["Una tienda de decoración tiene un problema propio: todo lo que vende es bonito, y cuando todo compite el ojo no se detiene en nada.",
+       "Se agrupó por color en vez de por tipo de producto, se dejaron respiros vacíos entre familias y se reservó la altura del ojo para la temporada vigente. El resto del inventario bajó de nivel sin salir de sala."]},
 
- {slug:"mobiliario-serie", mundo:"retail", t:"Mobiliario de exhibición", sub:"Del plano al módulo instalado", linea:"Retail",
-  anio:"2024", lugar:"Taller del estudio", cover:"pr-plano-1",
-  gal:["pr-plano-1","pr-plano-2","pr-plano-3"],
-  datos:[["Línea","Mueblería y retail"],["Alcance","Diseño, plano de despiece y fabricación"],["Entregable","Manual de implantación"],["Año","2024"]],
-  txt:["Antes de que exista un mueble existe un plano, y antes del plano existe una discusión sobre cuánto producto tiene que entrar en cuántos metros lineales. Ese es el trabajo que no se ve y el que decide si la tienda funciona.",
-       "Cada módulo se modela en tres dimensiones, se valida en isometría con el cliente y recién entonces baja a plano de despiece para el taller. El prototipo se arma completo antes de autorizar la serie.",
-       "Trabajar con taller propio permite corregir en dos días lo que tercerizado tomaría tres semanas, y es la razón por la que los plazos de campaña se cumplen."]},
+ {slug:"hotel-union", mundo:"retail", t:"Hotel Unión", sub:"Comedor y mesa puesta",
+  linea:"Hotelería", anio:"2025", lugar:"Lima", cover:"union-1",
+  gal:["union-1","union-2","union-3","union-4","union-5","union-6"],
+  datos:[["Línea","Hotelería"],["Alcance","Comedor, mantelería y mesa puesta"],["Cubiertos","Servicio de desayuno y cena"],["Año","2025"]],
+  txt:["El comedor de un hotel se monta dos veces al día y lo ve todo el que se aloja. Tenía que resolverse con material que aguante el uso diario y siga viéndose cuidado en la última mesa del turno.",
+       "Se definió una mantelería de dos tonos que se alterna por servicio, una vajilla que no se descataloga y una disposición de mesa que el personal arma igual sin necesidad de plantilla."]},
 
- {slug:"sala-arenales", mundo:"retail", t:"Sala de ventas Arenales", sub:"Layout y recorrido de compra", linea:"Retail",
-  anio:"2023", lugar:"Lince, Lima", cover:"pr-sala-1",
-  gal:["pr-sala-1","pr-sala-2","pr-sala-3"],
-  datos:[["Línea","Retail"],["Alcance","Layout, ambientación y recorrido"],["Superficie","320 m²"],["Año","2023"]],
-  txt:["Una sala de muebles tiene un problema que no tiene ninguna otra tienda: el producto es enorme y el cliente necesita imaginárselo en su casa, no verlo en una fila.",
-       "Se rompió la disposición en pasillos y se armaron ambientes completos, cada uno con su alfombra, su iluminación y su mesa puesta. El recorrido se diseñó para que se cruce por cinco ambientes antes de llegar a caja.",
-       "Los ambientes se renuevan por temporada y son los mismos que después se ofrecen enteros en la tienda en línea."]},
+ {slug:"massimo-cafe", mundo:"retail", t:"Massimo Café", sub:"Salón de autor",
+  linea:"Hotelería", anio:"2025", lugar:"Lima", cover:"massimo-1",
+  gal:["massimo-1","massimo-2","massimo-3","massimo-4","massimo-5"],
+  datos:[["Línea","Hotelería"],["Alcance","Interiorismo de salón y muro de arte"],["Aforo","Salón principal"],["Año","2025"]],
+  txt:["El café quería un salón que se recordara y que se fotografiara solo. Se apostó por un muro rojo cubierto de cuadros de piso a techo, sin dejar aire entre marcos.",
+       "La saturación es deliberada: es la única pared del local que grita, y por eso funciona. El resto del salón se mantuvo en madera y luz cálida baja para que el muro sea siempre el fondo, nunca el competidor."]},
 
- {slug:"depa-san-isidro", mundo:"hogar", t:"Departamento en San Isidro", sub:"Diseño interior integral", linea:"Residencial",
-  anio:"2024", lugar:"San Isidro, Lima", cover:"pr-sanisidro-1",
-  gal:["pr-sanisidro-1","pr-sanisidro-2","pr-sanisidro-3"],
-  datos:[["Línea","Diseño interior"],["Alcance","Distribución, mobiliario a medida e iluminación"],["Superficie","145 m²"],["Año","2024"]],
-  txt:["El encargo llegó con los muebles ya comprados, que es la manera más común y más cara de empezar un proyecto. La primera reunión sirvió para explicar por qué convenía devolver dos de ellos.",
-       "Se rehízo la distribución del área social, se abrió el paso a la terraza y se resolvió el dormitorio principal con un mueble a medida que ordena vestidor y escritorio en el mismo frente.",
-       "La paleta se mantuvo en neutros cálidos con acentos en madera y latón, para que el departamento envejezca bien y no dependa de una temporada."]},
+ {slug:"convivir-arte", mundo:"hogar", t:"Convivir con el Arte", sub:"Sala principal",
+  linea:"Residencial", anio:"2025", lugar:"Lima", cover:"arte-1",
+  gal:["arte-1","arte-2","arte-3","arte-4","arte-5","arte-6","arte-7","arte-8"],
+  datos:[["Línea","Residencial"],["Alcance","Diseño interior de sala y comedor"],["Ambientes","Sala principal"],["Año","2025"]],
+  txt:["La casa tenía obra de arte antes de tener proyecto. La pregunta no era qué colgar, sino cómo amueblar sin competir con lo que ya estaba en las paredes.",
+       "Se bajó todo el mobiliario a tonos neutros y alturas bajas, y se llevó el color al textil y al techo. La cortina y la luz de perímetro enmarcan; el sofá y las butacas se quedan callados."]},
 
- {slug:"banos-autor", mundo:"hogar", t:"Baños de autor", sub:"Del render a la obra terminada", linea:"Residencial",
-  anio:"2025", lugar:"Lima", cover:"pr-bano-1",
-  gal:["pr-bano-1","pr-bano-2","pr-bano-3","pr-bano-4"],
-  datos:[["Línea","Diseño interior"],["Alcance","Proyecto, render y supervisión"],["Ambientes","Cuatro baños"],["Año","2025"]],
-  txt:["El baño es el ambiente donde más se nota la diferencia entre un proyecto pensado y uno resuelto en obra. Son pocos metros, mucha instalación y ningún margen para improvisar.",
-       "Cada baño se modeló completo antes de picar la primera pared: enchapes, juntas, altura de nicho y punto de luz. El cliente aprueba el render y lo que se construye es exactamente eso.",
-       "El mobiliario del lavatorio se fabricó en el taller del estudio, en melamina hidrófuga con canto macizo, y se instaló ya lijado y sellado."]},
+ {slug:"casa-grande", mundo:"hogar", t:"Casa Grande", sub:"Sala, comedor y habitación",
+  linea:"Residencial", anio:"2025", lugar:"Lima", cover:"cg-sala-1",
+  gal:["cg-sala-1","cg-sala-2","cg-com-1","cg-com-2","cg-hab-1","cg-hab-2","cg-sala-3","cg-com-3","cg-hab-3"],
+  datos:[["Línea","Residencial"],["Alcance","Ambientación completa de tres ambientes"],["Ambientes","Sala, sala comedor y habitación"],["Año","2025"]],
+  txt:["Tres ambientes montados como se viven: la sala para recibir, el comedor para el diario y la habitación para descansar. Cada uno se resolvió entero, con su mobiliario, su textil y su decoración.",
+       "Los tres comparten familia de tonos y se pueden llevar por separado. Es el encargo que mejor explica cómo trabaja el estudio: no se vende un mueble, se entrega un ambiente resuelto."]}
 
- {slug:"lodge-valle", mundo:"retail", t:"Lodge en el valle", sub:"Hotelería rural", linea:"Hotelería",
-  anio:"2023", lugar:"Sierra del Perú", cover:"pr-lodge-1",
-  gal:["pr-lodge-1","pr-lodge-2","pr-lodge-3","pr-lodge-4"],
-  datos:[["Línea","Hotelería"],["Alcance","Comedor, recepción y habitaciones"],["Materiales","Piedra, madera y textil andino"],["Año","2023"]],
-  txt:["Un lodge en la sierra no se decora con lo que se ve bien en Lima. El material tiene que aguantar el frío, la altura y el uso duro de un comedor que sirve tres turnos al día.",
-       "Se trabajó con piedra del lugar, madera vista y textilería andina de la zona, encargada a talleres cercanos al proyecto. El resultado tiene identidad y además se puede reponer sin traer nada de la costa.",
-       "La iluminación se resolvió con puntos cálidos bajos sobre cada mesa, que es lo que hace que un comedor grande se sienta acogedor cuando está a media capacidad."]},
-
- {slug:"resto-piedra", mundo:"retail", t:"Restaurante de piedra y madera", sub:"Salón, terraza y mesa puesta", linea:"Hotelería",
-  anio:"2023", lugar:"Sierra del Perú", cover:"pr-resto-1",
-  gal:["pr-resto-1","pr-resto-2","pr-resto-3"],
-  datos:[["Línea","Hotelería"],["Alcance","Salón, terraza acristalada y montaje de mesa"],["Aforo","90 comensales"],["Año","2023"]],
-  txt:["El salón tenía una vista que valía todo el proyecto y una distribución que la desperdiciaba. Lo primero fue girar las mesas.",
-       "Se acristaló la terraza para ganar aforo en temporada de lluvias y se bajó la altura de todo lo que estorbaba la línea de horizonte: mamparas, separadores y hasta los respaldos de las sillas.",
-       "El montaje de mesa se diseñó con textil de la zona y vajilla de gres, y se dejó documentado en una ficha para que el equipo de sala lo repita todos los días igual."]},
-
- {slug:"navidad-montada", mundo:"retail", t:"Navidad montada", sub:"Campaña completa, montaje y desmontaje", linea:"Temporada",
-  anio:"2025", lugar:"Lima", cover:"pr-navidad-1",
-  gal:["pr-navidad-1","pr-navidad-2","pr-navidad-3","pr-navidad-4"],
-  datos:[["Línea","Decoración de temporada"],["Alcance","Árbol, nacimiento, vitrina y mesa"],["Servicio","Montaje, desmontaje y guardado"],["Año","2025"]],
-  txt:["La Navidad de una casa y la de una sala de ventas se montan igual: con calendario, con inventario y con alguien que se lleve las cajas en enero.",
-       "El nacimiento se construye a mano en el taller, pieza por pieza, con acabado de barro y madera envejecida. Es la parte del encargo que no se compra hecha y la que se recuerda al año siguiente.",
-       "El servicio incluye el desmontaje de la primera semana de enero y el guardado del material rotulado, que es lo que evita comprar todo de nuevo cada diciembre."]},
-
- {slug:"dormitorio-principal", mundo:"hogar", t:"Dormitorio principal", sub:"Descanso, guardado y luz", linea:"Residencial",
-  anio:"2025", lugar:"Lima", cover:"pr-casa-1",
-  gal:["pr-casa-1","pr-casa-3"],
-  datos:[["Línea","Residencial"],["Alcance","Diseño interior y mueblería a medida"],["Ambientes","Dormitorio y vestidor"],["Año","2025"]],
-  txt:["Un dormitorio se resuelve con dos decisiones: por dónde entra la luz y qué pared carga el peso visual. Aquí lo carga el cabecero, y el resto se mantiene en silencio.",
-       "El guardado se ganó cerrando un pasillo que no llevaba a ninguna parte. La misma superficie, mejor repartida."]},
-
- {slug:"bano-visitas", mundo:"hogar", t:"Baño de visitas", sub:"Enchape, latón y luz indirecta", linea:"Residencial",
-  anio:"2025", lugar:"Lima", cover:"pr-casa-2",
-  gal:["pr-casa-2","pr-casa-8","pr-casa-6","pr-casa-7","pr-casa-4"],
-  datos:[["Línea","Residencial"],["Alcance","Diseño interior, enchape y mueblería"],["Ambientes","Baño de visitas"],["Año","2025"]],
-  txt:["Es el ambiente más pequeño de la casa y el único que todos los invitados usan. Por metro cuadrado es donde más rinde el presupuesto.",
-       "Enchape hasta media altura, espejos de latón y luz indirecta detrás del espejo. El mueble del lavatorio se fabricó en el taller a la medida del vano."]}
 ];
 
 /* ---------- relato ampliado de cada proyecto -----------------------------
@@ -506,92 +464,64 @@ var PROYECTOS = [
    ------------------------------------------------------------------------ */
 
 var RELATOS = {
- "walon-tiendas":{
-  reto:"Una cadena deportiva con locales en Lima y provincias necesitaba que todas sus tiendas se leyeran igual desde la vereda, sin que el estudio tuviera que estar presente en cada apertura.",
-  inspira:"La referencia no fue una tienda: fue la cartelería luminosa de los estadios. Fondo oscuro, tipografía ancha y una sola cosa iluminada por vez. En un centro comercial saturado, apagar es lo que hace ver.",
-  cita:"Una cadena no se resuelve tienda por tienda. Se resuelve una vez y se replica.",
-  mats:["Acero pintado al horno","Perfil de aluminio","LED 4000 K","Vinilo de corte","Melamina hidrófuga"]},
 
- "nova-campana":{
-  reto:"Un lanzamiento de calzado con dos semanas de vida en sala. Todo tenía que montarse rápido, verse caro y desmontarse sin dañar el local.",
-  inspira:"La vitrina de una joyería. El zapato se trató como se trata un anillo: fondo negro, foco dirigido y aire alrededor. El producto es lo único iluminado del módulo.",
-  cita:"Si todo brilla, no brilla nada. Se ilumina una cosa y se apaga el resto.",
-  mats:["MDF laminado negro","Cinta LED cálida","Acrílico esmerilado","Impresión sobre PVC"]},
+ "figuritas-barrio":{
+  reto:"Una tienda de barrio con vereda estrecha y mucha competencia alrededor. Había que decidir qué se ve desde afuera y qué se recorre adentro, sin ampliar ni un metro.",
+  inspira:"El podio de premiación. Subir el producto, dejar el piso limpio y que la pieza se lea desde los cuatro lados del pasillo, como una escultura en una plaza.",
+  cita:"El comprador decide si entra en dos segundos, y decide desde la vereda.",
+  mats:["Césped sintético","Melamina","Maniquí articulado","Gráfica retroiluminada"]},
 
- "figuritas-isla":{
-  reto:"Doce metros cuadrados en el pasillo de una tienda ancla, compitiendo con todo lo que tenía alrededor y sin paredes donde apoyarse.",
-  inspira:"Los podios de premiación. Subir el producto, dejar el piso limpio y que la pieza se lea desde los cuatro lados del pasillo, como una escultura en una plaza.",
-  cita:"Sin paredes, la única defensa es la altura.",
-  mats:["Tarima de melamina","Césped sintético","Maniquí articulado","Gráfica retroiluminada"]},
+ "walon-35":{
+  reto:"Un salón vacío por la mañana y un aniversario de marca esa misma noche. Montaje, prueba de luces y desmontaje de madrugada.",
+  inspira:"El telón de un teatro antes de que suba. Tela en toda la altura, luz de color y las mesas esperando en penumbra.",
+  cita:"Una fecha así no admite segunda oportunidad: o está montado a las siete, o no está.",
+  mats:["Drapeado de tela","Iluminación RGB","Mantelería a medida","Cristalería"]},
 
- "orion-lanzamiento":{
-  reto:"El frente de tienda es la pieza de mayor retorno de toda una sala y casi siempre la peor resuelta: llena de producto, de precios y de mensajes que compiten.",
-  inspira:"Se trabajó como se trabaja la portada de una revista. Una imagen, un mensaje y nada más peleando por la atención.",
-  cita:"Se vació el primer metro de vitrina. Ahí empezó a funcionar.",
-  mats:["Estructura modular de aluminio","Panel arquitectónico curvo","Iluminación de acento","Pintura mate"]},
+ "raices-hogar":{
+  reto:"Una tienda donde todo el inventario es atractivo. Cuando todo compite, el ojo no se detiene en nada y la venta se cae.",
+  inspira:"Las estanterías de una librería antigua: agrupadas por familia, con huecos vacíos que dejan respirar y una sola mesa central con lo nuevo.",
+  cita:"Agrupar por color y no por producto: el ojo entiende el color antes que la categoría.",
+  mats:["Repisa de madera","Textil de temporada","Iluminación cálida dirigida","Mesa central"]},
 
- "mobiliario-serie":{
-  reto:"Definir un mobiliario de exhibición que entrara en locales de metrajes distintos sin rediseñarlo cada vez, y que el equipo de tienda pudiera armar sin el estudio.",
-  inspira:"La carpintería de barco: piezas que encajan por diseño, no por ajuste en obra. Si el módulo depende de un maestro con lija, no se puede replicar.",
-  cita:"Antes del mueble está el plano, y antes del plano está cuánto producto entra en cuántos metros lineales.",
-  mats:["Melamina de 18 mm","Canto macizo de roble","Herrajes con freno","Perfil LED empotrado"]},
+ "hotel-union":{
+  reto:"Un comedor que se monta dos veces al día, todos los días, y que ve todo el que se aloja. Tenía que resistir el uso y seguir viéndose cuidado en la última mesa del turno.",
+  inspira:"El servicio de un comedor familiar peruano: mantel doble, vajilla que no se descataloga y un centro sencillo que se repone sin costo.",
+  cita:"Lo que el personal no puede repetir igual todos los días, no sirve por bonito que sea.",
+  mats:["Mantelería de dos tonos","Vajilla de reposición","Cristalería","Madera y textil"]},
 
- "sala-arenales":{
-  reto:"Una sala de muebles de 320 m² dispuesta en pasillos, donde el cliente veía producto en fila y no lograba imaginárselo en su casa.",
-  inspira:"Las casas piloto de una inmobiliaria. Se dejó de exhibir mobiliario y se empezó a exhibir ambientes, cada uno con su alfombra, su luz y su mesa puesta.",
-  cita:"Nadie compra un sofá en una fila de sofás.",
-  mats:["Alfombra de lana","Iluminación cálida dirigida","Tabiquería ligera","Textil de lino"]},
+ "massimo-cafe":{
+  reto:"El salón tenía que recordarse y fotografiarse solo, con presupuesto de café de barrio y no de hotel.",
+  inspira:"Los salones de coleccionista del siglo XIX, con los cuadros colgados de piso a techo y sin aire entre marcos. La saturación como decisión, no como descuido.",
+  cita:"Una sola pared grita. Si gritan todas, no se oye ninguna.",
+  mats:["Muro pintado en rojo","Marcos recuperados","Madera","Luz cálida baja"]},
 
- "depa-san-isidro":{
-  reto:"El encargo llegó con los muebles ya comprados, que es la manera más común y más cara de empezar un proyecto.",
-  inspira:"La luz de la terraza a las cinco de la tarde. Toda la paleta se eligió para que funcionara con esa luz, y no con la del catálogo.",
-  cita:"La primera reunión sirvió para explicar por qué convenía devolver dos de ellos.",
-  mats:["Roble al aceite","Travertino sellado","Latón envejecido","Lino lavado","Bouclé"]},
+ "convivir-arte":{
+  reto:"La casa tenía obra de arte antes de tener proyecto. Amueblar sin competir con lo que ya estaba colgado en las paredes.",
+  inspira:"Una sala de museo: paredes que mandan, asientos bajos y neutros, y la luz puesta en la obra y no en el mobiliario.",
+  cita:"Cuando el arte ya está, el mobiliario se calla.",
+  mats:["Textil en tonos neutros","Cortina de doble caída","Luz de perímetro","Mesa de centro baja"]},
 
- "banos-autor":{
-  reto:"Cuatro baños con pocos metros, mucha instalación y ningún margen para improvisar en obra.",
-  inspira:"Los baños de hotel bien resueltos: nicho a la altura del hombro, junta continua y ni un solo cable a la vista. El lujo ahí es que nada estorbe.",
-  cita:"El cliente aprueba el render y lo que se construye es exactamente eso.",
-  mats:["Porcelánico rectificado","Melamina hidrófuga","Grifería negra mate","Espejo con luz perimetral"]},
+ "casa-grande":{
+  reto:"Montar tres ambientes que se lean como una misma casa y que, aun así, se puedan llevar por separado.",
+  inspira:"Las casas de exposición de los grandes almacenes europeos: se entra, se recorre y se compra lo que se está viendo, sin imaginar nada.",
+  cita:"No se vende un mueble: se entrega un ambiente resuelto.",
+  mats:["Tapicería en familia de tonos","Madera","Alfombra","Obra enmarcada"]}
 
- "lodge-valle":{
-  reto:"Un lodge en la sierra, con frío, altura y un comedor que sirve tres turnos al día. El material tenía que aguantar el uso, no solo la foto.",
-  inspira:"La casa de hacienda andina: piedra del lugar, madera vista y textil de la zona. Nada traído de la costa, para que todo se pueda reponer sin flete.",
-  cita:"Lo que se ve bien en Lima no siempre aguanta a cuatro mil metros.",
-  mats:["Piedra del lugar","Madera vista","Textil andino","Cerámica de taller"]},
-
- "resto-piedra":{
-  reto:"Un salón con una vista que valía todo el proyecto y una distribución que la desperdiciaba.",
-  inspira:"El comedor de una casa de campo: mesas largas, altura baja de todo lo que estorba y la ventana como único cuadro de la pared.",
-  cita:"Lo primero fue girar las mesas.",
-  mats:["Cristal templado","Madera tratada","Gres esmaltado","Textil de la zona"]},
-
- "navidad-montada":{
-  reto:"Montar la Navidad completa de una sala de ventas y de casas particulares, con calendario, inventario y alguien que se lleve las cajas en enero.",
-  inspira:"Los nacimientos de barro de las casas antiguas. Se decidió construirlo a mano, pieza por pieza, en vez de comprarlo hecho: es la parte que la gente recuerda al año siguiente.",
-  cita:"Lo que no se compra hecho es lo que se recuerda.",
-  mats:["Barro modelado","Madera envejecida","Follaje de fibra","Luz cálida 2700 K","Textil de terciopelo"]}
-};
-
-PROYECTOS.forEach(function(p){
-  var r = RELATOS[p.slug];
-  if(!r) return;
-  for(var k in r){ if(Object.prototype.hasOwnProperty.call(r,k)) p[k] = r[k]; }
-});
-
-/* ---------- compra el espacio ------------------------------------------- */
+};/* ---------- compra el espacio ------------------------------------------- */
 
 var ESPACIOS = [
- {slug:"sala", name:"Sala de neutros cálidos", img:"esp-sala",
-  text:"Travertino, lino crudo y latón envejecido. Todo en la misma familia de tono, nada compitiendo."},
- {slug:"comedor", name:"Comedor de diario", img:"esp-comedor",
-  text:"Mesa de tablón, sillas apilables y un colgante tejido a mano. Para ocho personas y para el desayuno de un martes."},
- {slug:"terraza", name:"Terraza de verano", img:"esp-terraza",
-  text:"Teca sin tratar, textiles que aguantan la humedad y luz cálida. Pensada para la garúa de Lima, no para una postal del Mediterráneo."},
- {slug:"dormitorio", name:"Dormitorio principal", img:"esp-dormitorio",
-  text:"Madera clara, lino lavado y una pared con papel mural que hace todo el trabajo."},
- {slug:"navidad", name:"Vitrina de temporada", img:"pr-navidad-1",
-  text:"El montaje navideño de una sala de ventas real. Es lo que el estudio hace para tiendas, disponible también para su casa."}
+ {slug:"cg-sala", name:"Casa Grande · Sala", img:"cg-sala-1",
+  text:"Sofá en azul profundo, butacas crudas y mesa de centro baja. Un salón para recibir, con la obra colgada a la altura del que está sentado."},
+ {slug:"cg-comedor", name:"Casa Grande · Sala comedor", img:"cg-com-1",
+  text:"Modular gris, cojines de color y planta alta en la esquina. El ambiente del diario, resuelto para que aguante el uso."},
+ {slug:"cg-hab", name:"Casa Grande · Habitación", img:"cg-hab-1",
+  text:"Cabecero tapizado, ropa de cama en estampado suave y mesas de noche a juego. Todo lo que hace falta para dormir bien y nada más."},
+ {slug:"bosque", name:"Animales en el Bosque", img:"bosque-1",
+  text:"Terraza montada de noche: vegetación alta, luz colgante cálida y asientos bajos. El ambiente exterior que más se pide y el que peor suele resolverse."},
+ {slug:"mesa", name:"Mesa puesta", img:"mesa-1",
+  text:"Vajilla, cristalería, mantel y centro floral. La mesa completa, montada por el mismo equipo que hace las vitrinas."},
+ {slug:"navidad", name:"Navidad Atemporal", img:"navid-1",
+  text:"Árbol, lazo, corona y mesa de temporada. Se monta en diciembre y se desmonta y guarda rotulado la primera semana de enero."}
 ];
 
 /* ---------- puntos sobre la fotografía -----------------------------------
@@ -602,55 +532,10 @@ var ESPACIOS = [
    ------------------------------------------------------------------------ */
 
 var PUNTOS = {
- "esp-sala":[
-   {x:50, y:82, id:3},   /* sillón curvo en primer plano */
-   {x:63, y:57, id:1},   /* sofá modular del fondo */
-   {x:26, y:65, id:9},   /* mesa de centro */
-   {x:15, y:55, id:23},  /* cojín del sofá izquierdo */
-   {x:42, y:46, id:20},  /* jarrón de la repisa */
-   {x:92, y:82, id:10}], /* mesa lateral acanalada */
-
- "esp-comedor":[
-   {x:52, y:15, id:18},  /* colgante */
-   {x:19, y:40, id:21},  /* espejo orgánico */
-   {x:40, y:63, id:11},  /* mesa de comedor */
-   {x:20, y:74, id:7},   /* silla tapizada */
-   {x:33, y:60, id:37},  /* mesa puesta */
-   {x:66, y:52, id:20}], /* jarrón con follaje */
-
- "esp-terraza":[
-   {x:20, y:72, id:4},   /* banca de exterior */
-   {x:17, y:63, id:23},  /* cojín */
-   {x:40, y:62, id:6},   /* butaca de fibra */
-   {x:53, y:66, id:10},  /* mesa lateral */
-   {x:78, y:62, id:3}],  /* butaca del fondo */
-
- "esp-dormitorio":[
-   {x:50, y:82, id:6},   /* puf de pie de cama */
-   {x:22, y:43, id:16},  /* lámpara de mesa */
-   {x:35, y:47, id:23},  /* cojín estampado */
-   {x:14, y:57, id:14},  /* mesa de noche */
-   {x:80, y:43, id:16}], /* lámpara de mesa gemela */
-
- "port-alcoba":[
-   {x:48, y:28, id:34},  /* panel de chinoiserie */
-   {x:9,  y:63, id:16},  /* lámpara de mesa */
-   {x:38, y:73, id:23},  /* cojín */
-   {x:84, y:62, id:16},  /* lámpara de mesa gemela */
-   {x:78, y:77, id:19}], /* objeto de la mesa de noche */
-
- "port-coleccion":[
-   {x:15, y:58, id:16},  /* lámpara de mesa */
-   {x:50, y:88, id:12},  /* consola */
-   {x:50, y:38, id:26},  /* marco restaurado */
-   {x:33, y:70, id:19},  /* hurricane */
-   {x:85, y:58, id:16}], /* lámpara de mesa gemela */
-
- "pr-navidad-1":[
-   {x:50, y:45, id:27},  /* árbol */
-   {x:62, y:30, id:32},  /* ornamentos */
-   {x:35, y:56, id:33},  /* luces */
-   {x:70, y:70, id:29}]  /* corona */
+ /* Vacío a propósito. Los puntos anteriores estaban medidos sobre las
+    fotografías de ejemplo; sobre las nuevas caerían en cualquier sitio.
+    Hay que volver a marcarlos mirando cada imagen: el componente enseña la
+    foto sin puntos mientras tanto, en vez de marcarlos mal. */
 };
 
 /* ---------- blog --------------------------------------------------------- */
@@ -676,16 +561,16 @@ var NOTAS = [
    ------------------------------------------------------------------------ */
 
 var CAMPS = [
- {img:"pr-navidad-1", eye:"Campaña de temporada", t:"La Navidad, montada",
+ {img:"navid-1", eye:"Campaña de temporada", t:"La Navidad, montada",
   p:"Árbol, vitrina, mesa y luces. Montaje en diciembre, desmontaje y guardado en enero.",
   cta:"Ver la campaña", go:"cat:navidad"},
- {img:"port-vitrina", eye:"Retail", t:"El espacio es lo primero que vende",
+ {img:"fig-1", eye:"Retail", t:"El espacio es lo primero que vende",
   p:"Vitrinas, islas de marca y campañas de temporada para cadenas de tienda.",
   cta:"Ver Retail", go:"retail"},
- {img:"port-alcoba", eye:"Hogar", t:"Su casa, resuelta de una vez",
+ {img:"arte-1", eye:"Hogar", t:"Su casa, resuelta de una vez",
   p:"Diseño interior integral. Gian dirige cada encargo, de la medición a la entrega.",
   cta:"Ver Hogar", go:"hogar"},
- {img:"port-coleccion", eye:"Mueblería", t:"Hecho en taller propio",
+ {img:"cg-sala-1", eye:"Mueblería", t:"Hecho en taller propio",
   p:"Del plano de despiece a la pieza instalada, sin tercerizar el control.",
   cta:"Ver la mueblería", go:"cat:mueble"}
 ];
@@ -703,33 +588,33 @@ var SERVICIOS = {
   mundo:"retail",
   marca:"Marca en sala",
   titulo:"Diseño de tiendas",
-  hero:"pr-walon-1",
+  hero:"fig-1",
   eyebrow:"Retail y visual merchandising",
   promesa:"Que su tienda se entienda desde la vereda y se recorra sin que nadie explique nada.",
   intro:"Es la línea con más recorrido del estudio. Se ha trabajado a escala de cadena: un criterio que se define una vez y se replica en cada local.",
   cifras:[["+40","locales intervenidos"],["8","marcas atendidas"],["14","días para montar una campaña"]],
   entregables:[
-   {n:"01", t:"Diagnóstico de sala", p:"Recorrido de compra, puntos ciegos y qué se ve desde la puerta.", img:"pr-sala-1"},
-   {n:"02", t:"Vitrina y fachada", p:"Lo único que el comprador ve antes de decidir si entra.", img:"pr-orion-1"},
-   {n:"03", t:"Isla y exhibidor", p:"Mobiliario de exhibición fabricado en taller propio.", img:"pr-figuritas-1"},
-   {n:"04", t:"Campaña de temporada", p:"Producción, montaje, desmontaje y guardado del material.", img:"pr-navidad-2"},
-   {n:"05", t:"Manual de implantación", p:"Medidas, materiales y secuencia para replicar sin nosotros.", img:"pr-plano-1"}
+   {n:"01", t:"Diagnóstico de sala", p:"Recorrido de compra, puntos ciegos y qué se ve desde la puerta.", img:"raices-2"},
+   {n:"02", t:"Vitrina y fachada", p:"Lo único que el comprador ve antes de decidir si entra.", img:"fig-2"},
+   {n:"03", t:"Isla y exhibidor", p:"Mobiliario de exhibición fabricado en taller propio.", img:"fig-4"},
+   {n:"04", t:"Campaña de temporada", p:"Producción, montaje, desmontaje y guardado del material.", img:"navid-3"},
+   {n:"05", t:"Manual de implantación", p:"Medidas, materiales y secuencia para replicar sin nosotros.", img:"raices-4"}
   ],
   proceso:[
-   {n:"01", t:"Visita a la sala", p:"Se mide, se observa cómo camina la gente y qué producto se pierde.", img:"pr-sala-2"},
-   {n:"02", t:"Propuesta", p:"Planos, materiales y perspectivas. Usted aprueba antes de que se fabrique nada.", img:"pr-plano-2"},
-   {n:"03", t:"Montaje", p:"Fabricación en taller propio e instalación en sala, fuera del horario de atención.", img:"pr-walon-3"}
+   {n:"01", t:"Visita a la sala", p:"Se mide, se observa cómo camina la gente y qué producto se pierde.", img:"raices-5"},
+   {n:"02", t:"Propuesta", p:"Planos, materiales y perspectivas. Usted aprueba antes de que se fabrique nada.", img:"pr-plano-1"},
+   {n:"03", t:"Montaje", p:"Fabricación en taller propio e instalación en sala, fuera del horario de atención.", img:"w35-2"}
   ],
-  boceto:{foto:"pr-walon-1", pie:"Fachada de tienda — del dibujo de implantación al local montado."},
+  boceto:{foto:"fig-1", pie:"Figuritas del Barrio — del dibujo de implantación a la tienda montada."},
 
   /* La tabla abre la página: cinco piezas en composición desigual. La primera
      lleva tirador —es la que enseña el mecanismo— y las otras cuatro se abren
      solas al pasar el cursor. Ninguna se repite en el mosaico de más abajo. */
-  tabla:["pr-walon-1","pr-orion-1","pr-sala-1","pr-nova-2","pr-walon-4"],
+  tabla:["fig-1","raices-1","union-1","massimo-1","w35-1"],
 
   /* El mosaico va de mayor a menor: la primera pieza manda y las demás la
      acompañan. Cada una empieza dibujada y se revela al pasar el cursor. */
-  mosaico:["pr-figuritas-1","pr-sala-2","pr-nova-1","pr-walon-3","pr-orion-2","pr-navidad-3"],
+  mosaico:["fig-3","raices-3","union-3","massimo-3","w35-3","raices-5"],
   cta:{t:"Hablemos de su sala", p:"La primera visita no cuesta y sirve para saber si el encargo tiene sentido para las dos partes.", b:"Agendar una visita"}
  },
 
@@ -737,26 +622,26 @@ var SERVICIOS = {
   mundo:"hogar",
   marca:"Casa resuelta",
   titulo:"Diseño de interiores",
-  hero:"pr-casa-3",
+  hero:"arte-1",
   eyebrow:"Hogar",
   promesa:"Una casa que funciona todos los días, no solo el día de la foto.",
   intro:"Sala, dormitorio, comedor o la vivienda completa. El estudio entra con el plano, decide la luz y la circulación, y se queda hasta la mudanza.",
   cifras:[["96 m²","proyecto integral típico"],["2","rondas de ajuste antes de aprobar"],["1","interlocutor: Gian"]],
   entregables:[
-   {n:"01", t:"Distribución y circulación", p:"Por dónde camina la gente y qué pared puede moverse.", img:"pr-casa-1"},
-   {n:"02", t:"Plano de iluminación", p:"La decisión que más cambia un ambiente y la que casi nadie toma a tiempo.", img:"pr-casa-6"},
-   {n:"03", t:"Paleta de materiales", p:"Neutros cálidos, madera que envejece bien, latón que toma pátina.", img:"pr-casa-4"},
+   {n:"01", t:"Distribución y circulación", p:"Por dónde camina la gente y qué pared puede moverse.", img:"cg-sala-2"},
+   {n:"02", t:"Plano de iluminación", p:"La decisión que más cambia un ambiente y la que casi nadie toma a tiempo.", img:"bosque-2"},
+   {n:"03", t:"Paleta de materiales", p:"Neutros cálidos, madera que envejece bien, latón que toma pátina.", img:"arte-3"},
    {n:"04", t:"Mueblería a medida", p:"Lo que no existe en tienda se dibuja y se fabrica en el taller.", img:"uni-taller"},
-   {n:"05", t:"Montaje y entrega", p:"Se entrega instalado, con la casa lista para vivirse.", img:"pr-casa-8"}
+   {n:"05", t:"Montaje y entrega", p:"Se entrega instalado, con la casa lista para vivirse.", img:"cg-hab-2"}
   ],
   proceso:[
    {n:"01", t:"Primera visita", p:"Medición, uso real y presupuesto. De ahí sale el pliego de necesidades.", img:"blog-1"},
    {n:"02", t:"Proyecto", p:"Planos, materiales, iluminación y selección de mobiliario en un solo expediente.", img:"pr-plano-3"},
-   {n:"03", t:"Obra y entrega", p:"Dirección de obra, taller propio y coordinación de proveedores.", img:"pr-casa-3"}
+   {n:"03", t:"Obra y entrega", p:"Dirección de obra, taller propio y coordinación de proveedores.", img:"cg-com-2"}
   ],
-  boceto:{foto:"pr-casa-3", pie:"Dormitorio principal — del dibujo a mano al ambiente entregado."},
-  tabla:["pr-casa-3","pr-bano-1","pr-sanisidro-1","pr-casa-1","pr-casa-7"],
-  mosaico:["pr-bano-3","pr-sanisidro-3","pr-casa-8","pr-bano-4","pr-casa-6","pr-sanisidro-2"],
+  boceto:{foto:"arte-1", pie:"Convivir con el Arte — del dibujo a mano a la sala entregada."},
+  tabla:["arte-1","cg-sala-1","cg-hab-1","cg-com-1","bosque-1"],
+  mosaico:["arte-4","cg-sala-3","cg-hab-4","cg-com-3","bosque-4","mesa-1"],
   cta:{t:"Cuéntenos de su espacio", p:"Metraje, distrito y en qué plazo lo necesita. Gian responde dentro de 24 horas hábiles.", b:"Agendar una asesoría"}
  }
 };
@@ -849,19 +734,20 @@ var ICONO_RED = {
    ------------------------------------------------------------------------ */
 
 var BOCETOS = [
-  "pr-walon-1","pr-walon-2","pr-walon-3","pr-walon-4",
-  "pr-orion-1","pr-orion-2","pr-figuritas-1","pr-figuritas-2",
-  "pr-nova-1","pr-nova-2","pr-nova-3",
-  "pr-sala-1","pr-sala-2","pr-sala-3",
-  "pr-navidad-1","pr-navidad-2","pr-navidad-3","pr-navidad-4",
-  "pr-resto-1","pr-resto-2","pr-resto-3",
-  "pr-lodge-1","pr-lodge-2","pr-lodge-3","pr-lodge-4",
-  "pr-casa-1","pr-casa-2","pr-casa-3","pr-casa-4",
-  "pr-casa-6","pr-casa-7","pr-casa-8",
-  "pr-bano-1","pr-bano-2","pr-bano-3","pr-bano-4",
-  "pr-sanisidro-1","pr-sanisidro-2","pr-sanisidro-3",
-  "pr-plano-1","pr-plano-2",
-  "cat-muebles","esp-sala","esp-comedor","esp-dormitorio","esp-terraza"
+  /* retail */
+  "fig-1","fig-2","fig-3","fig-4",
+  "raices-1","raices-2","raices-3","raices-4","raices-5",
+  "union-1","union-3","massimo-1","massimo-3",
+  "w35-1","w35-2","w35-3",
+  /* hogar y ambientes */
+  "arte-1","arte-3","arte-4",
+  "cg-sala-1","cg-sala-2","cg-sala-3",
+  "cg-com-1","cg-com-2","cg-com-3",
+  "cg-hab-1","cg-hab-2","cg-hab-4",
+  "bosque-1","bosque-2","bosque-4",
+  "mesa-1","navid-1","navid-3",
+  /* planos del estudio */
+  "pr-plano-1"
 ];
 
 function tieneBoceto(k){ return BOCETOS.indexOf(k) >= 0; }

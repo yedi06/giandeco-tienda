@@ -752,10 +752,14 @@ safe(function portada(){
   });
 
   /* proyectos destacados */
+  /* Dos de cada mundo, elegidos por su mundo y no por su posición en el
+     array: así, cuando entra o sale un proyecto, la portada no se rompe. */
   var hp = $("#homeProy");
-  if(hp) [PROYECTOS[0], PROYECTOS[11], PROYECTOS[5], PROYECTOS[12]].forEach(function(pr){
-    if(pr) hp.appendChild(proyCard(pr));
-  });
+  if(hp){
+    var deRetail = PROYECTOS.filter(function(p){ return p.mundo==="retail"; }).slice(0,2);
+    var deHogar  = PROYECTOS.filter(function(p){ return p.mundo==="hogar";  }).slice(0,2);
+    deRetail.concat(deHogar).forEach(function(pr){ hp.appendChild(proyCard(pr)); });
+  }
 
   /* mueblería: lo único que hoy tiene catálogo de verdad */
   fill($("#homeGrid"), PRODUCTS.filter(function(p){
@@ -1462,9 +1466,7 @@ function renderNosotros(){
   if(eq) EQUIPO.forEach(function(x){ eq.appendChild(fichaPersona(x)); });
 
   var pr = $("#nsProy");
-  if(pr) [PROYECTOS[0], PROYECTOS[6], PROYECTOS[9], PROYECTOS[11]].forEach(function(x){
-    if(x) pr.appendChild(proyCard(x));
-  });
+  if(pr) PROYECTOS.slice(0,4).forEach(function(x){ pr.appendChild(proyCard(x)); });
 }
 
 

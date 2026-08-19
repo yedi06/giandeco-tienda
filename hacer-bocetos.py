@@ -25,22 +25,20 @@ PAPEL = (247, 244, 238)   # blanco cálido, nunca #fff: el papel del estudio
 
 # Fotos que hoy tienen par en el sitio. Añadir aquí las nuevas.
 PARES = [
-    # retail: fachada, vitrina, isla, sala y campaña
-    "pr-walon-1", "pr-walon-2", "pr-walon-3", "pr-walon-4",
-    "pr-orion-1", "pr-orion-2", "pr-figuritas-1", "pr-figuritas-2",
-    "pr-nova-1", "pr-nova-2", "pr-nova-3",
-    "pr-sala-1", "pr-sala-2", "pr-sala-3",
-    "pr-navidad-1", "pr-navidad-2", "pr-navidad-3", "pr-navidad-4",
-    "pr-resto-1", "pr-resto-2", "pr-resto-3",
-    "pr-lodge-1", "pr-lodge-2", "pr-lodge-3", "pr-lodge-4",
-    # hogar: dormitorios, baños y obra
-    "pr-casa-1", "pr-casa-2", "pr-casa-3", "pr-casa-4",
-    "pr-casa-6", "pr-casa-7", "pr-casa-8",
-    "pr-bano-1", "pr-bano-2", "pr-bano-3", "pr-bano-4",
-    "pr-sanisidro-1", "pr-sanisidro-2", "pr-sanisidro-3",
-    "pr-plano-1", "pr-plano-2",
-    # catálogo y ambientes
-    "cat-muebles", "esp-sala", "esp-comedor", "esp-dormitorio", "esp-terraza",
+    # retail
+    "fig-1", "fig-2", "fig-3", "fig-4",
+    "raices-1", "raices-2", "raices-3", "raices-4", "raices-5",
+    "union-1", "union-3", "massimo-1", "massimo-3",
+    "w35-1", "w35-2", "w35-3",
+    # hogar y ambientes
+    "arte-1", "arte-3", "arte-4",
+    "cg-sala-1", "cg-sala-2", "cg-sala-3",
+    "cg-com-1", "cg-com-2", "cg-com-3",
+    "cg-hab-1", "cg-hab-2", "cg-hab-4",
+    "bosque-1", "bosque-2", "bosque-4",
+    "mesa-1", "navid-1", "navid-3",
+    # planos del estudio
+    "pr-plano-1",
 ]
 
 
