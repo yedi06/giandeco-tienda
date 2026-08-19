@@ -46,6 +46,10 @@ $osc = $osc -replace 'data-tema-set="claro" aria-pressed="true"',  'data-tema-se
 $osc = $osc -replace 'data-tema-set="oscuro" aria-pressed="false"','data-tema-set="oscuro" aria-pressed="true"'
 [System.IO.File]::WriteAllText((Join-Path $raiz "oscuro.html"), $osc, $utf8NoBom)
 
+# El sello tambien va suelto en version.txt: el sitio lo consulta al abrirse
+# y se recarga si esta enseñando una version vieja guardada en cache.
+[System.IO.File]::WriteAllText((Join-Path $raiz "version.txt"), $sello, $utf8NoBom)
+
 "sello de version: $sello"
 foreach($f in @("index.html","claro.html","oscuro.html")){
   "{0} ({1} KB)" -f $f, [int]((Get-Item (Join-Path $raiz $f)).Length/1KB)

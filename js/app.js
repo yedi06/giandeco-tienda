@@ -47,6 +47,40 @@ safe(function tema(){
   aplicar(raiz.getAttribute("data-tema") || "claro");
 }, "tema");
 
+/* ---------- 1 ter. version publicada -------------------------------------
+   GitHub Pages sirve el index.html con diez minutos de cache y no deja
+   cambiar esa cabecera. El sello en el CSS y el JS resuelve la mitad del
+   problema —si llega el HTML nuevo, arrastra los archivos nuevos— pero no la
+   otra: cuando el navegador se queda con el HTML viejo, pide los archivos
+   viejos y el sitio entero parece no haberse actualizado.
+
+   Aqui se compara el sello de la pagina cargada con el que hay en el
+   servidor. Si no coinciden, se recarga una vez. El aviso en sessionStorage
+   evita el bucle: si tras recargar sigue sin coincidir, se deja estar antes
+   que dejar al visitante recargando sin fin.
+   ------------------------------------------------------------------------ */
+
+safe(function versionPublicada(){
+  if(!window.fetch || !window.sessionStorage) return;
+  if(location.protocol === "file:") return;
+
+  var guion = document.querySelector('script[src*="app.js"]');
+  var puesto = guion && (guion.getAttribute("src").split("v=")[1] || "");
+  if(!puesto) return;
+
+  fetch("version.txt?t=" + Date.now(), {cache:"no-store"})
+    .then(function(r){ return r.ok ? r.text() : null; })
+    .then(function(t){
+      if(!t) return;
+      var servidor = t.trim();
+      if(!servidor || servidor === puesto) return;
+      if(sessionStorage.getItem("giandeco-recarga") === servidor) return;
+      sessionStorage.setItem("giandeco-recarga", servidor);
+      location.reload();
+    })
+    .catch(function(){ /* sin red no se hace nada: el sitio ya esta cargado */ });
+}, "versionPublicada");
+
 /* ---------- 1 bis. la cinta del encabezado -------------------------------
    Las frases se turnan de una en una: entra por abajo, sale por arriba. Un
    solo mensaje a la vez se lee; tres seguidas en la misma línea, no.
