@@ -532,10 +532,59 @@ var ESPACIOS = [
    ------------------------------------------------------------------------ */
 
 var PUNTOS = {
- /* Vacío a propósito. Los puntos anteriores estaban medidos sobre las
-    fotografías de ejemplo; sobre las nuevas caerían en cualquier sitio.
-    Hay que volver a marcarlos mirando cada imagen: el componente enseña la
-    foto sin puntos mientras tanto, en vez de marcarlos mal. */
+
+ /* Casa Grande · Sala — el sofá azul manda la escena */
+ "cg-sala-1":[
+   {x:37, y:55, id:1},    /* sofá azul de tres cuerpos */
+   {x:25, y:72, id:3},    /* butaca crema en primer plano */
+   {x:55, y:70, id:9},    /* mesa de centro redonda */
+   {x:74, y:68, id:6},    /* puf gris junto al ventanal */
+   {x:13, y:48, id:12}    /* consola de la pared izquierda */
+ ],
+
+ /* Casa Grande · Sala comedor */
+ "cg-com-1":[
+   {x:20, y:62, id:2},    /* modular gris */
+   {x:61, y:68, id:5},    /* otomana tapizada que hace de mesa */
+   {x:46, y:78, id:10},   /* mesa auxiliar redonda */
+   {x:84, y:63, id:12},   /* consola negra de la derecha */
+   {x:70, y:52, id:6}     /* banqueta amarilla del fondo */
+ ],
+
+ /* Casa Grande · Habitación */
+ "cg-hab-1":[
+   {x:63, y:68, id:14},   /* mesa de noche */
+   {x:36, y:68, id:5},    /* banco a los pies de la cama */
+   {x:86, y:72, id:3},    /* butaca del rincón */
+   {x:70, y:62, id:13}    /* cómoda de la pared */
+ ],
+
+ /* Animales en el Bosque — terraza montada de noche, vista cenital */
+ "bosque-1":[
+   {x:24, y:64, id:1},    /* sofá largo de la izquierda */
+   {x:48, y:50, id:2},    /* sofá del fondo */
+   {x:52, y:64, id:9},    /* mesa de centro de madera */
+   {x:44, y:85, id:3},    /* butacas del primer plano */
+   {x:55, y:33, id:18}    /* colgante de esferas */
+ ],
+
+ /* Mesa puesta */
+ "mesa-1":[
+   {x:79, y:63, id:37},   /* vajilla del cubierto derecho */
+   {x:52, y:48, id:19},   /* centro de mesa */
+   {x:32, y:42, id:20},   /* jarrón de la consola del fondo */
+   {x:9,  y:41, id:22}    /* bandeja de latón */
+ ],
+
+ /* Navidad Atemporal — la campaña viva */
+ "navid-1":[
+   {x:33, y:48, id:27},   /* árbol de 2.10 m */
+   {x:40, y:58, id:30},   /* guirnalda verde */
+   {x:21, y:68, id:32},   /* ornamentos */
+   {x:44, y:72, id:33},   /* luces */
+   {x:80, y:53, id:31}    /* mesa navideña del fondo */
+ ]
+
 };
 
 /* ---------- blog --------------------------------------------------------- */

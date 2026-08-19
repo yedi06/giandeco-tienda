@@ -771,8 +771,8 @@ safe(function portada(){
   if(he) ESPACIOS.slice(0,3).forEach(function(e){ he.appendChild(espCard(e)); });
 
   /* compre el look: la alcoba de la campaña, con sus piezas marcadas */
-  mapaConPie($("#homeMapa"), "port-alcoba",
-             "Dormitorio montado por el estudio, con sus piezas señaladas");
+  mapaConPie($("#homeMapa"), "cg-sala-1",
+             "Sala montada por el estudio, con sus piezas señaladas");
 
   /* blog */
   var hj = $("#homeJournal");
