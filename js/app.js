@@ -251,6 +251,19 @@ function tile(img, titulo, kicker, ruta, pronto){
    Ni una palabra sobre la imagen: el cliente lo pidió limpio.
    ------------------------------------------------------------------------ */
 
+/* Pieza del mosaico: el dibujo abajo, la obra encima. La obra aparece al
+   pasar el cursor; en pantalla táctil, donde no hay cursor, se queda visible
+   a medias para que igual se entienda el par. */
+function piezaMosaico(clave, i){
+  if(!tieneBoceto(clave)) return null;
+  var f = el("figure","mz");
+  f.innerHTML =
+    '<img class="mz-sk" src="'+IMG+'sk-'+clave+'.jpg" alt="Boceto del ambiente" loading="lazy" />'+
+    '<img class="mz-ob" src="'+src(clave)+'" alt="El ambiente construido" loading="lazy" />';
+  f.style.setProperty("--i", i);
+  return f;
+}
+
 function bocetoObra(clave, pie){
   if(!tieneBoceto(clave)) return null;
 
@@ -1165,13 +1178,10 @@ function abrirServicio(id){
   set("#svEye", sv.eyebrow);
   set("#svTitulo", sv.titulo);
   set("#svPromesa", sv.promesa);
-  set("#svIntro", sv.intro);
-  set("#svMarcaSobre", "El método");
-  set("#svMarca", sv.marca);
   set("#svEntTit", id==="retail" ? "De la vereda a la caja" : "De la medición a la mudanza");
   set("#svProyTit", id==="retail" ? "Tiendas que hemos hecho" : "Casas que hemos hecho");
   set("#svBlogTit", id==="retail" ? "Sobre retail" : "Sobre la casa");
-  set("#svCtaT", sv.cta.t.replace(/^Hablemos de |^Cuéntenos de /,""));
+  set("#svCtaT", sv.cta.t);
   set("#svCtaP", sv.cta.p);
 
   var b1 = $("#svCta1"), b2 = $("#svCtaB");
@@ -1195,6 +1205,15 @@ function abrirServicio(id){
     cif.innerHTML = "";
     sv.cifras.forEach(function(c){
       cif.appendChild(el("div","cifra",'<b>'+c[0]+'</b><span>'+c[1]+'</span>'));
+    });
+  }
+
+  var mos = $("#svMosaico");
+  if(mos){
+    mos.innerHTML = "";
+    (sv.mosaico||[]).forEach(function(k,i){
+      var pieza = piezaMosaico(k,i);
+      if(pieza){ mos.appendChild(pieza); observar(pieza); }
     });
   }
 

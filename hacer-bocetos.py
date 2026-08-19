@@ -25,10 +25,14 @@ PAPEL = (247, 244, 238)   # blanco cálido, nunca #fff: el papel del estudio
 
 # Fotos que hoy tienen par en el sitio. Añadir aquí las nuevas.
 PARES = [
-    "pr-walon-1", "pr-sala-1", "pr-orion-1",      # retail
-    "pr-casa-3", "pr-casa-1", "pr-bano-1",        # hogar
-    "cat-muebles", "esp-sala",                    # catálogo
-    "pr-navidad-2",                               # temporada
+    # retail
+    "pr-walon-1", "pr-walon-3", "pr-orion-1", "pr-figuritas-1",
+    "pr-nova-1", "pr-sala-1", "pr-sala-2", "pr-resto-1",
+    # hogar
+    "pr-casa-1", "pr-casa-3", "pr-casa-8", "pr-bano-1", "pr-bano-3",
+    "pr-sanisidro-1", "pr-sanisidro-3",
+    # catálogo y temporada
+    "cat-muebles", "esp-sala", "esp-comedor", "pr-navidad-2",
 ]
 
 

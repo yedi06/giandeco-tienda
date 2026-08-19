@@ -705,6 +705,9 @@ var SERVICIOS = {
    {n:"03", t:"Montaje", p:"Fabricación en taller propio e instalación en sala, fuera del horario de atención.", img:"pr-walon-3"}
   ],
   boceto:{foto:"pr-walon-1", pie:"Fachada de tienda — del dibujo de implantación al local montado."},
+  /* El mosaico va de mayor a menor: la primera pieza manda y las demás la
+     acompañan. Cada una empieza dibujada y se revela al pasar el cursor. */
+  mosaico:["pr-orion-1","pr-figuritas-1","pr-nova-1","pr-sala-2","pr-walon-3","pr-resto-1"],
   cta:{t:"Hablemos de su sala", p:"La primera visita no cuesta y sirve para saber si el encargo tiene sentido para las dos partes.", b:"Agendar una visita"}
  },
 
@@ -730,6 +733,7 @@ var SERVICIOS = {
    {n:"03", t:"Obra y entrega", p:"Dirección de obra, taller propio y coordinación de proveedores.", img:"pr-casa-3"}
   ],
   boceto:{foto:"pr-casa-3", pie:"Dormitorio principal — del dibujo a mano al ambiente entregado."},
+  mosaico:["pr-bano-1","pr-sanisidro-1","pr-casa-8","pr-bano-3","pr-sanisidro-3","pr-casa-1"],
   cta:{t:"Cuéntenos de su espacio", p:"Metraje, distrito y en qué plazo lo necesita. Gian responde dentro de 24 horas hábiles.", b:"Agendar una asesoría"}
  }
 };
@@ -783,7 +787,12 @@ var CIFRAS_ESTUDIO = [
    el mismo nombre y el sitio no se entera.
    ------------------------------------------------------------------------ */
 
-var BOCETOS = ["pr-walon-1","pr-sala-1","pr-orion-1","pr-casa-3","pr-casa-1",
-               "pr-bano-1","cat-muebles","esp-sala","pr-navidad-2"];
+var BOCETOS = [
+  "pr-walon-1","pr-walon-3","pr-orion-1","pr-figuritas-1","pr-nova-1",
+  "pr-sala-1","pr-sala-2","pr-resto-1",
+  "pr-casa-1","pr-casa-3","pr-casa-8","pr-bano-1","pr-bano-3",
+  "pr-sanisidro-1","pr-sanisidro-3",
+  "cat-muebles","esp-sala","esp-comedor","pr-navidad-2"
+];
 
 function tieneBoceto(k){ return BOCETOS.indexOf(k) >= 0; }
