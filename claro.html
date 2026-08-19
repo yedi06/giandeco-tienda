@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" />
-<link rel="stylesheet" href="css/giandeco.css?v=f0346198" />
+<link rel="stylesheet" href="css/giandeco.css?v=34ec2248" />
 </head>
 <body>
 
@@ -21,7 +21,7 @@
 <header class="head">
   <!-- 1. cinta de aviso -->
   <div class="aviso">
-    <p>Estudio de diseño en Lima<span class="ann-x"> <i></i> Av. Arenales, Lince</span><span class="ann-x"> <i></i> Asesoría con cita previa</span></p>
+    <div class="aviso-rot" id="aviso"></div>
   </div>
 
   <div class="hwrap">
@@ -237,6 +237,22 @@
 
 <!-- ====================== COLECCIÓN ====================== -->
 <main class="view" id="v-cat">
+
+  <!-- portada de campaña: sólo aparece en la línea de temporada -->
+  <section class="camp-band" id="catCampana" hidden>
+    <div class="camp-band-foto">
+      <img id="cbFoto" src="" alt="" />
+      <span class="veil"></span>
+    </div>
+    <div class="camp-band-txt">
+      <span class="eyebrow" id="cbEye"></span>
+      <h1 id="cbTitulo"></h1>
+      <p id="cbTexto"></p>
+      <button class="btn" type="button" id="cbCta" data-go="contacto"></button>
+      <div class="camp-band-tira" id="cbTira"></div>
+    </div>
+  </section>
+
   <div class="wrap">
     <nav class="crumb" id="catCrumb" aria-label="Ruta"></nav>
     <h1 class="ctitle" id="catTitle"></h1>
@@ -756,6 +772,7 @@
         <img class="logo-claro" src="img/logo-claro.png" alt="Giandeco Studio Design" loading="lazy" />
         <p>Diseñamos espacios que inspiran, experiencias que trascienden.<br />
           Av. Arenales, Lince — Lima.</p>
+        <nav class="redes" id="redes" aria-label="Redes sociales"></nav>
       </div>
       <div class="fcol">
         <h4>Comprar</h4>
@@ -803,7 +820,7 @@
   </div>
 </aside>
 
-<script src="js/datos.js?v=f0346198"></script>
-<script src="js/app.js?v=f0346198"></script>
+<script src="js/datos.js?v=34ec2248"></script>
+<script src="js/app.js?v=34ec2248"></script>
 </body>
 </html>

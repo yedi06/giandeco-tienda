@@ -16,13 +16,13 @@ En la cabecera hay un interruptor sol/luna para comparar al vuelo.
 
 ```
 RETAIL                        HOGAR                     CATÁLOGO
-  Diseño de tiendas             Diseño de interiores      Mueblería        ← abierta
-  Proyectos                     Espacios                  Piezas únicas    ← abierta
-  Blog                          Proyectos                 Compra el espacio ← abierta
-  Contacto                      Blog                      Iluminación      · próximamente
-                                                          Decoración       · próximamente
-QUIÉNES SOMOS    CONTACTO                                 Papel mural      · próximamente
-                                                          Navidad          · campaña, noviembre
+  Diseño de tiendas             Diseño de interiores      Navidad          ← campaña viva
+  Proyectos                     Espacios                  Mueblería        ← abierta
+  Blog                          Proyectos                 Piezas únicas    ← abierta
+  Contacto                      Blog                      Compra el espacio ← abierta
+                                                          Iluminación      · próximamente
+QUIÉNES SOMOS    CONTACTO                                 Decoración       · próximamente
+                                                          Papel mural      · próximamente
 ```
 
 Los tres servicios van a la izquierda de la marca; las dos páginas, a la
@@ -58,6 +58,29 @@ Proyectos y Blog sólo traen retail; estando en Hogar, sólo hogar.
   con tres familias (Asientos, Mesas, Guardado).
 - **Ficha de producto** rehecha: la descripción dejó de ser un acordeón y pasó
   a ser un relato con fotografía a ancho completo, alternando lado.
+
+## La campaña de temporada
+
+Navidad no entra como una categoría más. Abre el catálogo y **tiñe su vista**:
+portada propia a sangre con la fotografía de la campaña, filete de oro y
+verde bajo el titular, tira de apoyo, y un juego de tokens distinto —el oro
+sube de tono y entra un verde de fondo— que sólo se aplica dentro de
+`#v-cat.campana`.
+
+Es el único sitio donde se rompe la paleta. Si todo fuera especial, nada lo
+sería.
+
+Se controla desde `TAX` en `js/datos.js`: la línea con `temporada:true` se
+coloca delante con `TAX.unshift(...)`, y lleva un bloque `campana` con su
+portada. Cuando la temporada termine, se quita ese bloque y vuelve a su sitio
+sin tocar nada más.
+
+## La cinta del encabezado
+
+Las frases de `AVISOS` se turnan de una en una: entra por abajo, sale por
+arriba, cada 4,2 s. Se detiene al pasar el cursor y no gira si el sistema
+pide menos movimiento. Antes iban las tres seguidas en una línea y se leían
+como letra pequeña de contrato.
 
 ## Estructura
 
@@ -111,6 +134,9 @@ reemplaza el archivo `sk-*.jpg` con el mismo nombre y el sitio no se entera.
 
 Maqueta de presentación. Pendiente de confirmar con el estudio:
 
+- **Las direcciones de las redes.** Instagram, Facebook y TikTok están en el
+  pie con sus iconos, pero apuntan a `#`. Hay que pedirle los enlaces al
+  estudio y ponerlos en `REDES` de `js/datos.js`.
 - **Retratos de Gian, Martha y Lucía.** Ahora hay un monograma en su lugar.
   Al llegar las fotos, se rellena `img` en `EQUIPO` de `js/datos.js`.
 - **Las cifras** de las páginas de servicio y de Quiénes somos (+40 locales,

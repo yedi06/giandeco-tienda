@@ -47,6 +47,62 @@ safe(function tema(){
   aplicar(raiz.getAttribute("data-tema") || "claro");
 }, "tema");
 
+/* ---------- 1 bis. la cinta del encabezado -------------------------------
+   Las frases se turnan de una en una: entra por abajo, sale por arriba. Un
+   solo mensaje a la vez se lee; tres seguidas en la misma línea, no.
+
+   Se detiene al pasar el cursor —si alguien se paró a leer, no se le quita
+   la frase— y con `prefers-reduced-motion` deja de girar del todo.
+   ------------------------------------------------------------------------ */
+
+safe(function cinta(){
+  var caja = $("#aviso");
+  if(!caja || typeof AVISOS === "undefined" || !AVISOS.length) return;
+
+  AVISOS.forEach(function(t,i){
+    var s = el("span", i===0 ? "on" : null, t);
+    caja.appendChild(s);
+  });
+  if(AVISOS.length < 2) return;
+
+  var quieto = window.matchMedia && window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+  if(quieto) return;
+
+  var frases = $$("span", caja), i = 0, reloj = null, pausa = false;
+
+  function girar(){
+    if(pausa) return;
+    var sale = frases[i];
+    i = (i + 1) % frases.length;
+    var entra = frases[i];
+    sale.classList.remove("on");
+    sale.classList.add("fuera");
+    entra.classList.add("on");
+    setTimeout(function(){ sale.classList.remove("fuera"); }, 700);
+  }
+
+  reloj = setInterval(girar, 4200);
+  caja.addEventListener("mouseenter", function(){ pausa = true; });
+  caja.addEventListener("mouseleave", function(){ pausa = false; });
+}, "cinta");
+
+
+safe(function redes(){
+  var nav = $("#redes");
+  if(!nav || typeof REDES === "undefined") return;
+  REDES.forEach(function(r){
+    var a = document.createElement("a");
+    a.className = "red";
+    a.href = r.url;
+    a.setAttribute("aria-label", r.nombre);
+    a.title = r.nombre;
+    if(r.url && r.url !== "#"){ a.target = "_blank"; a.rel = "noopener noreferrer"; }
+    a.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true">'+(ICONO_RED[r.id]||"")+'</svg>';
+    nav.appendChild(a);
+  });
+}, "redes");
+
+
 /* ---------- 2. barra de progreso y aparición ----------------------------- */
 
 safe(function progreso(){
@@ -879,9 +935,42 @@ function openCat(slug){
   var titulo = $("#catTitle");
   if(titulo) titulo.innerHTML = nombre + '<span class="dash"></span>';
   crumb($("#catCrumb"), [{t:"Inicio",go:"home"},{t:"Tienda",go:"home"},{t:nombre}]);
+  /* La línea de temporada no se enseña como una categoría más: entra con su
+     propia portada y con la vista teñida de campaña. */
+  pintarCampana(t);
+
+  /* La caja de promoción sólo tiene sentido si la línea de temporada no trae
+     portada propia: con portada, repetiría la misma llamada dos veces. */
   var promo = $("#catPromo");
-  if(promo) promo.hidden = (slug!=="navidad");
+  if(promo) promo.hidden = !(t && t.temporada && !t.campana);
   renderSubs(); buildFacets(); applyCat(); show("cat", slug);
+}
+
+/* Portada de campaña: foto grande, relato corto y una tira de apoyo. Se
+   dibuja sólo para la línea de temporada; el resto del catálogo no cambia. */
+function pintarCampana(t){
+  var band = $("#catCampana"), vista = $("#v-cat");
+  var c = t && t.campana;
+  if(vista) vista.classList.toggle("campana", !!c);
+  if(!band) return;
+  if(!c){ band.hidden = true; return; }
+
+  var set = function(sel,val){ var n=$(sel); if(n) n.textContent = val; };
+  var foto = $("#cbFoto");
+  if(foto){ foto.src = src(c.foto); foto.alt = c.titulo; }
+  set("#cbEye", c.eyebrow);
+  set("#cbTitulo", c.titulo);
+  set("#cbTexto", c.texto);
+  set("#cbCta", c.cta);
+
+  var tira = $("#cbTira");
+  if(tira){
+    tira.innerHTML = "";
+    (c.apoyo||[]).forEach(function(k){
+      tira.appendChild(el("span","cb-mini",'<img src="'+src(k)+'" alt="" loading="lazy" />'));
+    });
+  }
+  band.hidden = false;
 }
 
 safe(function controlesCatalogo(){

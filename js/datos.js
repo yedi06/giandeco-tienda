@@ -55,12 +55,25 @@ var TAX = [
    lede:"Panorámicos y diseños de repetición, medidos e instalados por el estudio.",
    subs:[{s:"panoramico", name:"Panorámicos"}, {s:"repetido", name:"De repetición"}]},
 
-  {slug:"navidad", name:"Navidad", img:"cat-navidad", estado:"pronto", temporada:true,
-   cuando:"Noviembre de 2026",
-   lede:"La campaña de temporada del estudio: árbol, vitrina, mesa y luces, montadas y desmontadas por el mismo equipo que hace las tiendas.",
+];
+
+/* La campaña de temporada abre el catálogo mientras está viva. Se coloca
+   delante en vez de reordenar el array a mano: así, cuando termine, basta
+   con poner `temporada:false` y todo vuelve a su sitio. */
+TAX.unshift(
+  {slug:"navidad", name:"Navidad", img:"pr-navidad-1", estado:"activo", temporada:true,
+   lede:"Árbol, vitrina, mesa y luces. La misma campaña que montamos en salas de venta, para su casa.",
+   campana:{
+     eyebrow:"Campaña de temporada · 2026",
+     titulo:"La Navidad, montada",
+     texto:"El estudio arma la temporada completa: árbol, corona, mesa puesta y luces. Se monta en diciembre y se desmonta y guarda rotulado la primera semana de enero.",
+     foto:"pr-navidad-1",
+     apoyo:["pr-navidad-2","pr-navidad-3","pr-navidad-4"],
+     cta:"Pedir el montaje completo"
+   },
    subs:[{s:"arboles", name:"Árboles"}, {s:"coronas", name:"Coronas y guirnaldas"},
          {s:"mesa", name:"Mesa navideña"}, {s:"ornamentos", name:"Ornamentos"}, {s:"luces", name:"Luces"}]}
-];
+);
 
 function taxDe(slug){ return TAX.filter(function(t){ return t.slug===slug; })[0]; }
 function catsActivas(){ return TAX.filter(function(t){ return t.estado==="activo"; }); }
@@ -663,6 +676,9 @@ var NOTAS = [
    ------------------------------------------------------------------------ */
 
 var CAMPS = [
+ {img:"pr-navidad-1", eye:"Campaña de temporada", t:"La Navidad, montada",
+  p:"Árbol, vitrina, mesa y luces. Montaje en diciembre, desmontaje y guardado en enero.",
+  cta:"Ver la campaña", go:"cat:navidad"},
  {img:"port-vitrina", eye:"Retail", t:"El espacio es lo primero que vende",
   p:"Vitrinas, islas de marca y campañas de temporada para cadenas de tienda.",
   cta:"Ver Retail", go:"retail"},
@@ -782,6 +798,44 @@ var CIFRAS_ESTUDIO = [
  ["8","marcas atendidas"],
  ["1","taller propio"]
 ];
+
+
+/* ---------- la cinta del encabezado -------------------------------------
+   Tres frases que se turnan. Una línea con las tres seguidas se lee como
+   letra pequeña de contrato; de una en una, cada frase se lee de verdad.
+   ------------------------------------------------------------------------ */
+
+var AVISOS = [
+  "Campaña de Navidad abierta",
+  "Estudio de diseño en Lima",
+  "Av. Arenales, Lince",
+  "Asesoría con cita previa"
+];
+
+
+/* ---------- redes ---------------------------------------------------------
+   Los iconos van dibujados con el mismo trazo que el resto del sitio —línea
+   de 1.3, remates redondos— en vez de pegar los logotipos oficiales, que
+   llegan cada uno con su peso y su relleno y ensucian el pie.
+
+   Las direcciones están pendientes: hay que pedírselas al estudio.
+   ------------------------------------------------------------------------ */
+
+var REDES = [
+  {id:"instagram", nombre:"Instagram", url:"#"},
+  {id:"facebook",  nombre:"Facebook",  url:"#"},
+  {id:"tiktok",    nombre:"TikTok",    url:"#"}
+];
+
+var ICONO_RED = {
+  instagram:'<rect x="3.6" y="3.6" width="16.8" height="16.8" rx="4.9"/>'+
+            '<circle cx="12" cy="12" r="4.05"/>'+
+            '<circle cx="17.15" cy="6.85" r="1.05" fill="currentColor" stroke="none"/>',
+  facebook: '<circle cx="12" cy="12" r="8.7"/>'+
+            '<path d="M14.35 8.35h-1.1c-.97 0-1.63.63-1.63 1.62v1.55m-1.72 0h4.3m-2.58 0v8.1"/>',
+  tiktok:   '<path d="M14.55 3.3v10.85a3.62 3.62 0 1 1-3.62-3.62c.32 0 .63.04.93.12"/>'+
+            '<path d="M14.55 3.3c.32 2.42 2.06 4.2 4.45 4.42"/>'
+};
 
 
 /* ---------- pares boceto / obra ------------------------------------------
