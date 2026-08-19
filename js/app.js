@@ -264,10 +264,58 @@ function piezaMosaico(clave, i){
   return f;
 }
 
+/* Corte fijo: el dibujo debajo y la obra encima, partida por una línea. Sin
+   tirador —cuatro tiradores en una misma pantalla no invitan, abruman— pero
+   el corte se abre al pasar el cursor, así que la composición no está quieta. */
+function parCorte(clave, corte, i){
+  if(!tieneBoceto(clave)) return null;
+  var f = el("figure","tb-par");
+  f.style.setProperty("--c", corte+"%");
+  f.style.setProperty("--i", i);
+  f.innerHTML =
+    '<img class="tb-sk" src="'+IMG+'sk-'+clave+'.jpg" alt="Boceto del ambiente" loading="lazy" />'+
+    '<div class="tb-ob"><img src="'+src(clave)+'" alt="El mismo ambiente construido" loading="lazy" /></div>'+
+    '<span class="tb-linea" aria-hidden="true"></span>';
+  return f;
+}
+
+/* La tabla de trabajo con la que abre cada servicio. Cinco piezas de tamaños
+   distintos: una manda y cuatro la acompañan. Los cortes arrancan desiguales
+   a propósito —58, 44, 62, 38 por ciento— para que la fila no se lea como
+   una tira de cajas iguales. */
+function tablaTrazo(sv){
+  var lista = sv.tabla || (sv.boceto ? [sv.boceto.foto] : []);
+  if(!lista.length) return null;
+
+  var envoltura = document.createDocumentFragment();
+  var caja = el("div","tabla");
+
+  /* La pieza grande conserva sus rótulos Boceto / Obra, que son los que
+     explican el mecanismo. La frase larga se saca fuera: dentro de la
+     rejilla partía la composición por la mitad. */
+  var grande = bocetoObra(lista[0], null);
+  if(grande){ caja.appendChild(grande); }
+
+  var cortes = [58, 44, 62, 38], letras = "bcde";
+  lista.slice(1,5).forEach(function(k,i){
+    var p = parCorte(k, cortes[i], i+1);
+    if(p){ p.classList.add("tb-"+letras[i]); caja.appendChild(p); observar(p); }
+  });
+
+  envoltura.appendChild(caja);
+  if(sv.boceto && sv.boceto.pie){
+    var pie = el("p","tabla-pie",
+      '<span>'+sv.boceto.pie+'</span>'+
+      '<em>Arrastre la pieza mayor · pase el cursor sobre las demás</em>');
+    envoltura.appendChild(pie);
+  }
+  return envoltura;
+}
+
 function bocetoObra(clave, pie){
   if(!tieneBoceto(clave)) return null;
 
-  var caja = el("figure","bc");
+  var caja = el("figure","bc tb-a");
   caja.innerHTML =
     '<div class="bc-marco">'+
       '<img class="bc-sk" src="'+IMG+'sk-'+clave+'.jpg" alt="Boceto a lápiz del ambiente" loading="lazy" />'+
@@ -1192,12 +1240,13 @@ function abrirServicio(id){
   if(pl) pl.onclick = function(){ go("proyectos"); };
   if(bl) bl.onclick = function(){ go("cuaderno"); };
 
-  /* boceto y obra, justo debajo del banner */
+  /* la tabla de trabajo, justo debajo del banner */
   var bo = $("#svBoceto");
   if(bo){
     bo.innerHTML = "";
-    var par = sv.boceto && bocetoObra(sv.boceto.foto, sv.boceto.pie);
-    if(par){ bo.appendChild(par); bo.hidden = false; } else { bo.hidden = true; }
+    var tab = tablaTrazo(sv);
+    if(tab && tab.childNodes.length){ bo.appendChild(tab); bo.hidden = false; }
+    else { bo.hidden = true; }
   }
 
   var cif = $("#svCifras");

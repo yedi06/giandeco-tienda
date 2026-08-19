@@ -37,9 +37,17 @@ Proyectos y Blog sólo traen retail; estando en Hogar, sólo hogar.
   entregables, proceso, proyectos y blog del mundo, y llamada a la acción.
   El método de cada una tiene nombre: **Marca en sala** (Retail) y
   **Casa resuelta** (Hogar).
-- **Boceto y obra.** Un marco con el dibujo a lápiz a la izquierda y la
-  fotografía a la derecha, y un tirador para pasar de uno a otro. Va justo
-  debajo del banner de cada servicio. Sin una palabra sobre la imagen.
+- **Boceto y obra**, en dos bloques distintos y sin una palabra sobre la
+  imagen:
+  - **Tabla de trazo**, justo debajo del banner. Cinco pares en composición
+    desigual: una pieza manda y cuatro la acompañan, con el corte a distinta
+    altura en cada una. La mayor lleva tirador; las otras se abren solas al
+    pasar el cursor.
+  - **Mosaico «Del trazo a la obra»**, más abajo. Seis pares en retícula de
+    doce celdas que cierra sin huecos. Cada pieza empieza dibujada y la
+    fotografía la barre al pasar el cursor.
+
+  Once pares por servicio, ninguno repetido entre los dos bloques.
 - **Quiénes somos.** Gian a la cabeza, la historia del estudio, las cifras,
   el equipo (Martha, diseñadora de interiores; Lucía, arquitecta) y los
   proyectos en los que participó. Botones accionables en cada tramo.
@@ -86,9 +94,14 @@ de imágenes: por eso las dos mitades encajan pixel a pixel y el efecto se lee
 como «esto se dibujó y luego se construyó».
 
 ```bash
-python hacer-bocetos.py              # regenera todos los pares
+python hacer-bocetos.py              # regenera los 46 pares
 python hacer-bocetos.py pr-casa-3    # sólo uno
 ```
+
+Para añadir una fotografía al juego: se mete su nombre en `PARES` de
+`hacer-bocetos.py`, se ejecuta el script, y se añade a `BOCETOS` en
+`js/datos.js`. El componente sólo dibuja el par si el archivo `sk-*` existe:
+nunca se enseña un marco a medias.
 
 Son material de trabajo. Cuando lleguen los bocetos a mano del estudio, se
 reemplaza el archivo `sk-*.jpg` con el mismo nombre y el sitio no se entera.

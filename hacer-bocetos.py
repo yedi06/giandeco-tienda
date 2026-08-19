@@ -25,14 +25,22 @@ PAPEL = (247, 244, 238)   # blanco cálido, nunca #fff: el papel del estudio
 
 # Fotos que hoy tienen par en el sitio. Añadir aquí las nuevas.
 PARES = [
-    # retail
-    "pr-walon-1", "pr-walon-3", "pr-orion-1", "pr-figuritas-1",
-    "pr-nova-1", "pr-sala-1", "pr-sala-2", "pr-resto-1",
-    # hogar
-    "pr-casa-1", "pr-casa-3", "pr-casa-8", "pr-bano-1", "pr-bano-3",
-    "pr-sanisidro-1", "pr-sanisidro-3",
-    # catálogo y temporada
-    "cat-muebles", "esp-sala", "esp-comedor", "pr-navidad-2",
+    # retail: fachada, vitrina, isla, sala y campaña
+    "pr-walon-1", "pr-walon-2", "pr-walon-3", "pr-walon-4",
+    "pr-orion-1", "pr-orion-2", "pr-figuritas-1", "pr-figuritas-2",
+    "pr-nova-1", "pr-nova-2", "pr-nova-3",
+    "pr-sala-1", "pr-sala-2", "pr-sala-3",
+    "pr-navidad-1", "pr-navidad-2", "pr-navidad-3", "pr-navidad-4",
+    "pr-resto-1", "pr-resto-2", "pr-resto-3",
+    "pr-lodge-1", "pr-lodge-2", "pr-lodge-3", "pr-lodge-4",
+    # hogar: dormitorios, baños y obra
+    "pr-casa-1", "pr-casa-2", "pr-casa-3", "pr-casa-4",
+    "pr-casa-6", "pr-casa-7", "pr-casa-8",
+    "pr-bano-1", "pr-bano-2", "pr-bano-3", "pr-bano-4",
+    "pr-sanisidro-1", "pr-sanisidro-2", "pr-sanisidro-3",
+    "pr-plano-1", "pr-plano-2",
+    # catálogo y ambientes
+    "cat-muebles", "esp-sala", "esp-comedor", "esp-dormitorio", "esp-terraza",
 ]
 
 

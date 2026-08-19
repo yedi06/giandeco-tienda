@@ -705,9 +705,15 @@ var SERVICIOS = {
    {n:"03", t:"Montaje", p:"Fabricación en taller propio e instalación en sala, fuera del horario de atención.", img:"pr-walon-3"}
   ],
   boceto:{foto:"pr-walon-1", pie:"Fachada de tienda — del dibujo de implantación al local montado."},
+
+  /* La tabla abre la página: cinco piezas en composición desigual. La primera
+     lleva tirador —es la que enseña el mecanismo— y las otras cuatro se abren
+     solas al pasar el cursor. Ninguna se repite en el mosaico de más abajo. */
+  tabla:["pr-walon-1","pr-orion-1","pr-sala-1","pr-nova-2","pr-walon-4"],
+
   /* El mosaico va de mayor a menor: la primera pieza manda y las demás la
      acompañan. Cada una empieza dibujada y se revela al pasar el cursor. */
-  mosaico:["pr-orion-1","pr-figuritas-1","pr-nova-1","pr-sala-2","pr-walon-3","pr-resto-1"],
+  mosaico:["pr-figuritas-1","pr-sala-2","pr-nova-1","pr-walon-3","pr-orion-2","pr-navidad-3"],
   cta:{t:"Hablemos de su sala", p:"La primera visita no cuesta y sirve para saber si el encargo tiene sentido para las dos partes.", b:"Agendar una visita"}
  },
 
@@ -733,7 +739,8 @@ var SERVICIOS = {
    {n:"03", t:"Obra y entrega", p:"Dirección de obra, taller propio y coordinación de proveedores.", img:"pr-casa-3"}
   ],
   boceto:{foto:"pr-casa-3", pie:"Dormitorio principal — del dibujo a mano al ambiente entregado."},
-  mosaico:["pr-bano-1","pr-sanisidro-1","pr-casa-8","pr-bano-3","pr-sanisidro-3","pr-casa-1"],
+  tabla:["pr-casa-3","pr-bano-1","pr-sanisidro-1","pr-casa-1","pr-casa-7"],
+  mosaico:["pr-bano-3","pr-sanisidro-3","pr-casa-8","pr-bano-4","pr-casa-6","pr-sanisidro-2"],
   cta:{t:"Cuéntenos de su espacio", p:"Metraje, distrito y en qué plazo lo necesita. Gian responde dentro de 24 horas hábiles.", b:"Agendar una asesoría"}
  }
 };
@@ -788,11 +795,19 @@ var CIFRAS_ESTUDIO = [
    ------------------------------------------------------------------------ */
 
 var BOCETOS = [
-  "pr-walon-1","pr-walon-3","pr-orion-1","pr-figuritas-1","pr-nova-1",
-  "pr-sala-1","pr-sala-2","pr-resto-1",
-  "pr-casa-1","pr-casa-3","pr-casa-8","pr-bano-1","pr-bano-3",
-  "pr-sanisidro-1","pr-sanisidro-3",
-  "cat-muebles","esp-sala","esp-comedor","pr-navidad-2"
+  "pr-walon-1","pr-walon-2","pr-walon-3","pr-walon-4",
+  "pr-orion-1","pr-orion-2","pr-figuritas-1","pr-figuritas-2",
+  "pr-nova-1","pr-nova-2","pr-nova-3",
+  "pr-sala-1","pr-sala-2","pr-sala-3",
+  "pr-navidad-1","pr-navidad-2","pr-navidad-3","pr-navidad-4",
+  "pr-resto-1","pr-resto-2","pr-resto-3",
+  "pr-lodge-1","pr-lodge-2","pr-lodge-3","pr-lodge-4",
+  "pr-casa-1","pr-casa-2","pr-casa-3","pr-casa-4",
+  "pr-casa-6","pr-casa-7","pr-casa-8",
+  "pr-bano-1","pr-bano-2","pr-bano-3","pr-bano-4",
+  "pr-sanisidro-1","pr-sanisidro-2","pr-sanisidro-3",
+  "pr-plano-1","pr-plano-2",
+  "cat-muebles","esp-sala","esp-comedor","esp-dormitorio","esp-terraza"
 ];
 
 function tieneBoceto(k){ return BOCETOS.indexOf(k) >= 0; }
