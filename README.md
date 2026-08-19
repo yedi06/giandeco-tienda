@@ -64,8 +64,11 @@ js/app.js           todo el comportamiento
 img/                fotografías, bocetos (sk-*), logo y favicon
 ```
 
-`index.html` es la única fuente de verdad del marcado. Después de tocarlo hay
-que ejecutar `hacer-temas.ps1`.
+`index.html` es la única fuente de verdad del marcado. Después de tocarlo —o
+de tocar el CSS o el JS— hay que ejecutar `hacer-temas.ps1`: además de generar
+los dos temas, **sella la versión del CSS y del JS con un hash de su contenido**
+(`app.js?v=fb1d7932`). Sin ese sello, GitHub Pages sirve el HTML nuevo con el
+guion viejo en caché y quien ya visitó el sitio ve una mezcla rota.
 
 ## Dos interruptores que valen por una versión entera
 
