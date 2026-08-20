@@ -163,6 +163,12 @@
 
 *,*::before,*::after{box-sizing:border-box}
 
+/* El navegador oculta [hidden] con una regla suya, y cualquier display de
+   autor la pisa. Le paso a .camp-band: el JS la ocultaba con band.hidden y
+   su display:grid la dejaba en pantalla, vacia, al salir de la campana.
+   Sobre el negro anterior no se veia; sobre el fondo nuevo, si. */
+[hidden]{display:none!important}
+
 html{
   scroll-padding-top:calc(var(--h-total) + 2rem);
   -webkit-text-size-adjust:100%;
@@ -1893,142 +1899,6 @@ footer{border-top:1px solid var(--line);background:var(--bg2);margin-top:clamp(3
 
 #v-cat.campana{
   --oro:#8A5E1E;
-  --oro-lt:#A87А2C;
-  --verde:#2E4034;
-  --lienzo-camp:#F1EBDF;
-  background:
-    radial-gradient(120% 60% at 50% 0%, rgba(46,64,52,.07), transparent 62%),
-    var(--bg);
-}
-[data-tema="oscuro"] #v-cat.campana{
-  --oro:#D6AC63;
-  --oro-lt:#E7C88C;
-  --verde:#3C5545;
-  --lienzo-camp:#191410;
-  background:
-    radial-gradient(120% 60% at 50% 0%, rgba(60,85,69,.20), transparent 62%),
-    var(--bg);
-}
-
-.camp-band{
-  display:grid;grid-template-columns:1fr;
-  border-bottom:1px solid var(--line2);
-}
-@media(min-width:960px){
-  .camp-band{grid-template-columns:1.15fr .85fr;align-items:stretch}
-}
-
-.camp-band-foto{position:relative;overflow:hidden;min-height:clamp(300px,44vh,560px);background:var(--lienzo)}
-.camp-band-foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
-.camp-band-foto .veil{
-  position:absolute;inset:0;
-  background:linear-gradient(to top, rgba(12,10,7,.55), transparent 55%);
-}
-
-.camp-band-txt{
-  display:grid;gap:1.1rem;align-content:center;justify-items:start;
-  padding:clamp(2rem,5vw,4.5rem);
-  background:var(--lienzo-camp);
-}
-.camp-band-txt .eyebrow{color:var(--oro)}
-.camp-band-txt h1{
-  font-family:var(--display);font-weight:var(--peso-display);
-  font-size:var(--t-2xl);line-height:1.06;max-width:11em;
-}
-.camp-band-txt p{margin:0;color:var(--txt2);max-width:44ch}
-
-/* filete de temporada bajo el titular: oro y verde, sin más adorno */
-.camp-band-txt h1::after{
-  content:"";display:block;width:74px;height:2px;margin-top:1.1rem;
-  background:linear-gradient(to right, var(--oro), var(--verde));
-}
-
-.camp-band-tira{display:flex;gap:.5rem;margin-top:.5rem}
-.cb-mini{
-  display:block;width:clamp(64px,7vw,92px);aspect-ratio:1/1;overflow:hidden;
-  background:var(--lienzo);
-}
-.cb-mini img{width:100%;height:100%;object-fit:cover;display:block;
-  transition:transform 1s var(--ease)}
-.cb-mini:hover img{transform:scale(1.07)}
-
-/* Dentro de la campaña, el título de la sección y las fichas cambian de aire */
-#v-cat.campana .ctitle{color:var(--txt)}
-#v-cat.campana .pc{background:var(--lienzo-camp)}
-#v-cat.campana .pc .pr{color:var(--oro)}
-#v-cat.campana .sub-c[aria-pressed="true"]{border-color:var(--verde)}
-
-
-/* ==========================================================================
-   33. LA CINTA QUE SE TURNA
-   --------------------------------------------------------------------------
-   Las frases ocupan el mismo sitio y se relevan: la que sale se va por
-   arriba, la que entra sube desde abajo. Nada de marquesina: el texto en
-   movimiento continuo no se lee, sólo distrae.
-   ========================================================================== */
-
-.aviso-rot{
-  position:relative;height:var(--h-aviso);overflow:hidden;
-  padding-inline:var(--gut);
-}
-.aviso-rot span{
-  position:absolute;inset:0;
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--sans);font-size:.68rem;font-weight:400;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--head-txt2);
-  white-space:nowrap;
-  opacity:0;transform:translateY(105%);
-  transition:opacity .5s var(--ease), transform .6s var(--ease);
-  pointer-events:none;
-}
-.aviso-rot span.on{opacity:1;transform:none}
-.aviso-rot span.fuera{opacity:0;transform:translateY(-105%)}
-
-/* la primera frase es la campaña viva: se marca en oro */
-.aviso-rot span:first-child{color:var(--head-oro)}
-
-@media(max-width:760px){
-  .aviso-rot span{font-size:.6rem;letter-spacing:.12em}
-}
-@media(prefers-reduced-motion:reduce){
-  .aviso-rot span{transition:none}
-}
-
-/* ==========================================================================
-   34. REDES
-   --------------------------------------------------------------------------
-   Dibujadas con el mismo trazo que el resto de iconos del sitio, no con los
-   logotipos oficiales: cada uno llega con su peso y su relleno y en un pie
-   sobrio se notan como tres cuerpos extraños.
-   ========================================================================== */
-
-.redes{display:flex;align-items:center;gap:.35rem;margin-top:.4rem}
-.red{
-  display:grid;place-items:center;width:38px;height:38px;
-  color:var(--txt3);border:1px solid transparent;
-  transition:color var(--rapido), border-color var(--rapido), transform var(--rapido);
-}
-.red svg{
-  width:19px;height:19px;
-  stroke:currentColor;fill:none;stroke-width:1.3;
-  stroke-linecap:round;stroke-linejoin:round;
-}
-.red:hover{color:var(--oro);border-color:var(--line);transform:translateY(-2px)}
-.red:focus-visible{outline:2px solid var(--oro);outline-offset:2px}
-
-/* ==========================================================================
-   35. CAMPAÑA DE TEMPORADA
-   --------------------------------------------------------------------------
-   La línea viva no entra como una categoría más. Tiene portada propia y tiñe
-   la vista: el oro sube de tono, aparece un verde de fondo y las fichas se
-   asientan sobre un lienzo más cálido.
-
-   Es el único sitio del sitio donde se rompe la paleta, y por eso funciona:
-   si todo fuera especial, nada lo sería.
-   ========================================================================== */
-
-#v-cat.campana{
-  --oro:#8A5E1E;
   --oro-lt:#A87A2C;
   --verde:#2E4034;
   --lienzo-camp:#F1EBDF;
@@ -2093,3 +1963,4 @@ footer{border-top:1px solid var(--line);background:var(--bg2);margin-top:clamp(3
 #v-cat.campana .pc{background:var(--lienzo-camp)}
 #v-cat.campana .pc .pr{color:var(--oro)}
 #v-cat.campana .sub-c[aria-pressed="true"]{border-color:var(--verde)}
+
