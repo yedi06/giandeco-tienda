@@ -717,7 +717,7 @@ var HISTORIA = [
 var EQUIPO = [
  {ini:"G", n:"Gian", rol:"Fundador y director de proyectos",
   p:"Dirige cada encargo de principio a fin. El que escucha en la primera reunión es el mismo que firma el plano y el que aparece en obra.",
-  img:"", destacado:true},
+  img:"gian-eq", destacado:true},
  {ini:"M", n:"Martha", rol:"Diseñadora de interiores",
   p:"Concepto, paleta de materiales y selección de mobiliario. Traduce el pliego de necesidades en un ambiente que se sostiene.",
   img:""},

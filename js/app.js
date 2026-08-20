@@ -1455,9 +1455,9 @@ function abrirServicio(id){
 
 
 /* ---------- 13 bis. quiénes somos ---------------------------------------
-   La página es sobre Gian. El equipo todavía no tiene fotografía propia, así
-   que se enseña con monograma: se ve intencional, no roto, y el día que
-   lleguen los retratos basta con rellenar `img` en EQUIPO.
+   La página es sobre Gian, y su retrato ya está. Martha y Lucía siguen con
+   monograma: se ve intencional, no roto, y el día que lleguen sus retratos
+   basta con rellenar `img` en EQUIPO.
    ------------------------------------------------------------------------ */
 
 var nosotrosListo = false;
@@ -1479,8 +1479,7 @@ function renderNosotros(){
   nosotrosListo = true;
 
   var foto = $("#nsFoto");
-  if(foto) foto.innerHTML = '<span class="mono grande" aria-hidden="true">G</span>'+
-                            '<span class="pend">Retrato pendiente</span>';
+  if(foto) foto.innerHTML = '<img src="'+src("gian")+'" alt="Gian, fundador de Giandeco Studio Design" />';
 
   var cif = $("#nsCifras");
   if(cif) CIFRAS_ESTUDIO.forEach(function(c){
