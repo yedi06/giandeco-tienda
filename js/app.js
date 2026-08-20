@@ -28,7 +28,7 @@ safe(function tema(){
   function aplicar(t){
     raiz.setAttribute("data-tema", t);
     var meta = $('meta[name="theme-color"]');
-    if(meta) meta.setAttribute("content", t==="claro" ? "#FBFAF7" : "#0E0C09");
+    if(meta) meta.setAttribute("content", t==="claro" ? "#FBFAF7" : "#21201E");
     /* El botón enseña el acabado puesto; el rótulo dice a cuál se pasa,
        que es lo único que el icono por sí solo no puede contar. */
     var destino = (t==="claro") ? "oscuro" : "claro";
@@ -44,7 +44,9 @@ safe(function tema(){
     aplicar(raiz.getAttribute("data-tema")==="claro" ? "oscuro" : "claro");
   });
 
-  aplicar(raiz.getAttribute("data-tema") || "claro");
+  /* El oscuro es el acabado de la marca y el que se ensena primero. El
+     claro queda como opcion en el interruptor. */
+  aplicar(raiz.getAttribute("data-tema") || "oscuro");
 }, "tema");
 
 /* ---------- 1 ter. version publicada -------------------------------------
@@ -186,12 +188,21 @@ function show(v, arg){
     if(n) n.classList.toggle("on", x===v);
   });
   window.scrollTo({top:0, behavior:"auto"});
-  /* La segunda fila del encabezado sigue al mundo en el que se entra.
-     En la portada se queda la del catálogo, que es la que más se usa. */
+
+  /* La fila de abajo y el mundo marcado arriba no son lo mismo, y confundirlos
+     dejaba la portada marcada con el mundo del que se venía: se entraba a
+     Mueblería, se volvía al inicio y Catálogo seguía subrayado como si el
+     visitante estuviera dentro. Peor todavía, el inicio se marcaba distinto
+     según de dónde se llegara —Catálogo, Retail o nada tras Quiénes somos—.
+
+     En la portada no se está dentro de ningún mundo: no va marcado ninguno.
+     La fila sí se queda en la del catálogo, que es la que más se usa. */
   var m = mundoDeVista(v);
-  pintarFila(m);
+  var portada = (v === "home");
+
+  pintarFila(portada ? "catalogo" : m);
   $$("#mundosNav button").forEach(function(b){
-    b.classList.toggle("on", b.dataset.mundo===m);
+    b.classList.toggle("on", !portada && b.dataset.mundo===m);
   });
   $$("#paginasNav button").forEach(function(b){
     b.classList.toggle("on", b.dataset.pagina===v);

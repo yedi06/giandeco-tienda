@@ -59,20 +59,27 @@
   :root{ --h-marca:96px; --h-nav:52px; --h-total:calc(var(--h-aviso) + var(--h-marca) + var(--h-nav)); }
 }
 
-/* --- tema oscuro: los colores tal como están hoy, sólo afinados --- */
+/* --- tema oscuro: el que arranca por defecto ---
+   El negro del cuerpo es #21201E, el que pidio el estudio. No es un negro
+   de imprenta sino un gris muy oscuro y apenas calido, asi que el resto de
+   la escala se rehizo sobre el: cada peldano guarda el mismo salto de
+   luminosidad que tenia sobre el negro anterior, para que la alternancia de
+   secciones se siga leyendo sin que ninguna se despegue. --txt3 sube un
+   punto porque sobre un fondo mas claro los metadatos perdian contraste
+   (3,40 frente al 4,08 de antes; con #8A7E6C vuelve a 4,09). */
 :root,
 [data-tema="oscuro"]{
-  --bg:#0E0C09;
-  --bg2:#141009;
-  --bg3:#1B1610;
-  --bg4:#241D14;
-  --lienzo:#17130D;          /* fondo de las fotos de producto */
-  --line:#2E271C;
-  --line2:#221C14;
+  --bg:#21201E;
+  --bg2:#262523;
+  --bg3:#2C2A27;
+  --bg4:#33312D;
+  --lienzo:#292724;          /* fondo de las fotos de producto */
+  --line:#3C3A35;
+  --line2:#2C2A26;
 
   --txt:#EDE4D3;
   --txt2:#AC9E86;
-  --txt3:#7C7160;
+  --txt3:#8A7E6C;
 
   --oro:#C08F4A;
   --oro-lt:#D9B074;
@@ -135,7 +142,7 @@
    claro, porque :root y [data-tema] pesan igual y gana el último. */
 :root,
 [data-tema="oscuro"]{
-  --head-bg:#211A11;
+  --head-bg:#2E2A21;
   --head-txt:#EFE5D3;
   --head-txt2:#A89578;
   --head-line:rgba(239,229,211,.15);

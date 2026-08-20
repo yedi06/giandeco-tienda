@@ -7,10 +7,12 @@ negocio: tres servicios y dos páginas.
 
 | Versión | Enlace |
 |---|---|
-| **Tema claro** — el que arranca por defecto | https://yedi06.github.io/giandeco-tienda/ |
-| **Tema oscuro** — la misma maqueta en acabado oscuro | https://yedi06.github.io/giandeco-tienda/oscuro.html |
+| **Tema oscuro** — el que arranca por defecto | https://yedi06.github.io/giandeco-tienda/ |
+| **Tema claro** — la misma maqueta en acabado claro | https://yedi06.github.io/giandeco-tienda/claro.html |
 
-En la cabecera hay un interruptor sol/luna para comparar al vuelo.
+En la cabecera hay un interruptor sol/luna para comparar al vuelo. El oscuro
+es el acabado de la marca y el que se ensena primero; el claro esta ahi como
+opcion.
 
 ## El árbol del sitio
 
@@ -85,10 +87,12 @@ como letra pequeña de contrato.
 ## Estructura
 
 ```
-index.html          la maqueta, tema claro por defecto
-claro.html          copia de index.html, para que el enlace ya compartido siga vivo
-oscuro.html         la misma maqueta arrancando en oscuro
-hacer-temas.ps1     regenera claro.html y oscuro.html a partir de index.html
+index.html          la maqueta, tema oscuro por defecto
+oscuro.html         copia de index.html, para que el enlace ya compartido siga vivo
+claro.html          la misma maqueta arrancando en claro
+hacer-temas.ps1     regenera oscuro.html y claro.html a partir de index.html
+                    (va en UTF-8 con BOM: sin el, PowerShell 5.1 lo lee como
+                    ANSI y rompe los acentos del HTML que genera)
 hacer-bocetos.py    genera la versión a lápiz de una foto → img/sk-<nombre>.jpg
 css/giandeco.css    sistema de diseño; los dos temas son tokens
 js/datos.js         todo el contenido: catálogo, proyectos, servicios, equipo, blog

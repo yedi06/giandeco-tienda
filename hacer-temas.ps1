@@ -1,9 +1,13 @@
-# Genera claro.html y oscuro.html a partir de index.html, y sella la version
+﻿# Genera claro.html y oscuro.html a partir de index.html, y sella la version
 # de los archivos de estilo y de guion.
 #
-# index.html es la unica fuente de verdad del marcado y arranca en claro.
-#   claro.html   copia identica, para que el enlace ya compartido siga vivo
-#   oscuro.html  la misma maqueta arrancando en oscuro
+# index.html es la unica fuente de verdad del marcado y arranca en OSCURO,
+# que es el acabado de la marca y el que ve primero quien entra.
+#   oscuro.html  copia identica, para que el enlace ya compartido siga vivo
+#   claro.html   la misma maqueta arrancando en claro
+#
+# ESTE ARCHIVO VA EN UTF-8 CON BOM. PowerShell 5.1 lee como ANSI todo .ps1
+# que no lo lleve, y la raya del titulo salia como "a?~" en el HTML generado.
 #
 # EL SELLO DE VERSION IMPORTA. GitHub Pages sirve el CSS y el JS con cache
 # larga. Sin sello, quien ya visito el sitio recibe el HTML nuevo con el guion
@@ -34,17 +38,15 @@ $base = $base -replace 'src="js/app\.js(\?v=[a-f0-9]+)?"',         "src=`"js/app
 # index.html se reescribe con el sello puesto: es la fuente de verdad.
 [System.IO.File]::WriteAllText($src, $base, $utf8NoBom)
 
-# --- claro.html: identico a index.html ---
-[System.IO.File]::WriteAllText((Join-Path $raiz "claro.html"), $base, $utf8NoBom)
+# --- oscuro.html: identico a index.html, que ya arranca en oscuro ---
+[System.IO.File]::WriteAllText((Join-Path $raiz "oscuro.html"), $base, $utf8NoBom)
 
-# --- oscuro.html: solo cambia el tema de arranque ---
-$osc = $base
-$osc = $osc -replace '<html lang="es" data-tema="claro">', '<html lang="es" data-tema="oscuro">'
-$osc = $osc -replace '<meta name="theme-color" content="#FBFAF7" />', '<meta name="theme-color" content="#0E0C09" />'
-$osc = $osc -replace '<title>Giandeco Studio Design</title>', '<title>Giandeco Studio Design — acabado oscuro</title>'
-$osc = $osc -replace 'data-tema-set="claro" aria-pressed="true"',  'data-tema-set="claro" aria-pressed="false"'
-$osc = $osc -replace 'data-tema-set="oscuro" aria-pressed="false"','data-tema-set="oscuro" aria-pressed="true"'
-[System.IO.File]::WriteAllText((Join-Path $raiz "oscuro.html"), $osc, $utf8NoBom)
+# --- claro.html: solo cambia el tema de arranque ---
+$clr = $base
+$clr = $clr -replace '<html lang="es" data-tema="oscuro">', '<html lang="es" data-tema="claro">'
+$clr = $clr -replace '<meta name="theme-color" content="#21201E" />', '<meta name="theme-color" content="#FBFAF7" />'
+$clr = $clr -replace '<title>Giandeco Studio Design</title>', '<title>Giandeco Studio Design — acabado claro</title>'
+[System.IO.File]::WriteAllText((Join-Path $raiz "claro.html"), $clr, $utf8NoBom)
 
 # El sello tambien va suelto en version.txt: el sitio lo consulta al abrirse
 # y se recarga si esta enseñando una version vieja guardada en cache.
@@ -56,5 +58,5 @@ foreach($f in @("index.html","claro.html","oscuro.html")){
 }
 
 # Avisos si algun reemplazo no encontro su objetivo.
-if($osc -notmatch 'data-tema="oscuro"'){ Write-Warning "oscuro.html no quedo en tema oscuro: revisa el marcado de <html>" }
+if($clr -notmatch 'data-tema="claro"'){ Write-Warning "claro.html no quedo en tema claro: revisa el marcado de <html>" }
 if($base -notmatch "app\.js\?v=$sello"){ Write-Warning "el sello no se aplico al guion: revisa las etiquetas <script>" }
