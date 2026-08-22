@@ -923,6 +923,12 @@ h1,h2,h3,h4{
 .cont-datos dd{margin:0;font-family:var(--display);font-size:1.3rem;font-weight:var(--peso-display);color:var(--txt)}
 .cont-datos dd small{display:block;font-family:var(--sans);font-size:var(--t-sm);color:var(--txt3);
   letter-spacing:0;margin-top:.2rem}
+/* El WhatsApp es lo unico pulsable de la lista: se subraya al pasar por
+   encima para que se note, sin pintarlo de otro color y romper la columna. */
+.cont-datos dd .dato-enlace{text-decoration:underline;text-decoration-color:transparent;
+  text-underline-offset:.18em;transition:text-decoration-color .2s}
+.cont-datos dd .dato-enlace:hover,
+.cont-datos dd .dato-enlace:focus-visible{text-decoration-color:var(--oro)}
 
 /* ---------- 14. producto ------------------------------------------------- */
 
@@ -1356,6 +1362,10 @@ footer{border-top:1px solid var(--line);background:var(--bg2);margin-top:clamp(3
 .colo{display:flex;align-items:center;justify-content:space-between;gap:1.2rem;flex-wrap:wrap;
   padding-block:1.4rem;border-top:1px solid var(--line2);
   font-family:var(--sans);font-size:var(--t-xs);letter-spacing:.14em;color:var(--txt3);text-transform:uppercase}
+/* El domicilio legal es un dato registral, no un reclamo: sale de la caja
+   alta y del espaciado del colofon porque una direccion en versalitas
+   apretadas no se lee, y esta justamente para poder leerse. */
+.colo-legal{text-transform:none;letter-spacing:.02em}
 
 /* ---------- 23. barra de progreso ---------------------------------------- */
 
@@ -1963,4 +1973,5 @@ footer{border-top:1px solid var(--line);background:var(--bg2);margin-top:clamp(3
 #v-cat.campana .pc{background:var(--lienzo-camp)}
 #v-cat.campana .pc .pr{color:var(--oro)}
 #v-cat.campana .sub-c[aria-pressed="true"]{border-color:var(--verde)}
-
+
+

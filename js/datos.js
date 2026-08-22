@@ -752,13 +752,13 @@ var AVISOS = [
    de 1.3, remates redondos— en vez de pegar los logotipos oficiales, que
    llegan cada uno con su peso y su relleno y ensucian el pie.
 
-   Las direcciones están pendientes: hay que pedírselas al estudio.
+   Facebook queda fuera hasta que el estudio pase su dirección: un icono que
+   no lleva a ninguna parte pesa más que la red que falta.
    ------------------------------------------------------------------------ */
 
 var REDES = [
-  {id:"instagram", nombre:"Instagram", url:"#"},
-  {id:"facebook",  nombre:"Facebook",  url:"#"},
-  {id:"tiktok",    nombre:"TikTok",    url:"#"}
+  {id:"instagram", nombre:"Instagram", url:"https://www.instagram.com/giandeco_studio"},
+  {id:"tiktok",    nombre:"TikTok",    url:"https://www.tiktok.com/@giandeco_studio"}
 ];
 
 var ICONO_RED = {
